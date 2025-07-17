@@ -1,115 +1,1123 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { User, Globe, RotateCcw, Wallet, Send, } from 'lucide-react';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+import { Camera, Trophy, Users } from 'lucide-react';
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+interface TimeLeft {
+	days: number;
+	hours: number;
+	minutes: number;
+	seconds: number;
+}
+
 
 export default function Home() {
-  return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20`}
-    >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              pages/index.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+
+	const spinWinners = [
+		{ participant: 'Hidden', time: '4-11 22:17', prize: '$5000 - Cartier Love Bracelet' },
+		{ participant: 'Love83', time: '4-11 22:17', prize: '$8000 - Hermes Birkin' },
+		{ participant: 'Hidden', time: '4-11 22:17', prize: '$1000 - iPhone 16 Pro Max' },
+		{ participant: 'Love83', time: '4-11 22:17', prize: '$8000 - Hermes Birkin' },
+		{ participant: 'Love83', time: '4-11 22:17', prize: '$8000 - Hermes Birkin' },
+		{ participant: 'Love83', time: '4-11 22:17', prize: '$8000 - Hermes Birkin' }
+	];
+
+	const powerWinParticipants = [
+		{ name: 'Hidden', time: '4-11 22:17', tickets: '929292292' },
+		{ name: 'Love83', time: '4-11 22:17', tickets: '922292292' },
+		{ name: 'Hidden', time: '4-11 22:17', tickets: '292929229' },
+		{ name: 'Love83', time: '4-11 22:17', tickets: '202029828' }
+	];
+
+	const footerLinks = [
+		{ section: 'Main', links: ['Home', 'Winners', 'FAQ', 'My Account'] },
+		{ section: 'Mobile', links: ['Mobile App', 'Referral Win', 'Fairness', 'About Us'] },
+		{ section: 'Support', links: ['Support'] }
+	];
+
+	const [activeTab, setActiveTab] = useState<"Home" | 'Competitions' | 'Winners' | 'Referral Win'>('Home')
+
+	const data = {
+		credit: 125.00,
+		spins: 27,
+		userName: "John Doe",
+		userEmail: "johndoe@gmail.com",
+		language: "EN"
+	}
+
+	const navBarIconSize = 'w-4 h-4'
+
+	const tabBarClassName = (tab: typeof activeTab) => `rounded-full cursor-pointer text-lg flex items-center font-light justify-center border h-full border-white w-[23%] text-center ${activeTab == tab ? 'bg-[color:#787878] text-black' : 'bg-[color:#353535] text-white'}`
+
+	const [timeLeft, setTimeLeft] = useState<TimeLeft>({
+		days: 19,
+		hours: 1,
+		minutes: 34,
+		seconds: 26
+	});
+
+	const [isOngoing, setIsOngoing] = useState(true);
+	const totalTickets = 90000;
+	const soldTickets = 68157;
+	const progressPercentage = (soldTickets / totalTickets) * 100;
+
+	useEffect(() => {
+		const timer = setInterval(() => {
+			setTimeLeft(prev => {
+				if (prev.seconds > 0) {
+					return { ...prev, seconds: prev.seconds - 1 };
+				} else if (prev.minutes > 0) {
+					return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
+				} else if (prev.hours > 0) {
+					return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
+				} else if (prev.days > 0) {
+					return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
+				}
+				return prev;
+			});
+		}, 1000);
+
+		return () => clearInterval(timer);
+	}, []);
+
+
+	return <div className="">
+		{/* NAVBAR */}
+		<div className="flex flex-row relative">
+			<div className="border-t border-l border-r border-white w-[25%] h-14 px-10 py-6 rounded-t-[3rem] bg-[color:#1f1f1f]">
+				<Image alt="logo" width={400} height={200} src={'/logo.png'} />
+
+			</div>
+
+			<div className=" w-[50%] absolute m-auto left-0 right-0 h-[88px] px-3 pb-3 z-20 bg-[#0a0a0a] rounded-[3rem] flex flex-row items-stretch justify-between">
+
+				<div
+					onClick={() => setActiveTab('Home')}
+					className={tabBarClassName('Home')}
+				>Home</div>
+
+				<div
+					onClick={() => setActiveTab('Competitions')}
+					className={tabBarClassName('Competitions')}
+				>Competitions <Image src={'/icons/carretDown.svg'} alt="" className={"ml-2 " + (activeTab == 'Competitions' ? '' : 'dark:invert')} width={8} height={8} /></div>
+				<div
+					onClick={() => setActiveTab('Winners')}
+					className={tabBarClassName('Winners')}
+				>Winners</div>
+				<div
+					onClick={() => setActiveTab('Referral Win')}
+					className={tabBarClassName('Referral Win')}
+				>Referral Win</div>
+
+			</div>
+
+			{/* is there just for the padding */}
+			<div className=" w-[50%] h-14 px-10 py-6 bg-transparent -z-10"></div>
+
+			<div className="w-[50.12%] absolute m-auto left-0 right-0 border-b border-white border-l border-r z-10 h-10 mt-[52px] px-10 py-2 rounded-b-[3rem] bg-[color:#1f1f1f]"></div>
+
+			<div className="border-t border-l border-r border-white w-[25%] h-14 px-6 py-4 rounded-t-[3rem] bg-[color:#1f1f1f] flex">
+
+				<div className="overflow-visible w-full flex flex-row justify-between h-fit">
+
+					{/* Wallet Section */}
+					<div className="bg-gradient-to-b from-white to-[color:#414141] w-[39%] p-[0.8px] rounded-3xl">
+						<div className="bg-[color:#414141] h-full px-5 py-1 rounded-3xl flex flex-col items-center text-center">
+
+							<div className="flex mb-1 items-center justify-self-center">
+								<Image alt="" width={40} height={40} src={'/icons/wallet.svg'} className={`${navBarIconSize} mr-2 text-white`} />
+								<span className="text-white font-medium text-sm">Wallet</span>
+							</div>
+
+							<div className="text-white text-[size:13px]">
+								<span className="opacity-80">Credit </span>
+								<span className="font-light text-[size:16px]"> £{data.credit.toFixed(2)}</span>
+							</div>
+
+							<div className="text-white text-[size:13px]">
+								<span className="opacity-80">Spins </span>
+								<span className="font-light">{data.spins}</span>
+							</div>
+						</div>
+
+					</div>
+
+					{/* User Info Section */}
+					<div className="bg-gradient-to-b from-white to-[color:#414141] w-[39%] p-[0.8px] rounded-3xl">
+						<div className="bg-[color:#414141] px-5 h-full py-2 rounded-3xl flex flex-col items-center text-center">
+							<div className="flex flex-col items-center gap-2">
+								<Image alt="" width={40} height={40} src={'/icons/person.svg'} className={`${navBarIconSize} text-white`} />
+								<div>
+									<div className="text-white font-medium">{data.userName}</div>
+									<div className="text-gray-300 text-xs">{data.userEmail}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div className="w-[17%]">
+						<div className=" h-full flex flex-col justify-between">
+							{/* Language Button */}
+							<div className="bg-gradient-to-b from-white to-[color:#252525] h-[46%] p-[0.8px] rounded-xl">
+								<div className="bg-[color:#252525]  rounded-xl h-full flex items-center justify-center">
+									<span className="text-white font-medium ">{data.language}</span>
+								</div>
+
+							</div>
+
+							{/* Control Button */}
+							<div className="bg-gradient-to-b from-white to-[color:#252525] h-[46%] p-[0.8px] rounded-xl">
+								<div className="bg-[color:#252525] rounded-xl h-full flex items-center justify-center">
+									<Image alt="" width={40} height={40} src={'/icons/coin.svg'} className={`${navBarIconSize} text-white`} />
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+		{/* MAIN CONTENT */}
+		<div className="border-b border-l border-r border-white w-full p-9 pt-24 rounded-b-[3rem] bg-gradient-to-b from-[color:#1f1f1f] to-[color:#030303]">
+
+			{/*  FIRST SECTION */}
+
+			<div className="w-full flex flex-row">
+				<div className=" text-white pt-8 max-w-[50%]">
+					<div className="max-w-4xl">
+						{/* Header */}
+						<div className="flex mb-6">
+							<div>
+								<h1 className="text-3xl mb-2 whitespace-pre-wrap">Lamborghini Aventador LP {"\n"}770-4 SVJ Cabrio</h1>
+								<p className="text text-gray-300">
+									Cash Alternative - <span className="">$500,000</span>
+								</p>
+							</div>
+							<div className="flex h-fit items-center bg-gradient-to-b from-[#1d5a26] to-transparent mx-4 px-4 py-2 rounded-lg">
+								<Image src={'/icons/radar.svg'} alt="" className="mr-2" width={10} height={10} />
+								<span className="font-semibold">Ongoing</span>
+							</div>
+						</div>
+
+						{/* Countdown Timer */}
+						<div className="mb-8">
+							<h3 className="mb">Competitions Ends In:</h3>
+							<div className="flex items-center gap-2">
+
+								<div className="text-2xl font-medium mb-1">{timeLeft.days}</div>
+								<div className="mr-4">Days</div>
+
+								<div className="text-2xl font-medium mb-1">{timeLeft.hours}</div>
+								<div className="mr-4">Hours</div>
+
+								<div className="text-2xl font-medium mb-1">{timeLeft.minutes}</div>
+								<div className="mr-4">Minutes</div>
+
+								<div className="text-2xl font-medium mb-1">{timeLeft.seconds}</div>
+								<div className="mr-4">Seconds</div>
+
+								<button className="bg-gradient-to-b from-[#787878] to[#1c1c1c] px-3 py-1 rounded-lg border-[0.1px] text-sm border-[color:#353535] transition-colors">
+									Chainlink VRF
+								</button>
+							</div>
+						</div>
+
+						{/* Information Cards */}
+						<div className="space-y-4 mb-6">
+							<div className="flex items-start gap-4">
+								<Image src={'/icons/video.svg'} alt="" width={20} height={20} />
+								<p className="text-lg">
+									The winner will be selected using Chainlink VRF (Verifiable Random Function),
+									ensuring a provably fair and tamper-proof draw.
+								</p>
+							</div>
+
+							<div className="flex items-start gap-4">
+								<Image src={'/icons/trophy.svg'} alt="" width={20} height={20} />
+								<p className="text-lg">This competition has only 1 winner</p>
+							</div>
+
+							<div className="flex items-start gap-4">
+								<Image src={'/icons/ticket.svg'} alt="" width={20} height={20} />
+								<p className="text-lg">{totalTickets.toLocaleString()} Tickets</p>
+							</div>
+						</div>
+
+						{/* Raffle Rules Button */}
+						<div className="">
+							<button className="bg-gradient-to-b from-[#787878] to[#1c1c1c] px-8 py-2 rounded-lg border-[0.1px] text-sm border-[color:#353535] transition-colors flex flex-row">
+								Raffle Rules
+								<Image src={'/icons/arrowLink.svg'} className="ml-2" alt="" width={12} height={12} />
+							</button>
+						</div>
+
+						{/* Progress Section */}
+						<div className="mb-8 relative">
+							<div className="mb-4 absolute top-0 flex flex-col items-center" style={{ left: `${progressPercentage - 5}%` }}>
+								<span className="text-2xl">{progressPercentage.toFixed(2)}%</span>
+								<div className="w-[2px] h-8 bg-gradient-to-b from-transparent to-[#531615]"></div>
+							</div>
+
+							{/* Progress Bar */}
+							<div className="relative top-16 mb-4">
+								<div className="relative mb-4">
+									{/* Tick marks */}
+									<div className="absolute top-0 left-5 right-0 h-6 w-[95%] flex">
+										{Array.from({ length: 250 }, (_, i) => (
+											<div
+												key={i}
+												className="flex-1 border-l my-auto border-gray-600 h-[60%]"
+												style={{ borderLeftWidth: '1px' }}
+											></div>
+										))}
+									</div>
+									<div className="absolute inset-0 w-full rounded-full h-6 overflow-hidden z-10">
+										<div
+											className="h-full bg-gradient-to-r rounded-full border-[1px] border-[color:#8a8a8a] from-[#464646] to-[#94100f] transition-all duration-500 ease-out"
+											style={{ width: `${progressPercentage}%` }}
+										></div>
+									</div>
+								</div>
+
+								{/* Ticket Counter */}
+								<div className="relative top-10 text-center">
+									<span className="text-sm font-light">
+										{soldTickets.toLocaleString()}/{totalTickets.toLocaleString()}
+									</span>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div className="max-w-[50%] w-full flex flex-row items-end mb-">
+					<div className="relative w-full h-[412px]">
+						<Image className="absolute left-0 right-0 top-0" src={'/lambo.png'} width={974} height={522} alt=""></Image>
+						<Image className="absolute left-0 right-0 mr-10 bottom-0 top-[30vh]" src={'/elipse.svg'} width={844} height={453} alt=""></Image>
+						<div className="absolute top-[44vh] left-[35%] text-6xl  rounded-full p-0.5 ">
+							<div className="bg-opacity-30 backdrop-blur-xs border-b-[0.5px] border-white backdrop-brightness-[2] px-10 py-5 rounded-full ">$8.50</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div className="flex flex-row mt-32 justify-between">
+
+				<div className="w-[49%] py-10 px-6 rounded-xl border border-white bg-gradient-to-b from-[#0e0e0e] to-[#0c0c0c]">
+
+
+					<h3 className="text-3xl mb-8">Buy Tickets</h3>
+					<div className="flex flex-row justify-around w-full space-x-2">
+
+						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center">
+							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">Min</div>
+						</div>
+
+						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center">
+							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">10%</div>
+						</div>
+
+						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center">
+							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">25%</div>
+						</div>
+
+						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center">
+							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">50%</div>
+						</div>
+
+						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center">
+							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">Max</div>
+						</div>
+					</div>
+
+					<div className="py-20 flex flex-row items-end w-full">
+
+						<div className="aspect-square p-4 text-3xl">-</div>
+						<DraggableProgressBar
+							totalTickets={90000}
+							// onValueChange={handleValueChange}
+							className="mb-8 w-full"
+						/>
+						<div className="aspect-square p-4 text-3xl">+</div>
+					</div>
+
+					<button className="bg-gradient-to-b from-[#bf1213] to-[#300e0e] w-full rounded-xl text-2xl py-3">Participate Now - $312,5</button>
+				</div>
+
+				<div className="w-[49%] py-10 px-6 rounded-xl border border-white bg-gradient-to-b from-[#0e0e0e] to-[#0c0c0c]">
+
+					<h3 className="text-4xl">Description</h3>
+
+					<p className="py-6 text-xl">Model: Lamborghini Aventador LP 770-4 SVJ Cabrio</p>
+
+					<p className="text-xl">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
+				</div>
+
+
+			</div>
+
+			<div className="w-full mt-5 rounded-xl border border-white bg-gradient-to-b from-[#0e0e0e] to-[#0c0c0c] px-6 flex flex-row">
+				<div className="w-[49%] flex flex-row">
+					<div className="w-full py-10">
+
+						<h4 className="text-2xl">Spin to Win</h4>
+						<SpinWidget />
+					</div>
+					<div className="flex flex-col justify-stretch">
+
+						<div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b] mb-5">
+							<div className="bg-gradient-to-b from-[#070707] to-[#0a0a0a] rounded-xl h-full px-3">
+								<Image
+									src={'/prize1.png'}
+									className="aspect-square h-full object-contain rotate-90 " alt="" width={150} height={150}
+								/>
+							</div>
+						</div>
+						<div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b] mb-5">
+							<div className="bg-gradient-to-b from-[#161616] to-[#141414] rounded-xl h-full px-3">
+								<Image
+									src={'/prize2.png'}
+									className="aspect-square h-full object-contain " alt="" width={150} height={150}
+								/>
+							</div>
+						</div>
+						<div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b] mb-5">
+							<div className="bg-gradient-to-b from-[#161616] to-[#141414] rounded-xl h-full px-3">
+								<Image
+									src={'/prize3.png'}
+									className="aspect-square h-full object-contain " alt="" width={150} height={150}
+								/>
+							</div>
+						</div>
+						<div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b]">
+							<div className="bg-gradient-to-b from-[#161616] to-[#141414] rounded-xl h-full px-3">
+								<Image
+									src={'/prize4.png'}
+									className="aspect-square h-full object-contain " alt="" width={150} height={150}
+								/>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div className="w-[49%] flex flex-row">
+					<div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b] min-w-[35%] mb-5 ml-5">
+						<div className="bg-gradient-to-b from-[#070707] to-[#0a0a0a] rounded-xl h-full flex flex-col">
+							<h3 className="text-lg text-center pt-10">Cartier Love Bracelet</h3>
+							<p className="text-xs text-center ">Cash alternative: $5000</p>
+							<Image
+								src={'/prize1.png'}
+								className="aspect-square  object-contain scale-125 mt-[25%] rotate-90 " alt="" width={300} height={150}
+							/>
+						</div>
+					</div>
+					<div className="whitespace-pre-wrap p-8 max-h-[600px] overflow-scroll">
+						<h4 className="text-2xl">Instant Win</h4>
+						<p>At PowerWin, you don't have to wait for the final draw to win! With our Instant</p>
+						<p>Win system, you have the chance to walk away RIGHT NOW with a top-tier prize.</p>
+						<p>How does it work?</p>
+						<p>1. Choose one of the 4 available prizes:</p>
+						<p>- Cartier Love Bracelet</p>
+						<p>- Hublot Classic Fusion Titanium 38mm</p>
+						<p>- iPhone 16 Pro Max 256GB</p>
+						<p>- Hermes Birkin Bag</p>
+						<p>2. Select the number of tickets (maximum 500) - the more you buy, the higher</p>
+						<p>your win chance (up to 80%).</p>
+						<p>3. Pay for your tickets and return to this page.</p>
+						<p>4. You'll get one single Spin for the selected prize. If luck is on your side, you win it</p>
+						<p>instantly!</p>
+						<p>Important Rules:</p>
+						<p>• You only get one Spin per purchase.</p>
+						<p>• You can select only one prize from the 4 for each attempt.</p>
+						<p>• Your win chance is clearly displayed before payment.</p>
+						<p>Total prizes available in this round: $10,000</p>
+						<p>(4x iPhone 16 Pro Max, 1x Cartier Love Bracelet, 1x Hublot Classic Fusion Titanium</p>
+						<p>38mm, 1x Hermes Birkin Bag)</p>
+					</div>
+				</div>
+			</div>
+
+
+
+			{/* Table Content */}
+			<div className=" mx-auto py-8">
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+					{/* Spin to Win Winners */}
+					<div className=" rounded-xl border p-8">
+						<div className="flex items-center gap-3 mb-6">
+							<h2 className="text-3xl font-semibold">Spin to Win Winners</h2>
+						</div>
+
+						<div className="space-y-1">
+							{/* Header */}
+							<div className="grid grid-cols-3 gap-4 pb-3 border-b border-gray-700 text-sm">
+								<div className="flex items-center text-xl gap-2">
+									Participants
+								</div>
+								<div className="flex items-center text-xl gap-2">
+									Time
+								</div>
+								<div className="flex items-center text-xl gap-2">
+									Prize
+								</div>
+							</div>
+
+							{/* Winners List */}
+							<div className="space-y-2">
+								{spinWinners.map((winner, index) => (
+									<div key={index} className="grid grid-cols-3 gap-4 py-3 ">
+										<div className="flex items-center gap-2">
+											<div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+												<Image src={'/icons/person.svg'} className="invert" alt="" width={12} height={12} />
+											</div>
+											<span className="text-sm">{winner.participant}</span>
+										</div>
+										<div className="">{winner.time}</div>
+										<div className="">{winner.prize}</div>
+									</div>
+								))}
+							</div>
+						</div>
+					</div>
+
+					{/* PowerWin Participants */}
+					<div className=" rounded-xl border  p-8">
+						<div className="flex items-center gap-3 mb-6">
+							<h2 className="text-3xl font-semibold">PowerWin Participants</h2>
+						</div>
+
+						{/* Search Input */}
+						<div className="mb-6">
+							<input
+								type="text"
+								placeholder="Participant Name"
+								className=" bg-[color:#3a3a3a] rounded-lg px-14 border-[0.5px] border-white py-3 text-white placeholder-white text-lg focus:outline-none text-center"
+							/>
+						</div>
+
+						<div className="space-y-1">
+							{/* Header */}
+							<div className="grid grid-cols-3 gap-4 pb-3 border-b border-gray-700 text-sm">
+								<div className="text-xl">Participants</div>
+								<div className="text-xl">Time</div>
+								<div className="text-xl">No. of Tickets</div>
+							</div>
+
+							{/* Participants List */}
+							<div className="space-y-2">
+								{powerWinParticipants.map((participant, index) => (
+									<div key={index} className="grid grid-cols-3 gap-4 py-3">
+										<div className="flex items-center gap-2">
+											<div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+												<Image src={'/icons/person.svg'} className="invert" alt="" width={12} height={12} />
+											</div>
+											<span className="text-sm">{participant.name}</span>
+										</div>
+										<div className="">{participant.time}</div>
+										<div className="">{participant.tickets}</div>
+									</div>
+								))}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Footer */}
+			<footer className="mt-16">
+				<div className="mx-auto px-4 py-12">
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+						{/* Logo and Description */}
+						<div className=" mr-10">
+							<Image alt="logo" width={150} height={75} src={'/logo.png'} />
+							<p className="text-white text-[9px] mt-5 leading-relaxed">
+								PowerWin Crypto is the next-generation blockchain raffle platform.<br />
+								Participate responsibly for exclusive rewards backed by our transparency powered by Chainlink VRF.<br />
+								Win luxury prizes through secure, decentralized draws. Built on Web3.0 technology.
+							</p>
+							<div className="mt-4">
+								<span className=" text-sm">18+</span>
+							</div>
+						</div>
+
+						{/* Links */}
+						<div className="flex flex-col space-y-3 text-white font-medium">
+							<a href="#" className="transition-colors flex items-center gap-2">
+								Home
+							</a>
+							<a href="#" className="transition-colors flex items-center gap-2">
+								Winners
+							</a>
+							<a href="#" className="transition-colors flex items-center gap-2">
+								FAQ
+							</a>
+							<a href="#" className="transition-colors flex items-center gap-2">
+								My Account
+							</a>
+						</div>
+
+						<div className="flex flex-col space-y-3 font-medium text-white">
+							<a href="#" className="transition-colors flex items-center gap-2">
+								Mobile App
+							</a>
+							<a href="#" className="transition-colors">
+								Referral Win
+							</a>
+							<a href="#" className="transition-colors">
+								Fairness
+							</a>
+							<a href="#" className="transition-colors flex items-center gap-2">
+								About Us
+							</a>
+						</div>
+
+						<div className="">
+							<h3 className="text-lg">Support</h3>
+							<a href="mailto:support@powerwin-crypto.com" className="text-[color:#144c76] underline text-sm transition-colors">
+								powerwin@crypto.com
+							</a>
+						</div>
+
+						<button className="bg-[color:#2078bc] hover:bg-blue-700 text-white px-6 py-2 rounded-lg h-fit flex items-center gap-2 mt-4 md:mt-0 transition-colors">
+							<Send className="w-4 h-4" />
+							Join Telegram
+						</button>
+					</div>
+
+
+				</div>
+			</footer>
+
+		</div>
+
+
+	</div >
+
+
+}
+
+
+
+
+function DraggableProgressBar({
+	totalTickets = 90000,
+	onValueChange,
+	className = ""
+}: any) {
+	const [percentage, setPercentage] = useState(75.73);
+	const [isDragging, setIsDragging] = useState(false);
+	const progressBarRef = useRef<HTMLDivElement>(null);
+
+	const updateProgress = useCallback((clientX: number) => {
+		if (!progressBarRef.current) return;
+
+		const rect = progressBarRef.current.getBoundingClientRect();
+		const newPercentage = Math.min(100, Math.max(0, ((clientX - rect.left) / rect.width) * 100));
+		const newValue = Math.round((newPercentage / 100) * totalTickets);
+
+		setPercentage(newPercentage);
+		onValueChange?.(newValue, newPercentage);
+	}, [totalTickets, onValueChange]);
+
+	const handleMouseDown = useCallback((e: React.MouseEvent) => {
+		setIsDragging(true);
+		updateProgress(e.clientX);
+	}, [updateProgress]);
+
+	const handleMouseMove = useCallback((e: MouseEvent) => {
+		if (!isDragging) return;
+		updateProgress(e.clientX);
+	}, [isDragging, updateProgress]);
+
+	const handleMouseUp = useCallback(() => {
+		setIsDragging(false);
+	}, []);
+
+	const handleTouchStart = useCallback((e: React.TouchEvent) => {
+		setIsDragging(true);
+		updateProgress(e.touches[0].clientX);
+	}, [updateProgress]);
+
+	const handleTouchMove = useCallback((e: TouchEvent) => {
+		if (!isDragging) return;
+		e.preventDefault();
+		updateProgress(e.touches[0].clientX);
+	}, [isDragging, updateProgress]);
+
+	const handleTouchEnd = useCallback(() => {
+		setIsDragging(false);
+	}, []);
+
+	// Add global event listeners for mouse/touch events
+	useEffect(() => {
+		if (isDragging) {
+			document.addEventListener('mousemove', handleMouseMove);
+			document.addEventListener('mouseup', handleMouseUp);
+			document.addEventListener('touchmove', handleTouchMove, { passive: false });
+			document.addEventListener('touchend', handleTouchEnd);
+		}
+
+		return () => {
+			document.removeEventListener('mousemove', handleMouseMove);
+			document.removeEventListener('mouseup', handleMouseUp);
+			document.removeEventListener('touchmove', handleTouchMove);
+			document.removeEventListener('touchend', handleTouchEnd);
+		};
+	}, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
+
+	const currentValue = Math.round((percentage / 100) * totalTickets);
+
+
+
+	return (
+		<div className={`select-none ${className}`}>
+			{/* Progress Bar Container */}
+			<div className="relative mb-4">
+				{/* Tick marks */}
+				<div className="absolute top-0 bottom-0 mt-1 left-5 right-0 h-6 w-[95%] flex">
+					{Array.from({ length: 250 }, (_, i) => (
+						<div
+							key={i}
+							className="flex-1  border-l my-auto border-gray-600 h-[70%]"
+							style={{ borderLeftWidth: '1px' }}
+						></div>
+					))}
+				</div>
+				<div
+					ref={progressBarRef}
+					className={`w-full absolute inset-0 rounded-lg h-8 overflow-hidden cursor-pointer ${isDragging ? 'cursor-grabbing' : 'cursor-grab'
+						}`}
+					onMouseDown={handleMouseDown}
+					onTouchStart={handleTouchStart}
+				>
+					<div className="relative h-full">
+						{/* Progress Fill */}
+						<div
+							className="bg-gradient-to-r h-6 mt-1 rounded-lg border-[1px] border-[color:#8a8a8a] from-[#464646] to-[#94100f] transition-all duration-500 ease-out"
+							style={{ width: `${percentage}%` }}
+						>
+						</div>
+
+						{/* Invisible clickable overlay */}
+						<div className="absolute inset-0 z-10"></div>
+
+					</div>
+				</div>
+
+				<div className="absolute bottom-[-30px] flex flex-col items-center transition-all duration-500 ease-out" style={{ left: `${percentage}%`, transform: "translateX(-50%)" }}>
+					<div className="relative flex flex-row">
+						{/* <div className=" absolute w-[50%] bg-[color:#323232] left-0 inverted-border-radius-l rounded-tl-lg h3 text-transparent"></div> */}
+						{/* <div className="absolute top-0 right-0 left-0">dljfsjldjlsdfls</div> */}
+						<Tooltip width={150} height={70}> <div className="text-center mt-2">125 Tickets</div></Tooltip>
+					</div>
+
+					<div className="bg-white h-8 w-5 rounded-full flex flex-row items-center justify-center">
+						<Image src={'/icons/dragHandle.svg'} alt="" width={10} height={10} />
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	);
+}
+
+
+
+export const Tooltip = ({ children, height, width }: { children: React.ReactNode, height: number, width: number }) => {
+	const enableCurves = true
+	let stemHeight = 45
+	let stemWidth = 1
+	let borderRadius = 10
+	let stemBorderRadius = 3
+	let aFirsFour = `${borderRadius},${borderRadius} 0,0`
+	let aFirsFourStem = `${stemBorderRadius + 15},${stemBorderRadius + 15} 0,0`
+
+	return <div
+		className="bg-gradient-to-b from-[#565656] via-[#56565647] to-transparent"
+		style={{
+			clipPath: `path("
+					M 20,0 
+					${enableCurves ? `A ${aFirsFour},1` : 'L'} ${width - borderRadius},0 
+					${enableCurves ? `A ${aFirsFour},1` : 'L'} ${width},${borderRadius}
+
+					${false ? `A ${aFirsFour},1` : 'L'} ${width},${height - stemHeight} 
+					${enableCurves ? `A ${aFirsFour},1` : 'L'} ${width - borderRadius}, ${height - stemHeight + borderRadius} 
+					L ${(width / 2) + (stemWidth / 2) + 2 * borderRadius},${height - stemHeight + borderRadius} 
+					
+
+					${enableCurves ? `A ${aFirsFourStem},0` : 'L'} ${(width / 2) + (stemWidth / 2) + stemBorderRadius},${height - stemHeight + 2 * borderRadius} 
+
+					L ${(width / 2) + (stemWidth / 2) + stemBorderRadius},${height - borderRadius} 
+					${enableCurves ? `A ${aFirsFour},1` : 'L'} ${(width / 2) + (stemWidth / 2)},${height}
+					${enableCurves ? `A ${aFirsFour},1` : 'L'} ${(width / 2) - (stemWidth / 2) + stemBorderRadius},${height}
+					${enableCurves ? `A ${aFirsFour},1` : 'L'} ${(width / 2) - (stemWidth / 2)},${height}
+
+
+					${enableCurves ? `A ${aFirsFourStem},1` : 'L'} ${(width / 2) - (stemWidth / 2) - stemBorderRadius},${height - borderRadius}
+
+					${false ? `A ${aFirsFourStem},0` : 'L'} ${(width / 2) - (stemWidth / 2) - stemBorderRadius},${height - stemHeight + 2 * borderRadius} 
+					${enableCurves ? `A ${aFirsFourStem},0` : 'L'} ${(width / 2) - (stemWidth / 2) - 2 * borderRadius},${height - stemHeight + borderRadius}
+
+					L ${borderRadius},${height - stemHeight + borderRadius}
+
+					${enableCurves ? `A ${aFirsFour},1` : 'L'} 0, ${height - stemHeight} 
+					${enableCurves ? `A ${aFirsFour},1` : 'L'} 0,${borderRadius}
+					${enableCurves ? `A ${aFirsFour},1` : 'L'} ${borderRadius},0 Z");`.replaceAll('\n', ""),
+
+			width: width, height: height
+		}}
+	> {children}</div>
+}
+
+
+// SVG for the pointer icon
+const PointerIcon = () => (
+	<svg width="63" className="rotate-45" height="61" viewBox="0 0 63 61" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<g filter="url(#filter0_d_81_4684)">
+			<path d="M43.407 41.6946C43.6326 41.6125 43.837 41.481 44.0056 41.3094C44.1743 41.1378 44.303 40.9303 44.3826 40.7017C44.4623 40.4731 44.4909 40.229 44.4665 39.9867C44.4422 39.7444 44.3653 39.5098 44.2415 39.2997L31.1657 15.6118C30.4959 14.4766 28.8569 14.5283 28.2865 15.7028L25.2331 21.7296L21.4397 18.8977C19.2581 17.2693 17.0702 17.5921 15.4848 19.7774C13.8993 21.9627 14.2458 24.178 16.4273 25.8065L20.2073 28.6279L15.5121 33.3102C14.5761 34.212 15.0146 35.8151 16.2817 36.1264L42.4674 41.7453C42.7799 41.8217 43.1064 41.8041 43.407 41.6946Z" fill="white" />
+		</g>
+		<defs>
+			<filter id="filter0_d_81_4684" x="0.00195312" y="0.290283" width="62.9727" height="60.0017" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+				<feFlood flood-opacity="0" result="BackgroundImageFix" />
+				<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+				<feOffset dx="2" dy="2" />
+				<feGaussianBlur stdDeviation="8.25" />
+				<feComposite in2="hardAlpha" operator="out" />
+				<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0" />
+				<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_81_4684" />
+				<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_81_4684" result="shape" />
+			</filter>
+		</defs>
+	</svg>
+
+);
+
+
+function SpinWidget() {
+	const [angleStart, setAngleStart] = useState(0);
+	const [angleEnd, setAngleEnd] = useState(valueToAngle(50));
+
+
+	const radius = 175
+
+	// Animation duration in seconds
+	const spinDuration = 5;
+
+	// --- State ---
+	const [rotation, setRotation] = useState(0);
+	const [isSpinning, setIsSpinning] = useState(false);
+	const [result, setResult] = useState(null);
+
+
+	// Style for the rotating pointer container
+	const pointerContainerStyle = {
+		transform: `rotate(${rotation}deg)`,
+		transition: `transform ${spinDuration}s ease-out`,
+		width: radius * 2 + 40, height: radius * 2 + 40
+	};
+
+	let comparePoints: number[][] = []
+
+	if (angleToValue(angleEnd) < angleToValue(angleStart)) {
+		comparePoints = [[angleToValue(angleEnd), 0], [99, angleToValue(angleStart)]]
+	} else {
+		comparePoints = [[angleToValue(angleEnd), angleToValue(angleStart)]]
+	}
+
+	// --- Spin Logic ---
+	const handleSpin = () => {
+		if (isSpinning) return;
+
+		setIsSpinning(true);
+		setResult(null);
+
+		// Calculate a random stop angle
+		const randomAngle = Math.random() * 360;
+
+		// Add multiple full rotations for a better spinning effect
+		const fullRotations = Math.floor(Math.random() * 4) + 4; // 4 to 7 full spins
+		const newRotation = rotation + (fullRotations * 360) + randomAngle;
+
+		setRotation(newRotation);
+
+
+
+		// Determine the result after the animation ends
+		setTimeout(() => {
+			setIsSpinning(false);
+
+			const finalAngle = (newRotation % 360) / 3.6;
+
+			console.log("🚀 ~ setTimeout ~ finalAngle:", finalAngle)
+
+			// The win zone is from 0 to winThreshold degrees (at the top)
+			if (comparePoints.map(i => finalAngle < i[0] && finalAngle > i[1]).includes(true)) {
+				setResult('WIN');
+			} else {
+				setResult('LOSE');
+			}
+		}, spinDuration * 1000); // Match the CSS transition duration
+	};
+
+	return (
+		<div className="flex flex-col items-center">
+			{/* --- Wheel --- */}
+			<div className="relative w-80 h-80 md:w-96 md:h-96 flex items-center justify-center mb-10">
+
+				{/* The rotating container for the pointer */}
+				<div className="absolute" style={pointerContainerStyle}>
+					{/* The pointer is positioned at the 'top' of the rotating container */}
+					<div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+						<PointerIcon />
+					</div>
+				</div>
+				<DraggableDotOnCircle radius={radius} angleEnd={angleEnd} angleStart={angleStart} setAngleEnd={setAngleEnd} setAngleStart={setAngleStart}>
+					<div className="absolute top-0 bottom-0 left-0 right-0 my-auto h-fit text-center select-none">
+
+						{isSpinning && (
+							<span className="text-4xl font-bold text-gray-400 animate-pulse">Spinning...</span>
+						)}
+						{!isSpinning && result && (
+							<>
+								<span className={`text-6xl font-bold uppercase ${result === 'WIN' ? 'text-green-400' : 'text-red-500'}`}>{result}!</span>
+								<p className="text-gray-500 text-sm mt-1">Click Spin to play again</p>
+							</>
+						)}
+						{!isSpinning && !result && (
+							<>
+								<p className="text-4xl  ">70,00% </p>
+								<span className="text-xl text-[color:#747474]">Winning Chance</span>
+							</>
+						)}
+
+
+					</div>
+				</DraggableDotOnCircle>
+
+
+			</div>
+
+			{/* --- Spin Button --- */}
+			<div className="p-[0.8px] w-fit bg-gradient-to-b from-white to-[#3d3d3d] rounded-xl">
+				<button
+					onClick={handleSpin}
+					disabled={isSpinning}
+					className=" w-fit bg-[color:#3d3d3d] cursor-pointer transform transition-all duration-200 disabled:bg-gray-600 disabled:text-gray-400 disabled:cursor-not-allowed disabled:scale-100 rounded-xl flex flex-row items-center"
+				>
+					<Image src={'/icons/spin.svg'} className="mx-7" alt="" width={20} height={20} />
+					<span>{isSpinning ? '...' : 'Demo Spin'}</span>
+					<div className="bg-gradient-to-r from-[#353535] to-[#232323] aspect-square h-full rounded-xl w-fit ml-5 pt-2.5 pb-8 border-l-[0.1px] border-b-[0.1px] border-white">1</div>
+				</button>
+
+			</div>
+		</div>
+	);
+
+
+}
+
+
+export function DraggableDotOnCircle({ children, radius, angleEnd, angleStart, setAngleEnd, setAngleStart }: {
+	children: React.ReactNode, radius: number, angleStart: number, angleEnd: number,
+	setAngleStart: (n: number) => void, setAngleEnd: (n: number) => void
+}) {
+	const circleRef = useRef(null);
+
+	const width = 25
+
+	return (
+		<div className="flex flex-col">
+			<div className="flex items-center justify-center">
+				<div
+					ref={circleRef}
+					className="relative"
+					style={{
+						width: `${radius * 2}px`,
+						height: `${radius * 2}px`,
+					}}
+				>
+					<div style={{ borderWidth: width }} className="rounded-full border-[color:#3d3d3d] w-full h-full" />
+
+					{children}
+
+					<DotMovable
+						circleRef={circleRef} radius={radius} width={width}
+						angle={valueToAngle(
+							angleToValue(angleStart) +
+							(((angleToValue(angleEnd) < angleToValue(angleStart) ? angleToValue(angleEnd) + 100 : angleToValue(angleEnd)) - angleToValue(angleStart))) / 2
+						)}
+						setAngle={(angle) => {
+							const size = ((angleToValue(angleEnd) < angleToValue(angleStart) ? angleToValue(angleEnd) + 100 : angleToValue(angleEnd)) - angleToValue(angleStart))
+
+							console.log('size', size, angleToValue(angle), angleToValue(angleEnd), angleToValue(angleStart))
+
+
+							setAngleStart(valueToAngle(angleToValue(angle) - size / 2))
+
+							setAngleEnd(valueToAngle(angleToValue(angle) + size / 2))
+						}}
+						type={{ t: 'line', size: ((angleToValue(angleEnd) < angleToValue(angleStart) ? angleToValue(angleEnd) + 100 : angleToValue(angleEnd)) - angleToValue(angleStart)) }}
+					/>
+
+					<DotMovable circleRef={circleRef} width={width} radius={radius} angle={angleStart} setAngle={(num) => {
+						console.log("🚀 ~ DraggableDotOnCircle ~ num:", num)
+						setAngleStart(num)
+					}} type={{ "t": 'dot', offset: 0.1 }} />
+					<DotMovable circleRef={circleRef} width={width} radius={radius} angle={angleEnd} setAngle={(num) => {
+						console.log("🚀 ~ DraggableDotOnCircle ~ num:", num)
+						setAngleEnd(num)
+					}} type={{ t: 'dot', offset: -0.1 }} />
+
+				</div>
+			</div>
+
+
+
+		</div>
+	);
+}
+
+
+// Helper to convert a 0-100 value to the internal angle format
+const valueToAngle = (v: number) => {
+	const angleRad = (v / 100) * 2 * Math.PI - Math.PI / 2;
+	// Normalize to the -PI to PI range used by atan2
+	return angleRad <= -Math.PI ? angleRad + 2 * Math.PI : angleRad;
+};
+
+// Helper to convert an internal angle to a 0-100 value
+const angleToValue = (a: number) => {
+	// Shift angle so 0 is at the top, and normalize to [0, 2PI]
+	const normalizedAngle = (a + Math.PI / 2 + 2 * Math.PI) % (2 * Math.PI);
+	// Convert radians to a 0-100 scale and round it
+	const value = Math.round((normalizedAngle / (2 * Math.PI)) * 100);
+	return value === 100 ? 0 : value; // Handle wraparound from 100 back to 0
+};
+
+function DotMovable({ circleRef, radius, angle, setAngle, type, width }: { width: number, radius: number, circleRef: any, angle: number, setAngle: (num: number) => void, type: { t: "dot", offset?: number } | { t: "line", size: number } }) {
+
+	const handleDragMove = useCallback((e: MouseEvent | TouchEvent) => {
+		if (!circleRef.current) return;
+
+		// Prevents scrolling on mobile
+		if (e.type === "touchmove") {
+			e.preventDefault();
+		}
+
+		// Get coordinates from either mouse or touch event
+		const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+		const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+
+		const rect = (circleRef.current as any).getBoundingClientRect();
+		const cx = rect.left + rect.width / 2;
+		const cy = rect.top + rect.height / 2;
+		const dx = clientX - cx;
+		const dy = clientY - cy;
+
+		const newAngle = Math.atan2(dy, dx);
+		setAngle(newAngle);
+	}, type.t == 'line' ? [type.size, angle] : []); // Empty dependency array because it doesn't depend on component state
+
+	const handleDragEnd = useCallback(() => {
+		window.removeEventListener("mousemove", handleDragMove);
+		window.removeEventListener("mouseup", handleDragEnd);
+		window.removeEventListener("touchmove", handleDragMove);
+		window.removeEventListener("touchend", handleDragEnd);
+	}, [handleDragMove]);
+
+	const handleDragStart = useCallback(
+		(e: React.MouseEvent | React.TouchEvent) => {
+			window.addEventListener("mousemove", handleDragMove);
+			window.addEventListener("mouseup", handleDragEnd);
+			window.addEventListener("touchmove", handleDragMove, { passive: false });
+			window.addEventListener("touchend", handleDragEnd);
+		},
+		[handleDragMove, handleDragEnd]
+	);
+
+	const getArcPath = (p: number): string => {
+		// Convert percentage to a total angle in radians
+		const arcAngleRad = (p / 100) * 2 * Math.PI;
+
+
+		// Calculate start and end angles to center the arc
+		const startAngleRad = -arcAngleRad / 2;
+		const endAngleRad = arcAngleRad / 2;
+
+		// Determine the (x, y) coordinates for the start and end of the arc
+		const startX = radius + (radius + width) * Math.cos(startAngleRad);
+		const startY = radius + (radius + width) * Math.sin(startAngleRad);
+
+		const startX2 = radius + (radius - width) * Math.cos(startAngleRad);
+		const startY2 = radius + (radius - width) * Math.sin(startAngleRad);
+
+		const endX = radius + (radius + width) * Math.cos(endAngleRad);
+		const endY = radius + (radius + width) * Math.sin(endAngleRad);
+
+		const endX2 = radius + (radius - width) * Math.cos(endAngleRad);
+		const endY2 = radius + (radius - width) * Math.sin(endAngleRad);
+
+		// The 'large-arc-flag' is 1 if the arc is > 180 degrees, 0 otherwise
+		const largeArcFlag = p > 50 ? 1 : 0;
+
+		return [
+			`M ${startX},${startY}`, // Draw a line to the start of the arc
+			`A ${radius + width},${radius + width} 0 ${largeArcFlag} 1 ${endX},${endY}`, // Draw the arc
+
+			`L ${endX2},${endY2}`, // Draw the arc
+			`A ${radius - width},${radius - width} 0 ${largeArcFlag} 0 ${startX2},${startY2}`, // Draw the arc
+
+
+			"Z", // Close the path to form a slice
+		].join(" ");
+
+	};
+
+	if (type.t == 'line') {
+		const arcPath = getArcPath(type.size)
+		const rotationDegrees = angle * (180 / Math.PI);
+		return <div
+			className="absolute top-0 left-0 w-full h-full rounded-full cursor-pointer"
+			style={{
+				transform: `rotate(${rotationDegrees}deg)`,
+				overflow: "hidden", // This clips the inner div into a semicircle
+			}}
+			onMouseDown={handleDragStart}
+			onTouchStart={handleDragStart}
+		>
+
+			<svg
+				viewBox={`0 0 ${radius * 2} ${radius * 2}`}
+				className="w-full h-full"
+			>
+				<path d={arcPath} fill="rgb(148,15,13)" />
+			</svg>
+		</div>
+
+	} else if (type.t == 'dot') {
+		const x = radius + (radius - width / 2) * Math.cos(angle + (type.offset ?? 0));
+		const y = radius + (radius - width / 2) * Math.sin(angle + (type.offset ?? 0));
+
+		return <div
+			className="absolute w-4 h-4 cursor-pointer"
+			style={{
+				left: `${x - 4}px`,
+				top: `${y - 4}px`,
+			}}
+			onMouseDown={handleDragStart}
+			onTouchStart={handleDragStart}
+		><div className="w-2 h-2 bg-white rounded-full"></div></div>
+	}
+
 }
