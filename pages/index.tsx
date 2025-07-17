@@ -817,7 +817,7 @@ function SpinWidget() {
 	// --- State ---
 	const [rotation, setRotation] = useState(0);
 	const [isSpinning, setIsSpinning] = useState(false);
-	const [result, setResult] = useState(null);
+	const [result, setResult] = useState<"WIN" | "LOSE" | null>(null);
 
 
 	// Style for the rotating pointer container
