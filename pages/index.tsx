@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { User, Globe, RotateCcw, Wallet, Send, } from 'lucide-react';
 
 import { Camera, Trophy, Users } from 'lucide-react';
+import ConfettiExplosion from "react-confetti-explosion";
 
 interface TimeLeft {
 	days: number;
@@ -47,6 +48,17 @@ export default function Home() {
 		language: "EN"
 	}
 
+	const scrollBar = `[&::-webkit-scrollbar]:w-6
+					
+					[&::-webkit-scrollbar-track]:border-r-[12px] [&::-webkit-scrollbar-thumb]:border-r-[12px]
+					[&::-webkit-scrollbar-track]:border-l-[8px] [&::-webkit-scrollbar-thumb]:border-l-[8px]
+					[&::-webkit-scrollbar-track]:border-t-[12px] [&::-webkit-scrollbar-track]:border-b-[12px]
+					[&::-webkit-scrollbar-thumb]:border-[#202020] [&::-webkit-scrollbar-track]:border-[#202020] 
+					[&::-webkit-scrollbar-track]:rounded-full  [&::-webkit-scrollbar-thumb]:rounded-full
+
+					[&::-webkit-scrollbar-track]:bg-[color:#2a2a2a] [&::-webkit-scrollbar-thumb]:bg-gradient-to-b
+					[&::-webkit-scrollbar-thumb]:from-transparent [&::-webkit-scrollbar-thumb]:via-[#838383] [&::-webkit-scrollbar-thumb]:to-transparent`
+
 	const navBarIconSize = 'w-4 h-4'
 
 	const tabBarClassName = (tab: typeof activeTab) => `rounded-full cursor-pointer text-lg flex items-center font-light justify-center border h-full border-white w-[23%] text-center ${activeTab == tab ? 'bg-[color:#787878] text-black' : 'bg-[color:#353535] text-white'}`
@@ -86,7 +98,7 @@ export default function Home() {
 	return <div className="">
 		{/* NAVBAR */}
 		<div className="flex flex-row relative">
-			<div className="border-t border-l border-r border-white w-[25%] h-14 px-10 py-6 rounded-t-[3rem] bg-[color:#1f1f1f]">
+			<div className="border-t border-l border-r border-white w-[25%] h-14 px-10 py-6 rounded-t-[3rem] bg-[color:#353535]">
 				<Image alt="logo" width={400} height={200} src={'/logo.png'} />
 
 			</div>
@@ -116,9 +128,9 @@ export default function Home() {
 			{/* is there just for the padding */}
 			<div className=" w-[50%] h-14 px-10 py-6 bg-transparent -z-10"></div>
 
-			<div className="w-[50.12%] absolute m-auto left-0 right-0 border-b border-white border-l border-r z-10 h-10 mt-[52px] px-10 py-2 rounded-b-[3rem] bg-[color:#1f1f1f]"></div>
+			<div className="w-[50.12%] absolute m-auto left-0 right-0 border-b border-white border-l border-r z-10 h-10 mt-[52px] px-10 py-2 rounded-b-[3rem] bg-[color:#353535]"></div>
 
-			<div className="border-t border-l border-r border-white w-[25%] h-14 px-6 py-4 rounded-t-[3rem] bg-[color:#1f1f1f] flex">
+			<div className="border-t border-l border-r border-white w-[25%] h-14 px-6 py-4 rounded-t-[3rem] bg-[color:#353535] flex">
 
 				<div className="overflow-visible w-full flex flex-row justify-between h-fit">
 
@@ -185,12 +197,12 @@ export default function Home() {
 		</div>
 
 		{/* MAIN CONTENT */}
-		<div className="border-b border-l border-r border-white w-full p-9 pt-24 rounded-b-[3rem] bg-gradient-to-b from-[color:#1f1f1f] to-[color:#030303]">
+		<div className="border-l border-r border-white w-full p-9 pt-24 bg-gradient-to-b from-[color:#353535] to-[color:#212121]">
 
 			{/*  FIRST SECTION */}
 
 			<div className="w-full flex flex-row">
-				<div className=" text-white pt-8 max-w-[50%]">
+				<div className=" text-white pt-8 w-[50%]">
 					<div className="max-w-4xl">
 						{/* Header */}
 						<div className="flex mb-6">
@@ -202,25 +214,25 @@ export default function Home() {
 							</div>
 							<div className="flex h-fit items-center bg-gradient-to-b from-[#1d5a26] to-transparent mx-4 px-4 py-2 rounded-lg">
 								<Image src={'/icons/radar.svg'} alt="" className="mr-2" width={10} height={10} />
-								<span className="font-semibold">Ongoing</span>
+								<span className="font-medium">Ongoing</span>
 							</div>
 						</div>
 
 						{/* Countdown Timer */}
 						<div className="mb-8">
 							<h3 className="mb">Competitions Ends In:</h3>
-							<div className="flex items-center gap-2">
+							<div className="flex items-center gap-2 mt-2">
 
-								<div className="text-2xl font-medium mb-1">{timeLeft.days}</div>
+								<div className={`text-2xl font-medium mb-1 ${timeLeft.days < 10 ? "w-3" : 'w-5'} text-end`}>{timeLeft.days}</div>
 								<div className="mr-4">Days</div>
 
-								<div className="text-2xl font-medium mb-1">{timeLeft.hours}</div>
+								<div className={`text-2xl font-medium mb-1 ${timeLeft.hours < 10 ? "w-3" : 'w-5'} text-end`}>{timeLeft.hours}</div>
 								<div className="mr-4">Hours</div>
 
-								<div className="text-2xl font-medium mb-1">{timeLeft.minutes}</div>
+								<div className={`text-2xl font-medium mb-1 ${timeLeft.minutes < 10 ? "w-3" : 'w-5'} text-end`}>{timeLeft.minutes}</div>
 								<div className="mr-4">Minutes</div>
 
-								<div className="text-2xl font-medium mb-1">{timeLeft.seconds}</div>
+								<div className={`text-2xl font-medium mb-1 w-5`}>{timeLeft.seconds}</div>
 								<div className="mr-4">Seconds</div>
 
 								<button className="bg-gradient-to-b from-[#787878] to[#1c1c1c] px-3 py-1 rounded-lg border-[0.1px] text-sm border-[color:#353535] transition-colors">
@@ -252,7 +264,7 @@ export default function Home() {
 
 						{/* Raffle Rules Button */}
 						<div className="">
-							<button className="bg-gradient-to-b from-[#787878] to[#1c1c1c] px-8 py-2 rounded-lg border-[0.1px] text-sm border-[color:#353535] transition-colors flex flex-row">
+							<button className="bg-gradient-to-b border-[0.8px] border-[color:#6e6e6e] from-[#787878] to[#1c1c1c] px-8 py-2 rounded-lg text-sm transition-colors flex flex-row">
 								Raffle Rules
 								<Image src={'/icons/arrowLink.svg'} className="ml-2" alt="" width={12} height={12} />
 							</button>
@@ -260,21 +272,21 @@ export default function Home() {
 
 						{/* Progress Section */}
 						<div className="mb-8 relative">
-							<div className="mb-4 absolute top-0 flex flex-col items-center" style={{ left: `${progressPercentage - 5}%` }}>
+							<div className="mb-4 absolute top-0 flex flex-col items-center pr-162" style={{ left: `${progressPercentage}%`, transform: "translateX(-50%)" }}>
 								<span className="text-2xl">{progressPercentage.toFixed(2)}%</span>
 								<div className="w-[2px] h-8 bg-gradient-to-b from-transparent to-[#531615]"></div>
 							</div>
 
 							{/* Progress Bar */}
-							<div className="relative top-16 mb-4">
+							<div className="relative top-16 mb-4 mr-10">
 								<div className="relative mb-4">
 									{/* Tick marks */}
 									<div className="absolute top-0 left-5 right-0 h-6 w-[95%] flex">
-										{Array.from({ length: 250 }, (_, i) => (
+										{Array.from({ length: 170 }, (_, i) => (
 											<div
 												key={i}
-												className="flex-1 border-l my-auto border-gray-600 h-[60%]"
-												style={{ borderLeftWidth: '1px' }}
+												className="flex-1 border-l my-auto border-[color:#6E6E6E] h-[60%]"
+												style={{ borderLeftWidth: '1.5px' }}
 											></div>
 										))}
 									</div>
@@ -288,7 +300,7 @@ export default function Home() {
 
 								{/* Ticket Counter */}
 								<div className="relative top-10 text-center">
-									<span className="text-sm font-light">
+									<span className="text-lg font-light">
 										{soldTickets.toLocaleString()}/{totalTickets.toLocaleString()}
 									</span>
 								</div>
@@ -298,12 +310,12 @@ export default function Home() {
 					</div>
 				</div>
 
-				<div className="max-w-[50%] w-full flex flex-row items-end mb-">
+				<div className="w-[50%] flex flex-row items-end mb-">
 					<div className="relative w-full h-[412px]">
-						<Image className="absolute left-0 right-0 top-0" src={'/lambo.png'} width={974} height={522} alt=""></Image>
-						<Image className="absolute left-0 right-0 mr-10 bottom-0 top-[30vh]" src={'/elipse.svg'} width={844} height={453} alt=""></Image>
-						<div className="absolute top-[44vh] left-[35%] text-6xl  rounded-full p-0.5 ">
-							<div className="bg-opacity-30 backdrop-blur-xs border-b-[0.5px] border-white backdrop-brightness-[2] px-10 py-5 rounded-full ">$8.50</div>
+						<Image className="absolute left-0 right-0 bottom-[-5vh] scale-110" src={'/lambo.png'} width={974} height={522} alt=""></Image>
+						<Image className="absolute left-0 right-0 mr-10 bottom-[5vh] scale-105" src={'/elipse.svg'} width={844} height={453} alt=""></Image>
+						<div className="absolute bottom-0 left-[35%] text-6xl rounded-full p-0.5 ">
+							<div className="bg-opacity-30 backdrop-blur-xs border-b-[0.5px] font-light border-white backdrop-brightness-[1.2] px-10 py-5 rounded-full ">$8.50</div>
 
 						</div>
 					</div>
@@ -313,9 +325,7 @@ export default function Home() {
 
 			<div className="flex flex-row mt-32 justify-between">
 
-				<div className="w-[49%] py-10 px-6 rounded-xl border border-white bg-gradient-to-b from-[#0e0e0e] to-[#0c0c0c]">
-
-
+				<Container borderClassName="w-[49%]">
 					<h3 className="text-3xl mb-8">Buy Tickets</h3>
 					<div className="flex flex-row justify-around w-full space-x-2">
 
@@ -352,25 +362,29 @@ export default function Home() {
 					</div>
 
 					<button className="bg-gradient-to-b from-[#bf1213] to-[#300e0e] w-full rounded-xl text-2xl py-3">Participate Now - $312,5</button>
-				</div>
+				</Container>
 
-				<div className="w-[49%] py-10 px-6 rounded-xl border border-white bg-gradient-to-b from-[#0e0e0e] to-[#0c0c0c]">
 
+				<Container borderClassName={'w-[49%] max-h-[55vh]'} className={
+					`overflow-y-scroll ${scrollBar}`}
+				>
 					<h3 className="text-4xl">Description</h3>
 
 					<p className="py-6 text-xl">Model: Lamborghini Aventador LP 770-4 SVJ Cabrio</p>
 
 					<p className="text-xl">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
-				</div>
 
+					<p className="text-xl pt-5">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
+
+				</Container>
 
 			</div>
 
-			<div className="w-full mt-5 rounded-xl border border-white bg-gradient-to-b from-[#0e0e0e] to-[#0c0c0c] px-6 flex flex-row">
+			<Container disablePadding borderClassName="mt-10" className="w-full flex flex-row">
 				<div className="w-[49%] flex flex-row">
-					<div className="w-full py-10">
+					<div className="w-full py-7">
 
-						<h4 className="text-2xl">Spin to Win</h4>
+						<h4 className="text-2xl ml-7">Spin to Win</h4>
 						<SpinWidget />
 					</div>
 					<div className="flex flex-col justify-stretch">
@@ -412,7 +426,7 @@ export default function Home() {
 
 				<div className="w-[49%] flex flex-row">
 					<div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b] min-w-[35%] mb-5 ml-5">
-						<div className="bg-gradient-to-b from-[#070707] to-[#0a0a0a] rounded-xl h-full flex flex-col">
+						<div className="bg-gradient-to-b from-[#101010] to-[#1f1f1f] rounded-xl h-full flex flex-col">
 							<h3 className="text-lg text-center pt-10">Cartier Love Bracelet</h3>
 							<p className="text-xs text-center ">Cash alternative: $5000</p>
 							<Image
@@ -421,7 +435,7 @@ export default function Home() {
 							/>
 						</div>
 					</div>
-					<div className="whitespace-pre-wrap p-8 max-h-[600px] overflow-scroll">
+					<div className={`whitespace-pre-wrap ${scrollBar} pl-8 py-8 max-h-[600px] overflow-y-scroll`}>
 						<h4 className="text-2xl">Instant Win</h4>
 						<p>At PowerWin, you don't have to wait for the final draw to win! With our Instant</p>
 						<p>Win system, you have the chance to walk away RIGHT NOW with a top-tier prize.</p>
@@ -445,7 +459,7 @@ export default function Home() {
 						<p>38mm, 1x Hermes Birkin Bag)</p>
 					</div>
 				</div>
-			</div>
+			</Container>
 
 
 
@@ -453,14 +467,14 @@ export default function Home() {
 			<div className=" mx-auto py-8">
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 					{/* Spin to Win Winners */}
-					<div className=" rounded-xl border p-8">
+					<Container className="">
 						<div className="flex items-center gap-3 mb-6">
-							<h2 className="text-3xl font-semibold">Spin to Win Winners</h2>
+							<h2 className="text-3xl ">Spin to Win Winners</h2>
 						</div>
 
 						<div className="space-y-1">
 							{/* Header */}
-							<div className="grid grid-cols-3 gap-4 pb-3 border-b border-gray-700 text-sm">
+							<div className="grid grid-cols-3 gap-4 pb-3 text-sm">
 								<div className="flex items-center text-xl gap-2">
 									Participants
 								</div>
@@ -471,6 +485,9 @@ export default function Home() {
 									Prize
 								</div>
 							</div>
+
+							{/* gradient line */}
+							<div className="w-full bg-gradient-to-l from-transparent via-white to-transparent h-0.5 my-2"></div>
 
 							{/* Winners List */}
 							<div className="space-y-2">
@@ -488,12 +505,12 @@ export default function Home() {
 								))}
 							</div>
 						</div>
-					</div>
+					</Container>
 
 					{/* PowerWin Participants */}
-					<div className=" rounded-xl border  p-8">
+					<Container className="">
 						<div className="flex items-center gap-3 mb-6">
-							<h2 className="text-3xl font-semibold">PowerWin Participants</h2>
+							<h2 className="text-3xl">PowerWin Participants</h2>
 						</div>
 
 						{/* Search Input */}
@@ -507,11 +524,13 @@ export default function Home() {
 
 						<div className="space-y-1">
 							{/* Header */}
-							<div className="grid grid-cols-3 gap-4 pb-3 border-b border-gray-700 text-sm">
+							<div className="grid grid-cols-3 gap-4 pb-3 text-sm">
 								<div className="text-xl">Participants</div>
 								<div className="text-xl">Time</div>
 								<div className="text-xl">No. of Tickets</div>
 							</div>
+
+							<div className="w-full bg-gradient-to-l from-transparent via-white to-transparent h-0.5 my-2"></div>
 
 							{/* Participants List */}
 							<div className="space-y-2">
@@ -529,76 +548,114 @@ export default function Home() {
 								))}
 							</div>
 						</div>
-					</div>
+					</Container>
 				</div>
 			</div>
 
-			{/* Footer */}
-			<footer className="mt-16">
-				<div className="mx-auto px-4 py-12">
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-						{/* Logo and Description */}
-						<div className=" mr-10">
-							<Image alt="logo" width={150} height={75} src={'/logo.png'} />
-							<p className="text-white text-[9px] mt-5 leading-relaxed">
-								PowerWin Crypto is the next-generation blockchain raffle platform.<br />
-								Participate responsibly for exclusive rewards backed by our transparency powered by Chainlink VRF.<br />
-								Win luxury prizes through secure, decentralized draws. Built on Web3.0 technology.
-							</p>
-							<div className="mt-4">
-								<span className=" text-sm">18+</span>
-							</div>
-						</div>
-
-						{/* Links */}
-						<div className="flex flex-col space-y-3 text-white font-medium">
-							<a href="#" className="transition-colors flex items-center gap-2">
-								Home
-							</a>
-							<a href="#" className="transition-colors flex items-center gap-2">
-								Winners
-							</a>
-							<a href="#" className="transition-colors flex items-center gap-2">
-								FAQ
-							</a>
-							<a href="#" className="transition-colors flex items-center gap-2">
-								My Account
-							</a>
-						</div>
-
-						<div className="flex flex-col space-y-3 font-medium text-white">
-							<a href="#" className="transition-colors flex items-center gap-2">
-								Mobile App
-							</a>
-							<a href="#" className="transition-colors">
-								Referral Win
-							</a>
-							<a href="#" className="transition-colors">
-								Fairness
-							</a>
-							<a href="#" className="transition-colors flex items-center gap-2">
-								About Us
-							</a>
-						</div>
-
-						<div className="">
-							<h3 className="text-lg">Support</h3>
-							<a href="mailto:support@powerwin-crypto.com" className="text-[color:#144c76] underline text-sm transition-colors">
-								powerwin@crypto.com
-							</a>
-						</div>
-
-						<button className="bg-[color:#2078bc] hover:bg-blue-700 text-white px-6 py-2 rounded-lg h-fit flex items-center gap-2 mt-4 md:mt-0 transition-colors">
-							<Send className="w-4 h-4" />
-							Join Telegram
-						</button>
-					</div>
-
-
-				</div>
-			</footer>
 
 		</div>
+		{/* Footer */}
+		<footer className="bg-gradient-to-b border-b border-r border-l px-8 pb-5 rounded-b-[3rem] from-[#171717] to-[#1b1b1b]">
+			<div className="mx-auto px-4 py-8">
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+					{/* Logo and Description */}
+					<div className=" mr-10">
+						<Image alt="logo" width={150} height={75} src={'/logo.png'} />
+						<p className="text-white text-[9px] mt-5 leading-relaxed">
+							PowerWin Crypto is the next-generation blockchain raffle platform.<br />
+							Participate responsibly for exclusive rewards backed by our transparency powered by Chainlink VRF.<br />
+							Win luxury prizes through secure, decentralized draws. Built on Web3.0 technology.
+						</p>
+						<div className="mt-4">
+							<span className=" text-sm">18+</span>
+						</div>
+					</div>
+
+					{/* Links */}
+					<div className="flex flex-col space-y-3 text-white font-medium mt-8">
+						<a href="#" className="transition-colors flex items-center gap-2">
+							Home
+						</a>
+						<a href="#" className="transition-colors flex items-center gap-2">
+							Winners
+						</a>
+						<a href="#" className="transition-colors flex items-center gap-2">
+							FAQ
+						</a>
+						<a href="#" className="transition-colors flex items-center gap-2">
+							My Account
+						</a>
+					</div>
+
+					<div className="flex flex-col space-y-3 font-medium text-white mt-8">
+						<a href="#" className="transition-colors flex items-center gap-2">
+							Mobile App
+						</a>
+						<a href="#" className="transition-colors">
+							Referral Win
+						</a>
+						<a href="#" className="transition-colors">
+							Fairness
+						</a>
+						<a href="#" className="transition-colors flex items-center gap-2">
+							About Us
+						</a>
+					</div>
+
+					<div className=" mt-8">
+						<h3 className="text-lg">Support</h3>
+						<a href="mailto:support@powerwin-crypto.com" className="text-[color:#144c76] underline text-sm transition-colors">
+							powerwin@crypto.com
+						</a>
+					</div>
+
+					<button className="bg-[color:#2078bc] hover:bg-blue-700 text-white px-8 py-4 rounded-lg h-fit w-fit flex items-center gap-2 mt-6 transition-colors text-xl font-medium">
+						<Image alt="logo" className="mr-5" width={40} height={40} src={'/icons/socials/telegram.svg'} />
+						Join Telegram
+					</button>
+				</div>
+
+
+			</div>
+
+			<div className="w-full bg-gradient-to-l from-transparent via-white to-transparent h-0.5 my-5"></div>
+
+			<div className="grid px-4 grid-cols-4">
+				<div className="flex flex-row items-center space-x-3">
+					<Image alt="logo" width={18} height={18} src={'/icons/crypto/bitcoin.svg'} />
+					<Image alt="logo" width={18} height={18} src={'/icons/crypto/eth.svg'} />
+					<Image alt="logo" width={18} height={18} src={'/icons/crypto/x.svg'} />
+					<Image alt="logo" width={18} height={18} src={'/icons/crypto/solana.svg'} />
+					<Image alt="logo" width={18} height={18} src={'/icons/crypto/usdt.svg'} />
+				</div>
+
+				<div className="flex flex-row items-center justify-center space-x-3 w-full line-clamp-1 col-span-2">
+					<p className="text-[color:#a3a3a3] text-sm">Privacy Policy</p>
+					<p className="text-[color:#a3a3a3] text-sm">Terms & Conditions</p>
+					<p className="text-[color:#a3a3a3] text-sm">Acceptable Use Policy</p>
+					<p className="text-[color:#a3a3a3] text-sm">Cookie Policy</p>
+				</div>
+
+				<div className="flex flex-row items-center space-x-2 justify-end">
+					<div className="bg-gradient-to-b from-[#020202] aspect-square w-12 h-12 flex flex-row items-center justify-center to-[#191919] rounded-full">
+						<Image alt="logo" width={20} height={20} src={'/icons/socials/instagram.svg'} />
+					</div>
+
+					<div className="bg-gradient-to-b from-[#020202] aspect-square w-12 h-12 flex flex-row items-center justify-center to-[#191919] rounded-full">
+						<Image alt="logo" width={10} height={10} src={'/icons/socials/facebook.svg'} />
+					</div>
+
+					<div className="bg-gradient-to-b from-[#020202] aspect-square w-12 h-12 flex flex-row items-center justify-center to-[#191919] rounded-full">
+						<Image alt="logo" width={20} height={20} src={'/icons/socials/youtube.svg'} />
+					</div>
+
+					<div className="bg-gradient-to-b from-[#020202] aspect-square w-12 h-12 flex flex-row items-center justify-center to-[#191919] rounded-full">
+						<Image alt="logo" width={20} height={20} src={'/icons/socials/tiktok.svg'} />
+					</div>
+
+				</div>
+			</div>
+		</footer>
 
 
 	</div >
@@ -606,7 +663,11 @@ export default function Home() {
 
 }
 
-
+function Container({ children, className, borderClassName, disablePadding }: { className?: string, children: React.ReactNode, borderClassName?: string, disablePadding?: boolean }) {
+	return <div className={`p-[1px] bg-gradient-to-b from-[#fefefe] to-[#535353] rounded-xl ${borderClassName}`}>
+		<div className={`${!disablePadding && "py-10 px-6"} rounded-xl bg-gradient-to-b from-[#202020] w-full h-full to-[#222222] ${className}`}>{children}</div>
+	</div>
+}
 
 
 function DraggableProgressBar({
@@ -685,11 +746,11 @@ function DraggableProgressBar({
 			<div className="relative mb-4">
 				{/* Tick marks */}
 				<div className="absolute top-0 bottom-0 mt-1 left-5 right-0 h-6 w-[95%] flex">
-					{Array.from({ length: 250 }, (_, i) => (
+					{Array.from({ length: 170 }, (_, i) => (
 						<div
 							key={i}
-							className="flex-1  border-l my-auto border-gray-600 h-[70%]"
-							style={{ borderLeftWidth: '1px' }}
+							className="flex-1 border-l my-auto border-[color:#6E6E6E] h-[60%]"
+							style={{ borderLeftWidth: '1.5px' }}
 						></div>
 					))}
 				</div>
@@ -703,7 +764,7 @@ function DraggableProgressBar({
 					<div className="relative h-full">
 						{/* Progress Fill */}
 						<div
-							className="bg-gradient-to-r h-6 mt-1 rounded-lg border-[1px] border-[color:#8a8a8a] from-[#464646] to-[#94100f] transition-all duration-500 ease-out"
+							className="bg-gradient-to-r h-6 mt-1 rounded-lg border-[1px] border-[color:#8a8a8a] from-[#464646] to-[#94100f] transition-all duration-1000 ease-out"
 							style={{ width: `${percentage}%` }}
 						>
 						</div>
@@ -714,7 +775,7 @@ function DraggableProgressBar({
 					</div>
 				</div>
 
-				<div className="absolute bottom-[-30px] flex flex-col items-center transition-all duration-500 ease-out" style={{ left: `${percentage}%`, transform: "translateX(-50%)" }}>
+				<div className="absolute bottom-[-30px] flex flex-col items-center transition-all duration-1000 ease-out" style={{ left: `${percentage}%`, transform: "translateX(-50%)" }}>
 					<div className="relative flex flex-row">
 						{/* <div className=" absolute w-[50%] bg-[color:#323232] left-0 inverted-border-radius-l rounded-tl-lg h3 text-transparent"></div> */}
 						{/* <div className="absolute top-0 right-0 left-0">dljfsjldjlsdfls</div> */}
@@ -743,10 +804,9 @@ export const Tooltip = ({ children, height, width }: { children: React.ReactNode
 	let aFirsFour = `${borderRadius},${borderRadius} 0,0`
 	let aFirsFourStem = `${stemBorderRadius + 15},${stemBorderRadius + 15} 0,0`
 
-	return <div
-		className="bg-gradient-to-b from-[#565656] via-[#56565647] to-transparent"
-		style={{
-			clipPath: `path("
+
+	const stylePath = useMemo(() => ({
+		clipPath: `path("
 					M 20,0 
 					${enableCurves ? `A ${aFirsFour},1` : 'L'} ${width - borderRadius},0 
 					${enableCurves ? `A ${aFirsFour},1` : 'L'} ${width},${borderRadius}
@@ -775,8 +835,12 @@ export const Tooltip = ({ children, height, width }: { children: React.ReactNode
 					${enableCurves ? `A ${aFirsFour},1` : 'L'} 0,${borderRadius}
 					${enableCurves ? `A ${aFirsFour},1` : 'L'} ${borderRadius},0 Z");`.replaceAll('\n', ""),
 
-			width: width, height: height
-		}}
+		width: width, height: height
+	}), [])
+
+	return <div
+		className="bg-gradient-to-b from-[#565656] via-[#56565647] to-transparent"
+		style={stylePath}
 	> {children}</div>
 }
 
@@ -835,6 +899,7 @@ function SpinWidget() {
 		comparePoints = [[angleToValue(angleEnd), angleToValue(angleStart)]]
 	}
 
+
 	// --- Spin Logic ---
 	const handleSpin = () => {
 		if (isSpinning) return;
@@ -846,7 +911,7 @@ function SpinWidget() {
 		const randomAngle = Math.random() * 360;
 
 		// Add multiple full rotations for a better spinning effect
-		const fullRotations = Math.floor(Math.random() * 4) + 4; // 4 to 7 full spins
+		const fullRotations = Math.floor(Math.random() * 3) + 3; // 4 to 7 full spins
 		const newRotation = rotation + (fullRotations * 360) + randomAngle;
 
 		setRotation(newRotation);
@@ -872,6 +937,9 @@ function SpinWidget() {
 
 	return (
 		<div className="flex flex-col items-center">
+
+			{result == 'WIN' && <ConfettiExplosion />}
+
 			{/* --- Wheel --- */}
 			<div className="relative w-80 h-80 md:w-96 md:h-96 flex items-center justify-center mb-10">
 
@@ -917,7 +985,7 @@ function SpinWidget() {
 				>
 					<Image src={'/icons/spin.svg'} className="mx-7" alt="" width={20} height={20} />
 					<span>{isSpinning ? '...' : 'Demo Spin'}</span>
-					<div className="bg-gradient-to-r from-[#353535] to-[#232323] aspect-square h-full rounded-xl w-fit ml-5 pt-2.5 pb-8 border-l-[0.1px] border-b-[0.1px] border-white">1</div>
+					<div className="bg-gradient-to-r from-[#353535] to-[#232323] h-full rounded-xl w-fit ml-5 pt-4 pb-4 px-6 border-l-[0.1px] border-b-[0.1px] border-white">1</div>
 				</button>
 
 			</div>
@@ -1007,7 +1075,7 @@ const angleToValue = (a: number) => {
 
 function DotMovable({ circleRef, radius, angle, setAngle, type, width }: { width: number, radius: number, circleRef: any, angle: number, setAngle: (num: number) => void, type: { t: "dot", offset?: number } | { t: "line", size: number } }) {
 
-	const handleDragMove = useCallback((e: MouseEvent | TouchEvent) => {
+	const handleDragMove = (e: MouseEvent | TouchEvent) => {
 		if (!circleRef.current) return;
 
 		// Prevents scrolling on mobile
@@ -1027,24 +1095,22 @@ function DotMovable({ circleRef, radius, angle, setAngle, type, width }: { width
 
 		const newAngle = Math.atan2(dy, dx);
 		setAngle(newAngle);
-	}, type.t == 'line' ? [type.size, angle] : []); // Empty dependency array because it doesn't depend on component state
+	} // Empty dependency array because it doesn't depend on component state
 
-	const handleDragEnd = useCallback(() => {
+	const handleDragEnd = () => {
 		window.removeEventListener("mousemove", handleDragMove);
 		window.removeEventListener("mouseup", handleDragEnd);
 		window.removeEventListener("touchmove", handleDragMove);
 		window.removeEventListener("touchend", handleDragEnd);
-	}, [handleDragMove]);
+	}
 
-	const handleDragStart = useCallback(
-		(e: React.MouseEvent | React.TouchEvent) => {
-			window.addEventListener("mousemove", handleDragMove);
-			window.addEventListener("mouseup", handleDragEnd);
-			window.addEventListener("touchmove", handleDragMove, { passive: false });
-			window.addEventListener("touchend", handleDragEnd);
-		},
-		[handleDragMove, handleDragEnd]
-	);
+	const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+		window.addEventListener("mousemove", handleDragMove);
+		window.addEventListener("mouseup", handleDragEnd);
+		window.addEventListener("touchmove", handleDragMove, { passive: false });
+		window.addEventListener("touchend", handleDragEnd);
+	}
+
 
 	const getArcPath = (p: number): string => {
 		// Convert percentage to a total angle in radians
@@ -1093,15 +1159,15 @@ function DotMovable({ circleRef, radius, angle, setAngle, type, width }: { width
 				transform: `rotate(${rotationDegrees}deg)`,
 				overflow: "hidden", // This clips the inner div into a semicircle
 			}}
-			onMouseDown={handleDragStart}
-			onTouchStart={handleDragStart}
+
 		>
 
 			<svg
 				viewBox={`0 0 ${radius * 2} ${radius * 2}`}
 				className="w-full h-full"
 			>
-				<path d={arcPath} fill="rgb(148,15,13)" />
+				<path onMouseDown={handleDragStart}
+					onTouchStart={handleDragStart} d={arcPath} fill="rgb(148,15,13)" />
 			</svg>
 		</div>
 

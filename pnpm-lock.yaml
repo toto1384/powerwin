@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@butterfail/tailwindcss-inverted-radius':
+    specifier: ^0.1.2
+    version: 0.1.2(tailwindcss@4.1.11)
   lucide-react:
     specifier: ^0.525.0
     version: 0.525.0(react@19.1.0)
@@ -14,6 +17,9 @@ dependencies:
   react:
     specifier: 19.1.0
     version: 19.1.0
+  react-confetti-explosion:
+    specifier: ^3.0.3
+    version: 3.0.3(react-dom@19.1.0)(react@19.1.0)
   react-dom:
     specifier: 19.1.0
     version: 19.1.0(react@19.1.0)
@@ -61,6 +67,14 @@ packages:
       '@jridgewell/gen-mapping': 0.3.12
       '@jridgewell/trace-mapping': 0.3.29
     dev: true
+
+  /@butterfail/tailwindcss-inverted-radius@0.1.2(tailwindcss@4.1.11):
+    resolution: {integrity: sha512-BCVx7nuSsWCMxHQ4gUih56bEcCP9V4OPAaXLqS+Wqh8Kl06ioHzkP/cgoMGDY3XuZbjwaHTeKMDE5d+t1cl/Eg==}
+    peerDependencies:
+      tailwindcss: '>=3.2.0'
+    dependencies:
+      tailwindcss: 4.1.11
+    dev: false
 
   /@emnapi/core@1.4.4:
     resolution: {integrity: sha512-A9CnAbC6ARNMKcIcrQwq6HeHCjpcBZ5wSx4U01WXCqEKlrzB9F9315WDNHkrs2xbx7YjjSxbUYxuN6EQzpcY2g==}
@@ -2840,6 +2854,16 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
 
+  /react-confetti-explosion@3.0.3(react-dom@19.1.0)(react@19.1.0):
+    resolution: {integrity: sha512-ow5ns/1ttzXsIlbbfJmWJNiyQK8lTHBL6lRSUXGaK44K/3NIMngR57Ja96l+D6txTeFhfe0BfXGvORMxhtRDng==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+    dev: false
+
   /react-dom@19.1.0(react@19.1.0):
     resolution: {integrity: sha512-Xs1hdnE+DyKgeHJeJznQmYMIBG3TKIHJJT95Q58nHLSrElKlGQqDTR2HQ9fx5CN/Gk6Vh/kupBTDLU11/nDk/g==}
     peerDependencies:
@@ -3214,7 +3238,6 @@ packages:
 
   /tailwindcss@4.1.11:
     resolution: {integrity: sha512-2E9TBm6MDD/xKYe+dvJZAmg3yxIEDNRc0jwlNyDg/4Fil2QcSLjFKGVff0lAf1jjeaArlG/M75Ey/EYr/OJtBA==}
-    dev: true
 
   /tapable@2.2.2:
     resolution: {integrity: sha512-Re10+NauLTMCudc7T5WLFLAwDhQ0JWdrMK+9B2M8zR5hRExKmsRDCBA7/aV/pNJFltmBFO5BAMlQFi/vq3nKOg==}
