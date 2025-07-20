@@ -1503,4 +1503,4 @@ function DotMovable({ circleRef, radius, angle, setAngle, type, width }: { width
 			onTouchStart={handleDragStart}
 		><div className="w-1.5 h-1.5 bg-white rounded-full m-auto mt-3"></div></div>
 	}
-
+}
