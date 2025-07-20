@@ -638,7 +638,7 @@ L 0,30 Z`.replaceAll('\n', " ")
 
 	return <Popover.Root>
 		<Popover.Trigger asChild>{children}</Popover.Trigger>
-		<Popover.Portal container={typeof window !== "undefined" && document.getElementById('main-content-element')}>
+		<Popover.Portal container={typeof window !== "undefined" ? document.getElementById('main-content-element') : undefined}>
 			<Popover.Content align="end" className="border-0 outline-0 z-50" sideOffset={5}>
 				<div className="relative justify-self-end z-10" style={{ width: 100, height: 30, transform: 'translateY(-0px) translateX(-2px)' }}>
 					<div
