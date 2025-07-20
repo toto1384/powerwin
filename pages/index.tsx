@@ -6,6 +6,9 @@ import { useSize } from '@/utils/useSize'
 import ConfettiExplosion from "react-confetti-explosion";
 import { format } from "date-fns";
 
+import { Popover } from "radix-ui";
+import React from "react";
+
 interface TimeLeft {
 	days: number;
 	hours: number;
@@ -19,11 +22,41 @@ const scrollBar = `[&::-webkit-scrollbar]:w-6
 					[&::-webkit-scrollbar-track]:border-r-[12px] [&::-webkit-scrollbar-thumb]:border-r-[12px]
 					[&::-webkit-scrollbar-track]:border-l-[8px] [&::-webkit-scrollbar-thumb]:border-l-[8px]
 					[&::-webkit-scrollbar-track]:border-t-[12px] [&::-webkit-scrollbar-track]:border-b-[12px]
-					[&::-webkit-scrollbar-thumb]:border-[#202020] [&::-webkit-scrollbar-track]:border-[#202020] 
+					[&::-webkit-scrollbar-thumb]:border-[#202020] [&::-webkit-scrollbar-track]:border-[#202020]
+
+					
 					[&::-webkit-scrollbar-track]:rounded-full  [&::-webkit-scrollbar-thumb]:rounded-full
 
 					[&::-webkit-scrollbar-track]:bg-[color:#2a2a2a] [&::-webkit-scrollbar-thumb]:bg-gradient-to-b
 					[&::-webkit-scrollbar-thumb]:from-transparent [&::-webkit-scrollbar-thumb]:via-[#838383] [&::-webkit-scrollbar-thumb]:to-transparent`
+
+const scrollBarNoBorder = ` 
+					[&::-webkit-scrollbar]:w-1
+					
+					
+					[&::-webkit-scrollbar-track]:rounded-full  [&::-webkit-scrollbar-thumb]:rounded-full
+
+					[&::-webkit-scrollbar-track]:bg-[color:#2a2a2a] [&::-webkit-scrollbar-thumb]:bg-gradient-to-b
+					[&::-webkit-scrollbar-thumb]:from-transparent [&::-webkit-scrollbar-thumb]:via-[#838383] [&::-webkit-scrollbar-thumb]:to-transparent`
+
+
+// Helper to convert a 0-100 value to the internal angle format
+const valueToAngle = (v: number) => {
+	const angleRad = (v / 100) * 2 * Math.PI - Math.PI / 2;
+	// Normalize to the -PI to PI range used by atan2
+	return angleRad <= -Math.PI ? angleRad + 2 * Math.PI : angleRad;
+};
+
+// Helper to convert an internal angle to a 0-100 value
+const angleToValue = (a: number) => {
+	// Shift angle so 0 is at the top, and normalize to [0, 2PI]
+	const normalizedAngle = (a + Math.PI / 2 + 2 * Math.PI) % (2 * Math.PI);
+	// Convert radians to a 0-100 scale and round it
+	const value = Math.round((normalizedAngle / (2 * Math.PI)) * 100);
+	return value === 100 ? 0 : value; // Handle wraparound from 100 back to 0
+};
+
+
 
 export default function Home() {
 
@@ -33,10 +66,20 @@ export default function Home() {
 		{ participant: 'Hidden', time: '4-11 22:17', prize: '$1000 - iPhone 16 Pro Max' },
 		{ participant: 'Love83', time: '4-11 22:17', prize: '$8000 - Hermes Birkin' },
 		{ participant: 'Love83', time: '4-11 22:17', prize: '$8000 - Hermes Birkin' },
+		{ participant: 'Love83', time: '4-11 22:17', prize: '$8000 - Hermes Birkin' },
+		{ participant: 'Hidden', time: '4-11 22:17', prize: '$5000 - Cartier Love Bracelet' },
+		{ participant: 'Love83', time: '4-11 22:17', prize: '$8000 - Hermes Birkin' },
+		{ participant: 'Hidden', time: '4-11 22:17', prize: '$1000 - iPhone 16 Pro Max' },
+		{ participant: 'Love83', time: '4-11 22:17', prize: '$8000 - Hermes Birkin' },
+		{ participant: 'Love83', time: '4-11 22:17', prize: '$8000 - Hermes Birkin' },
 		{ participant: 'Love83', time: '4-11 22:17', prize: '$8000 - Hermes Birkin' }
 	];
 
 	const powerWinParticipants = [
+		{ name: 'Hidden', time: '4-11 22:17', tickets: '929292292' },
+		{ name: 'Love83', time: '4-11 22:17', tickets: '922292292' },
+		{ name: 'Hidden', time: '4-11 22:17', tickets: '292929229' },
+		{ name: 'Love83', time: '4-11 22:17', tickets: '202029828' },
 		{ name: 'Hidden', time: '4-11 22:17', tickets: '929292292' },
 		{ name: 'Love83', time: '4-11 22:17', tickets: '922292292' },
 		{ name: 'Hidden', time: '4-11 22:17', tickets: '292929229' },
@@ -59,60 +102,59 @@ export default function Home() {
 
 	const size = useSize(true)
 
+	const [selectedPrize, setSelectedPrize] = useState(0)
+	const prizes = [
+		{ img: '/prize1.png', name: 'Cartier Love Bracelet', className: 'rotate-90 lg:scale-125' },
+		{ img: '/prize2.png', name: 'Hermes Birkin', className: '' },
+		{ img: '/prize3.png', name: 'iPhone 16 Pro Max', className: 'scale-150' },
+		{ img: '/prize4.png', name: 'Bag', className: '' },
+	]
+
 
 	const prizesGrid = <div className="grid grid-cols-2 md:grid-cols-1 gap-2 justify-stretch">
+		{prizes.map((i, index) => <div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b  from-white to-[#2b2b2b]" onClick={() => setSelectedPrize(index)}>
+			<div className={`bg-gradient-to-b rounded-xl h-full px-3 ${selectedPrize == index ? 'from-[#070707] to-[#0a0a0a]' : 'from-[#161616] to-[#141414]'}`}>
+				<Image
+					onClick={() => setSelectedPrize(index)}
+					src={i.img}
+					className={`aspect-square h-full object-contain ${i.className}`} alt="" width={150} height={150}
+				/>
+			</div>
+		</div>)}
 
-		<div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b]">
-			<div className="bg-gradient-to-b from-[#070707] to-[#0a0a0a] rounded-xl h-full px-3">
-				<Image
-					src={'/prize1.png'}
-					className="aspect-square h-full object-contain rotate-90 " alt="" width={150} height={150}
-				/>
-			</div>
-		</div>
-		<div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b]">
-			<div className="bg-gradient-to-b from-[#161616] to-[#141414] rounded-xl h-full px-3">
-				<Image
-					src={'/prize2.png'}
-					className="aspect-square h-full object-contain " alt="" width={150} height={150}
-				/>
-			</div>
-		</div>
-		<div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b]">
-			<div className="bg-gradient-to-b from-[#161616] to-[#141414] rounded-xl h-full px-3">
-				<Image
-					src={'/prize3.png'}
-					className="aspect-square h-full object-contain " alt="" width={150} height={150}
-				/>
-			</div>
-		</div>
-		<div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b]">
-			<div className="bg-gradient-to-b from-[#161616] to-[#141414] rounded-xl h-full px-3">
-				<Image
-					src={'/prize4.png'}
-					className="aspect-square h-full object-contain " alt="" width={150} height={150}
-				/>
-			</div>
-		</div>
 	</div>
 
 
-	const selectedPrize = <div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b] min-w-[35%] mb-5 ml-5">
+	const selectedPrizeComponent = <div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b] min-w-[35%] mb-5 ml-5">
 		<div className="bg-gradient-to-b from-[#101010] to-[#1f1f1f] rounded-xl h-full flex flex-col">
-			<h3 className="text-lg text-center pt-10">Cartier Love Bracelet</h3>
+			<h3 className="text-lg text-center pt-10">{prizes[selectedPrize].name}</h3>
 			<p className="text-xs text-center ">Cash alternative: $5000</p>
 			<Image
-				src={'/prize1.png'}
-				className="aspect-square  object-contain md:scale-125 mt-[10%] md:mt-[25%] rotate-90 " alt="" width={300} height={150}
+				src={prizes[selectedPrize].img}
+				className={`aspect-square object-contain mt-[10%] md:mt-[25%] ${prizes[selectedPrize].className} `} alt="" width={300} height={150}
 			/>
 		</div>
 	</div>
 
+	// const [angleStart, setAngleStart] = useState(0);
+	// const [angleEnd, setAngleEnd] = useState(valueToAngle(50));
 
-	return <div className="">
+	const [angle, setAngle] = useState<{ start: number, end: number }>({ start: 0, end: valueToAngle(50) })
+
+	function setPercentage(n: number) {
+
+		setAngle((prev) => {
+			const currentSize = (angleToValue(prev.end) < angleToValue(prev.start) ? angleToValue(prev.end) + 100 : angleToValue(prev.end)) - angleToValue(prev.start)
+			const difference = (n * 0.8 - currentSize) / 2
+
+			return { start: valueToAngle(angleToValue(prev.start) - difference), end: valueToAngle(angleToValue(prev.end) + difference) }
+		})
+	}
+
+	return <div className="flex flex-col items-center">
 		{/* NAVBAR */}
-		<div className="hidden md:flex flex-row relative">
-			<div className="border-t border-l border-r border-white w-[25%] h-14 px-10 py-6 rounded-t-[3rem] bg-[color:#353535]">
+		<div className="hidden md:flex flex-row relative max-w-[1800px] w-full">
+			<div className="border-t border-l border-r border-white w-[25%] h-14 px-10 py-6 rounded-t-[3rem] bg-[color:#303030]">
 				<Image alt="logo" width={400} height={200} src={'/logo.png'} />
 
 			</div>
@@ -142,33 +184,158 @@ export default function Home() {
 			{/* is there just for the padding */}
 			<div className=" w-[50%] h-14 px-10 py-6 bg-transparent -z-10"></div>
 
-			<div className="w-[50.12%] absolute m-auto left-0 right-0 border-b border-white border-l border-r z-10 h-10 mt-[52px] px-10 py-2 rounded-b-[3rem] bg-[color:#353535]"></div>
+			<div className="w-[50.12%] absolute m-auto left-0 right-0 border-b border-white border-l border-r z-10 h-10 mt-[52px] px-10 py-2 rounded-b-[3rem] bg-[color:#303030]"></div>
 
-			<div className="border-t border-l border-r border-white w-[25%] h-14 px-6 py-4 rounded-t-[3rem] bg-[color:#353535] flex">
+			<div className="border-t border-l border-r border-white w-[25%] h-14 px-6 py-4 rounded-t-[3rem] bg-[color:#303030] flex">
 
 				<div className="overflow-visible w-full flex flex-row justify-between h-fit">
 
 					{/* Wallet Section */}
-					<div className="bg-gradient-to-b from-white to-[color:#414141] w-[39%] p-[0.8px] rounded-3xl">
-						<div className="bg-[color:#414141] h-full px-5 py-1 rounded-3xl flex flex-col items-center text-center">
+					<PWPopover popoverChildren={
+						<div className="flex flex-row p-8">
+							<div className="flex flex-col mt-3 mr-8 justify-between">
+								<div className="flex flex-col h-fit font-medium">
+									<h4 className="text-[color:#b0b0b0] text-lg mb-3">Account Settings</h4>
+									<p className="text-lg my-3">Tickets</p>
+									<p className="text-lg my-3">My Prizes</p>
+									<p className="text-lg my-3">Wallet</p>
+									<p className="text-lg my-3">Transactions</p>
+									<p className="text-lg my-3">Account</p>
+									<div className="text-lg my-3 -ml-1 p-[0.5] bg-gradient-to-b from-[] to-white rounded-xl">
+										<div className="px-4 py-2 bg-[color:#1c1c1c] rounded-xl">
+											Affiliate
+										</div>
+									</div>
+								</div>
+								<div className="flex flex-col h-fit font-medium">
+									<div className="w-full bg-gradient-to-l from-transparent via-white to-transparent h-[1px] my-5 mb-10"></div>
+									<div className="flex flex-row items-center font-medium text-xl">
+										<p className="mr-5">Notifications</p>
+										<Image alt="" width={45} height={45} src={'/icons/notification.svg'} className={`${navBarIconSize} mr-2 text-white`} />
 
-							<div className="flex mb-1 items-center justify-self-center">
-								<Image alt="" width={40} height={40} src={'/icons/wallet.svg'} className={`${navBarIconSize} mr-2 text-white`} />
-								<span className="text-white font-medium text-sm">Wallet</span>
+									</div>
+								</div>
 							</div>
 
-							<div className="text-white text-[size:13px]">
-								<span className="opacity-80">Credit </span>
-								<span className="font-light text-[size:16px]"> £{data.credit.toFixed(2)}</span>
-							</div>
+							<div className="flex-col">
+								<div className="flex flex-row w-full justify-between mb-5 mt-1">
+									<div className="flex flex-row items-center">
+										<h3 className="text-2xl font-medium mx-5">Affiliate</h3>
+										<button className="bg-gradient-to-b from-[#222222] to-[#1d1d1d] text-sm rounded-lg border-[0.5px] border-[#4d4d4d] flex flex-row px-3 py-3">
+											<svg width="17" height="20" viewBox="0 0 35 40" className="mr-2" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M23.6205 0.5H16.265C12.9329 0.5 10.2922 0.5 8.22761 0.788617C6.10067 1.08503 4.37986 1.70907 3.02361 3.11511C1.66547 4.52114 1.0629 6.3055 0.777673 8.50913C0.5 10.6504 0.5 13.3864 0.5 16.84V28.2248C0.5 31.1656 2.23781 33.6851 4.70664 34.7421C4.58009 32.9675 4.58008 30.4811 4.58008 28.4101V18.64C4.58008 16.1419 4.58008 13.987 4.80298 12.2631C5.04287 10.4144 5.58311 8.64368 6.96958 7.20645C8.35605 5.76921 10.0655 5.20953 11.8487 4.95992C13.5109 4.7298 15.5888 4.7298 18.0009 4.7298H23.7999C26.2102 4.7298 28.2842 4.7298 29.9484 4.95992C29.4499 3.64611 28.5795 2.51786 27.4508 1.7223C26.322 0.92674 24.9872 0.500791 23.6205 0.5Z" fill="white" />
+												<path d="M7.2998 18.8229C7.2998 13.5069 7.2998 10.8489 8.89406 9.19716C10.4864 7.54541 13.0497 7.54541 18.18 7.54541H23.6201C28.7486 7.54541 31.3137 7.54541 32.908 9.19716C34.5023 10.8489 34.5004 13.5069 34.5004 18.8229V28.2225C34.5004 33.5385 34.5004 36.1965 32.908 37.8483C31.3137 39.5 28.7486 39.5 23.6201 39.5H18.18C13.0516 39.5 10.4864 39.5 8.89406 37.8483C7.2998 36.1965 7.2998 33.5385 7.2998 28.2225V18.8229Z" fill="white" />
+											</svg>
 
-							<div className="text-white text-[size:13px]">
-								<span className="opacity-80">Spins </span>
-								<span className="font-light">{data.spins}</span>
+											Affiliate Link
+										</button>
+									</div>
+									<Popover.Close>
+										<div className="aspect-square border-[0.2px] rounded-lg border-white m-auto bg-[color:#1f1f1f]">
+											<Image alt="" width={40} height={40} src={'/icons/close.svg'} className={`${navBarIconSize} m-4  text-white`} />
+										</div>
+									</Popover.Close>
+								</div>
+
+
+								<div className="max-w-7xl mx-auto">
+									{/* Stats Grid */}
+									<div className="grid grid-cols-1 md:grid-cols-3 gap-1.5 mb-4">
+										{[
+											{ label: 'Your Referral Code', value: 'dsdsadas' },
+											{ label: 'Total Deposited', value: '$0.00' },
+											{ label: 'Total Earnings', value: '$0.00' },
+											{ label: 'Users Brought', value: '0' },
+											{ label: 'Total Opened', value: '$0.00' },
+											{ label: 'Unclaimed Earnings', value: '$0.00' }
+										].map((stat, index) => (
+											<div key={index} className="bg-[color:#171717] rounded min-w-[250px] p-4">
+												<h3 className=" text-sm mb-5">{stat.label}</h3>
+												<p className="text-white text-2xl font-medium">{stat.value}</p>
+											</div>
+										))}
+									</div>
+
+									{/* Claim Section */}
+									<div className=" rounded-lg  mb-4">
+										<h2 className="text-white text-xl mb-4">Enter amount to claim</h2>
+										<div className="flex gap-2 items-end">
+											<div className="p-[0.5px] w-fit min-w-[250px] bg-gradient-to-b from-[#5d5d5d] to-white rounded-lg">
+												<input
+													type="number"
+													placeholder="0"
+													className="w-full bg-[color:#111111] border border-gray-600 rounded-lg px-3 py-1 text-white placeholder-white focus:outline-none focus:ring-2  focus:border-transparent"
+												/>
+											</div>
+											<button
+												className="bg-gradient-to-b from-[#868686] to-transparent text-white px-14 py-1.5 rounded-lg font-medium transition-colors"
+											>
+												Claim
+											</button>
+											<button
+												className="bg-[color:#101010] text-gray-400 hover:text-white px-10 py-1.5 rounded-lg font-medium transition-colors"
+											>
+												Claim All
+											</button>
+										</div>
+									</div>
+
+									{/* Commission Table */}
+									<div className="bg-[color:#111111] rounded-lg overflow-hidden pb-5">
+										<div className="overflow-x-auto">
+											<table className="w-full">
+												<thead>
+													<tr className="text-[#b7b7b7] text-sm">
+														<th className="text-left p-4  font-medium">Username</th>
+														<th className="text-center p-4  font-medium">Commission</th>
+														<th className="text-right p-4  font-medium">Deposit Amount</th>
+													</tr>
+													<tr >
+														<td colSpan={3}><div className="w-full bg-gradient-to-l from-transparent via-white to-transparent h-[1px] my-2"></div></td>
+													</tr>
+												</thead>
+												<tbody>
+													{[
+														{ username: 'DPLpwldpwldpdwdwl', depositAmount: '$10.000', commission: '$1000' },
+														{ username: 'DPLpwldpwldpdwdwl', depositAmount: '$10.000', commission: '$1000' },
+														{ username: 'DPLpwldpwldpdwdwl', depositAmount: '$10.000', commission: '$1000' }
+													].map((row, index) => (
+														<tr key={index} className=" font-medium">
+															<td className="py-1 px-4 text-white">{row.username}</td>
+															<td className="py-1 px-4 text-white text-center">{row.depositAmount}</td>
+															<td className="py-1 px-4 text-white text-right">{row.commission}</td>
+														</tr>
+													))}
+												</tbody>
+											</table>
+										</div>
+
+									</div>
+								</div>
 							</div>
 						</div>
+					}>
+						<div className="bg-gradient-to-b from-white to-[color:#414141] w-[39%] p-[0.8px] rounded-3xl">
+							<div className="bg-[color:#414141] h-full px-5 py-1 rounded-3xl flex flex-col items-center text-center">
 
-					</div>
+								<div className="flex mb-1 items-center justify-self-center">
+									<Image alt="" width={40} height={40} src={'/icons/wallet.svg'} className={`${navBarIconSize} mr-2 text-white`} />
+									<span className="text-white font-medium text-sm">Wallet</span>
+								</div>
+
+								<div className="text-white text-[size:13px]">
+									<span className="opacity-80">Credit </span>
+									<span className="font-light text-[size:16px]"> £{data.credit.toFixed(2)}</span>
+								</div>
+
+								<div className="text-white text-[size:13px]">
+									<span className="opacity-80">Spins </span>
+									<span className="font-light">{data.spins}</span>
+								</div>
+							</div>
+
+						</div>
+					</PWPopover>
 
 					{/* User Info Section */}
 					<div className="bg-gradient-to-b from-white to-[color:#414141] w-[39%] p-[0.8px] rounded-3xl">
@@ -211,7 +378,7 @@ export default function Home() {
 		</div>
 
 		{/* MAIN CONTENT */}
-		<div className="border-l border-r border-white w-full p-2 md:p-9 md:pt-24 bg-gradient-to-b from-[color:#353535] to-[color:#212121]">
+		<div className="border-l border-r border-white w-full p-2 md:p-9 md:pt-24 bg-gradient-to-b from-[color:#303030] to-[color:#111111] max-w-[1800px]">
 
 
 			{/* NAVBAR MOBILE */}
@@ -244,23 +411,23 @@ export default function Home() {
 					<h3 className="text-3xl mb-8">Buy Tickets</h3>
 					<div className="flex flex-row justify-around w-full space-x-2">
 
-						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center">
+						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center cursor-pointer" onClick={() => setPercentage(5 / 0.8)}>
 							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">Min</div>
 						</div>
 
-						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center">
+						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center cursor-pointer" onClick={() => setPercentage(10 / 0.8)}>
 							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">10%</div>
 						</div>
 
-						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center">
+						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center cursor-pointer" onClick={() => setPercentage(25 / 0.8)}>
 							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">25%</div>
 						</div>
 
-						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center">
+						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center cursor-pointer" onClick={() => setPercentage(50 / 0.8)}>
 							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">50%</div>
 						</div>
 
-						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center">
+						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center cursor-pointer" onClick={() => setPercentage(100)}>
 							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">Max</div>
 						</div>
 					</div>
@@ -270,7 +437,8 @@ export default function Home() {
 						<div className="aspect-square p-4 text-3xl">-</div>
 						<DraggableProgressBar
 							totalTickets={90000}
-							// onValueChange={handleValueChange}
+							percentage={((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8}
+							setPercentage={setPercentage}
 							className="mb-8 w-full"
 						/>
 						<div className="aspect-square p-4 text-3xl">+</div>
@@ -294,17 +462,20 @@ export default function Home() {
 			</div>
 
 			<Container disablePadding borderClassName="mt-10" className="w-full flex flex-col md:flex-row" disableContainer={size.lmd}>
-				<div className="w-full md:w-[49%] flex flex-row">
+				<div className="w-full md:w-[49%] flex flex-row overflow-x-clip">
 					<div className="w-full py-7">
 
 						<h4 className="text-2xl text-center md:text-start mb-20 md:mb-0 md:ml-7">Spin to Win</h4>
-						<SpinWidget />
+						<SpinWidget
+							angleEnd={angle.end} angleStart={angle.start}
+							setAngleEnd={(e) => setAngle((prev) => ({ start: prev.start, end: e }))}
+							setAngleStart={(s) => setAngle((prev) => ({ end: prev.end, start: s }))} />
 					</div>
 					{size.gsm && prizesGrid}
 				</div>
 
 				<div className="w-full md:w-[49%] md:flex flex-row hidden">
-					{size.gmd && selectedPrize}
+					{size.gmd && selectedPrizeComponent}
 
 					<div className={`whitespace-pre-wrap ${scrollBar} pl-8 py-8 max-h-[600px] overflow-y-scroll`}>
 						<h4 className="text-2xl">Instant Win</h4>
@@ -333,7 +504,7 @@ export default function Home() {
 
 				<div className="grid grid-cols-2 md:hidden">
 					{prizesGrid}
-					{selectedPrize}
+					{selectedPrizeComponent}
 				</div>
 			</Container>
 
@@ -347,7 +518,26 @@ export default function Home() {
 
 						<h2 className="text-2xl md:text-3xl text-center font-medium mb-6 md:text-start">Spin to Win Winners</h2>
 
-						<div className="space-y-1">
+						{/* Search Input */}
+						<div className="flex flex-row items-center justify-between">
+							<div className="mb-6">
+								<input
+									type="text"
+									placeholder="Participant Name"
+									className=" bg-[color:#3a3a3a] rounded-lg px-4 md:px-14 border-[0.5px] border-white py-3 text-white placeholder-white text-sm md:text-lg focus:outline-none text-center"
+								/>
+							</div>
+							<button className="bg-gradient-to-b from-[#4e4e4e] to-[#101010] rounded-lg md:px-8 border-[0.5px] border-white py-2.5 md:py-3.5 text-white placeholder-white text-lg focus:outline-none text-center mb-6 md:mr-5 flex flex-row items-center">
+								<svg width="17" height="14" className="mx-2" viewBox="0 0 34 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M18.108 1.05V3.5H21.0279C21.5468 3.5 22.0539 3.6484 22.4827 3.9242L24.9916 5.5398C25.0537 5.579 25.1227 5.59907 25.1986 5.6H31.2632C31.5573 5.6 31.8393 5.71062 32.0472 5.90754C32.2552 6.10445 32.372 6.37152 32.372 6.65C32.372 6.92848 32.2552 7.19555 32.0472 7.39246C31.8393 7.58938 31.5573 7.7 31.2632 7.7H28.9302L33.9066 18.452C34.0062 18.667 34.0268 18.9074 33.9652 19.1348C33.9035 19.3621 33.7632 19.5634 33.5666 19.7064C33.4188 19.81 33.266 19.9061 33.1083 19.9948C32.734 20.208 32.3436 20.3947 31.9403 20.5534C30.603 21.083 29.1674 21.3538 27.7179 21.35C26.2688 21.356 24.8332 21.0855 23.4969 20.5548C23.0935 20.3956 22.7032 20.2085 22.3289 19.9948C22.1717 19.9094 22.0201 19.815 21.875 19.712L21.8677 19.7064C21.671 19.5634 21.5307 19.3621 21.4691 19.1348C21.4074 18.9074 21.428 18.667 21.5276 18.452L26.507 7.7H25.1971C24.6782 7.7 24.1711 7.5516 23.7423 7.2758L21.2334 5.6602C21.1723 5.62102 21.1002 5.60005 21.0264 5.6H18.108V25.9H24.7418C25.0358 25.9 25.3179 26.0106 25.5258 26.2075C25.7338 26.4044 25.8506 26.6715 25.8506 26.95C25.8506 27.2285 25.7338 27.4956 25.5258 27.6925C25.3179 27.8894 25.0358 28 24.7418 28H9.2565C8.96242 28 8.68038 27.8894 8.47244 27.6925C8.26449 27.4956 8.14767 27.2285 8.14767 26.95C8.14767 26.6715 8.26449 26.4044 8.47244 26.2075C8.68038 26.0106 8.96242 25.9 9.2565 25.9H15.8903V5.6H12.9704C12.8966 5.60005 12.8245 5.62102 12.7634 5.6602L10.2559 7.2758C9.82718 7.5516 9.32008 7.7 8.80114 7.7H7.49124L12.4706 18.452C12.567 18.6609 12.589 18.8938 12.5333 19.1155C12.4775 19.3373 12.3471 19.5358 12.1616 19.6812C12.0434 19.7722 11.9251 19.8576 11.7033 19.9934C11.3296 20.223 10.9382 20.4257 10.5324 20.5996C9.19744 21.175 7.74714 21.4711 6.28039 21.4676C4.81363 21.4711 3.36333 21.175 2.02838 20.5996C1.62255 20.4257 1.23113 20.223 0.857446 19.9934C0.700077 19.8972 0.547625 19.7939 0.400606 19.684C0.216265 19.5373 0.086588 19.3383 0.0306894 19.1165C-0.0252091 18.8947 -0.00437105 18.6617 0.0901318 18.452L5.06806 7.7H2.73655C2.44247 7.7 2.16043 7.58938 1.95249 7.39246C1.74454 7.19555 1.62772 6.92848 1.62772 6.65C1.62772 6.37152 1.74454 6.10445 1.95249 5.90754C2.16043 5.71062 2.44247 5.6 2.73655 5.6H8.80114C8.87605 5.6 8.94554 5.57993 9.0096 5.5398L11.5156 3.9242C11.9443 3.647 12.4529 3.5 12.9718 3.5H15.8903V1.05C15.8903 0.771523 16.0071 0.504451 16.2151 0.307538C16.423 0.110625 16.705 0 16.9991 0C17.2932 0 17.5752 0.110625 17.7832 0.307538C17.9911 0.504451 18.108 0.771523 18.108 1.05ZM2.5 18.4772C3.66329 19.0646 4.96207 19.37 6.28039 19.3662C7.5987 19.37 8.89749 19.0646 10.0608 18.4772L6.28039 10.3152L2.5 18.4772ZM23.9523 18.4436C24.0735 18.4996 24.209 18.5584 24.3588 18.62C25.1424 18.9322 26.2882 19.25 27.7179 19.25C29.0212 19.2533 30.3085 18.9776 31.4835 18.4436L27.7179 10.3138L23.9523 18.4436Z" fill="white" />
+								</svg>
+
+
+								<span className="mx-2">Provably Fair</span>
+
+							</button>
+						</div>
+						<div className={`space-y-1 max-h-[40vh] overflow-y-scroll ${scrollBarNoBorder}`}>
 							{/* Header */}
 							<div className="grid grid-cols-3 gap-4 pb-3 text-sm">
 								<div className="flex items-center text-xl gap-2">
@@ -393,11 +583,11 @@ export default function Home() {
 							<input
 								type="text"
 								placeholder="Participant Name"
-								className=" bg-[color:#3a3a3a] rounded-lg px-14 border-[0.5px] border-white py-3 text-white placeholder-white text-lg focus:outline-none text-center"
+								className=" bg-[color:#3a3a3a] rounded-lg px-4 md:px-14 border-[0.5px] border-white py-3 text-white placeholder-white text-sm md:text-lg focus:outline-none text-center"
 							/>
 						</div>
 
-						<div className="space-y-1">
+						<div className={`space-y-1 max-h-[40vh] overflow-y-scroll ${scrollBarNoBorder}`}>
 							{/* Header */}
 							<div className="grid grid-cols-3 gap-4 pb-3 text-sm">
 								<div className="text-xl">Participants</div>
@@ -438,16 +628,81 @@ export default function Home() {
 }
 
 
+const PWPopover = ({ children, popoverChildren }: { children: React.ReactNode, popoverChildren: React.ReactNode }) => {
+
+	const path = `M 10,30
+A 30,30 0 0,0 40,15 
+A 30,30 0 0,1 70,0  
+A 30,30 0 0,1 100,30 
+L 0,30 Z`.replaceAll('\n', " ")
+
+	return <Popover.Root>
+		<Popover.Trigger asChild>{children}</Popover.Trigger>
+		<Popover.Portal container={typeof window !== "undefined" && document.getElementById('main-content-element')}>
+			<Popover.Content align="end" className="border-0 outline-0 z-50" sideOffset={5}>
+				<div className="relative justify-self-end z-10" style={{ width: 100, height: 30, transform: 'translateY(-0px) translateX(-2px)' }}>
+					<div
+						className=" scale-x-[1.05] absolute inset-0 top-[0px] bg-[color:#4b4b4b]/25"
+						style={{
+							filter: "drop-shadow(0 0 0 2px #000)",
+							width: 100, height: 100,
+							clipPath: `path("${path}")`
+						}}
+					>
+					</div>
+					<div
+						className="absolute top-[1px] right-[0px] left-[1px] backdrop-blur-lg bg-[#121212]/25"
+						style={{
+							filter: "drop-shadow(0 0 0 2px #000)",
+							width: 100, height: 100,
+							clipPath: `path("${path}")`
+						}}
+					>
+					</div>
+				</div>
+
+				<div className="relative">
+
+					<div className=" backdrop-blur-lg bg-gradient-to-b from-[#272727]/50 to-[#161616]/50 rounded-l-4xl rounded-b-4xl">
+						{popoverChildren}
+					</div>
+
+					<div className="absolute inset-0 rounded-l-4xl rounded-b-4xl border-b border-l border-r border-transparent" style={{
+						background: "linear-gradient(180deg, #3b3b3b, white) border-box",
+						mask: "linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0)",
+						maskComposite: 'exclude',
+					}}>
+
+					</div>
+
+					<div className="absolute top-0 left-0 bottom-0 right-20 rounded-l-4xl rounded-b-4xl border-t border-transparent" style={{
+						background: "linear-gradient(180deg, #3b3b3b, white) border-box",
+						mask: "linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0)",
+						maskComposite: 'exclude',
+					}}>
+
+					</div>
+
+				</div>
+			</Popover.Content>
+		</Popover.Portal>
+	</Popover.Root>
+}
+
+
+
+
+
 function HeroSection() {
 
 	const size = useSize(true)
 
-	const ongoingButton = <div className="flex h-fit items-center bg-gradient-to-b w-fit from-[#1d5a26] to-transparent mx-4 px-4 py-2 rounded-lg">
-		<Image src={'/icons/radar.svg'} alt="" className="mr-2" width={10} height={10} />
+	const ongoingButton = <div className="flex h-fit items-center bg-gradient-to-b w-fit from-[#1d5a26] via-[#28452d] to-transparent mx-4 px-[17px] py-1.5 rounded-lg">
+		<Image src={'/icons/radar.svg'} alt="" className="mr-3" width={10} height={10} />
 		<span className="font-medium">Ongoing</span>
 	</div>
 
-	const chainlinkVrfButton = <button className="bg-gradient-to-b from-[#787878] to[#1c1c1c] px-4 py-2 md:px-3 md:py-1 rounded-lg border-[0.1px] text-sm border-[color:#353535] transition-colors">
+	const chainlinkVrfButton = <button className="bg-gradient-to-b from-[#787878] to[#1c1c1c] px-4 py-2 md:px-[18px] md:py-1.5 rounded-lg border-[1px] text-sm border-[color:#464646] transition-colors">
 		Chainlink VRF
 	</button>
 
@@ -600,9 +855,11 @@ function HeroSection() {
 		<div className="max-w-[93vw] md:w-[50%] flex flex-col md:justify-end">
 			{size.lmd && headerTextSection}
 			<div className="relative w-full md:mt-50 h-[40vw] md:h-[412px]">
-				<Image className="absolute left-0 right-0 bottom-[-5vw] md:bottom-[0vw] lg:bottom-[-4vw] scale-110" src={'/lambo.png'} width={974} height={522} alt=""></Image>
 				<Image className="absolute left-0 right-0 mr-10 bottom-0 md:bottom-[5vw] lg:bottom-[1vw] scale-105" src={'/elipse.svg'} width={844} height={453} alt=""></Image>
-				<div className="absolute bottom-[-5vw] md:bottom-0 lg:bottom-[-5vh] left-[50%] text-3xl md:text-4xl lg:text-6xl rounded-full p-0.5  " style={{ transform: "translateX(-50%)" }}>
+				<Image className="absolute left-0 right-0 bottom-[-5vw] md:bottom-[0vw] opacity-100 lg:bottom-[-4vw] scale-110" src={'/lambo.png'} width={974} height={522} alt=""></Image>
+				<div className="absolute bottom-[-5vw] md:bottom-0 lg:bottom-[-5vh] left-[50%] text-3xl md:text-4xl lg:text-6xl rounded-full p-0.5  " style={{
+					transform: "translateX(-50%)",
+				}}>
 					<div className="bg-opacity-30 backdrop-blur-xs border-b-[0.5px] font-light border-white backdrop-brightness-[1.2] px-10 py-5 rounded-full ">$8.50</div>
 
 				</div>
@@ -616,11 +873,11 @@ function Footer() {
 
 	const size = useSize(true)
 	const cryptoIcons = <div className="flex flex-row items-center space-x-7 md:space-x-3">
-		<Image alt="logo" width={size.lmd ? 30 : 18} height={size.lmd ? 30 : 18} src={'/icons/crypto/bitcoin.svg'} />
-		<Image alt="logo" width={size.lmd ? 30 : 18} height={size.lmd ? 30 : 18} src={'/icons/crypto/eth.svg'} />
-		<Image alt="logo" width={size.lmd ? 30 : 18} height={size.lmd ? 30 : 18} src={'/icons/crypto/x.svg'} />
-		<Image alt="logo" width={size.lmd ? 30 : 18} height={size.lmd ? 30 : 18} src={'/icons/crypto/solana.svg'} />
-		<Image alt="logo" width={size.lmd ? 30 : 18} height={size.lmd ? 30 : 18} src={'/icons/crypto/usdt.svg'} />
+		<Image alt="logo" width={size.lmd ? 30 : 20} height={size.lmd ? 30 : 20} src={'/icons/crypto/bitcoin.svg'} />
+		<Image alt="logo" width={size.lmd ? 30 : 20} height={size.lmd ? 30 : 20} src={'/icons/crypto/eth.svg'} />
+		<Image alt="logo" width={size.lmd ? 30 : 20} height={size.lmd ? 30 : 20} src={'/icons/crypto/x.svg'} />
+		<Image alt="logo" width={size.lmd ? 30 : 20} height={size.lmd ? 30 : 20} src={'/icons/crypto/solana.svg'} />
+		<Image alt="logo" width={size.lmd ? 30 : 20} height={size.lmd ? 30 : 20} src={'/icons/crypto/usdt.svg'} />
 	</div>
 
 	const socialLinks = <div className="flex flex-row items-center space-x-2 justify-end">
@@ -642,7 +899,7 @@ function Footer() {
 
 	</div>
 
-	return <footer className="bg-gradient-to-b md:border-b md:border-r md:border-l px-2 md:px-8 pb-5 md:rounded-b-[3rem] from-[#171717] to-[#1b1b1b]">
+	return <footer className="bg-gradient-to-b md:border-b md:border-r md:border-l px-2 md:px-8 pb-5 md:rounded-b-[3rem] from-[#0b0b0b] to-[#0a0a0a] max-w-[1800px]">
 		<div className="mx-auto px-4 py-8">
 			<div className="grid grid-cols-2 lg:grid-cols-5 gap-1 md:gap-8">
 				{/* Logo and Description */}
@@ -705,6 +962,8 @@ function Footer() {
 			</div>
 		</div>
 
+
+		{/* gradient line */}
 		<div className="w-full bg-gradient-to-l from-transparent via-white to-transparent h-0.5 my-5"></div>
 
 		<div className="grid px-4 grid-cols-2 md:grid-cols-4">
@@ -727,17 +986,15 @@ function Container({ children, className, borderClassName, disablePadding, disab
 	if (disableContainer) return children
 
 	return <div className={`p-[1px] bg-gradient-to-b from-[#fefefe] to-[#535353] rounded-xl ${borderClassName}`}>
-		<div className={`${!disablePadding && "py-10 px-6"} rounded-xl bg-gradient-to-b from-[#202020] w-full h-full to-[#222222] ${className}`}>{children}</div>
+		<div className={`${!disablePadding && "py-4 md:py-10 px-3 md:px-6"} rounded-xl bg-gradient-to-b from-[#202020] w-full h-full to-[#222222] ${className}`}>{children}</div>
 	</div>
 }
 
 
 function DraggableProgressBar({
-	totalTickets = 90000,
-	onValueChange,
+	percentage, setPercentage,
 	className = ""
-}: any) {
-	const [percentage, setPercentage] = useState(75.73);
+}: { className?: string, percentage: number, setPercentage: (n: number) => void, totalTickets: number }) {
 	const [isDragging, setIsDragging] = useState(false);
 	const progressBarRef = useRef<HTMLDivElement>(null);
 
@@ -746,11 +1003,9 @@ function DraggableProgressBar({
 
 		const rect = progressBarRef.current.getBoundingClientRect();
 		const newPercentage = Math.min(100, Math.max(0, ((clientX - rect.left) / rect.width) * 100));
-		const newValue = Math.round((newPercentage / 100) * totalTickets);
 
-		setPercentage(newPercentage);
-		onValueChange?.(newValue, newPercentage);
-	}, [totalTickets, onValueChange]);
+		setPercentage(newPercentage < 5 ? 5 : newPercentage);
+	}, []);
 
 	const handleMouseDown = useCallback((e: React.MouseEvent) => {
 		setIsDragging(true);
@@ -798,8 +1053,6 @@ function DraggableProgressBar({
 		};
 	}, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
-	const currentValue = Math.round((percentage / 100) * totalTickets);
-
 	const size = useSize(true)
 
 	return (
@@ -826,7 +1079,7 @@ function DraggableProgressBar({
 					<div className="relative h-full">
 						{/* Progress Fill */}
 						<div
-							className="bg-gradient-to-r h-6 mt-1 rounded-lg border-[1px] border-[color:#8a8a8a] from-[#464646] to-[#94100f] transition-all duration-1000 ease-out"
+							className="bg-gradient-to-r h-6 mt-1 rounded-lg border-[1px] border-[color:#8a8a8a] from-[#464646] to-[#94100f] transition-all duration-100 ease-out"
 							style={{ width: `${percentage}%` }}
 						>
 						</div>
@@ -837,11 +1090,11 @@ function DraggableProgressBar({
 					</div>
 				</div>
 
-				<div className="absolute bottom-[-30px] flex flex-col items-center transition-all duration-1000 ease-out" style={{ left: `${percentage}%`, transform: "translateX(-50%)" }}>
+				<div className="absolute bottom-[-30px] flex flex-col items-center transition-all duration-100 ease-out" style={{ left: `${percentage}%`, transform: "translateX(-50%)" }}>
 					<div className="relative flex flex-row">
 						{/* <div className=" absolute w-[50%] bg-[color:#323232] left-0 inverted-border-radius-l rounded-tl-lg h3 text-transparent"></div> */}
 						{/* <div className="absolute top-0 right-0 left-0">dljfsjldjlsdfls</div> */}
-						<Tooltip width={150} height={70}> <div className="text-center mt-2">125 Tickets</div></Tooltip>
+						<Tooltip width={150} height={70}> <div className="text-center mt-2">{Math.round(125 / 100 * percentage)} Tickets</div></Tooltip>
 					</div>
 
 					<div className="bg-white h-8 w-5 rounded-full flex flex-row items-center justify-center">
@@ -913,7 +1166,7 @@ export const Tooltip = ({ children, height, width }: { children: React.ReactNode
 
 // SVG for the pointer icon
 const PointerIcon = () => (
-	<svg width="63" className="rotate-45" height="61" viewBox="0 0 63 61" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<svg width="47" className="rotate-[53deg]" height="45" viewBox="0 0 63 61" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<g filter="url(#filter0_d_81_4684)">
 			<path d="M43.407 41.6946C43.6326 41.6125 43.837 41.481 44.0056 41.3094C44.1743 41.1378 44.303 40.9303 44.3826 40.7017C44.4623 40.4731 44.4909 40.229 44.4665 39.9867C44.4422 39.7444 44.3653 39.5098 44.2415 39.2997L31.1657 15.6118C30.4959 14.4766 28.8569 14.5283 28.2865 15.7028L25.2331 21.7296L21.4397 18.8977C19.2581 17.2693 17.0702 17.5921 15.4848 19.7774C13.8993 21.9627 14.2458 24.178 16.4273 25.8065L20.2073 28.6279L15.5121 33.3102C14.5761 34.212 15.0146 35.8151 16.2817 36.1264L42.4674 41.7453C42.7799 41.8217 43.1064 41.8041 43.407 41.6946Z" fill="white" />
 		</g>
@@ -934,15 +1187,12 @@ const PointerIcon = () => (
 );
 
 
-function SpinWidget() {
-	const [angleStart, setAngleStart] = useState(0);
-	const [angleEnd, setAngleEnd] = useState(valueToAngle(50));
-
+function SpinWidget({ angleEnd, angleStart, setAngleEnd, setAngleStart }: { angleStart: number, setAngleStart: (n: number) => void, angleEnd: number, setAngleEnd: (n: number) => void }) {
 
 	const radius = 175
-
 	// Animation duration in seconds
-	const spinDuration = 5;
+	const spinDuration = 7;
+
 
 	// --- State ---
 	const [rotation, setRotation] = useState(0);
@@ -953,8 +1203,9 @@ function SpinWidget() {
 	// Style for the rotating pointer container
 	const pointerContainerStyle = {
 		transform: `rotate(${rotation}deg)`,
-		transition: `transform ${spinDuration}s ease-out`,
-		width: radius * 2 + 40, height: radius * 2 + 40
+		transition: `transform ${spinDuration}s`,
+		transitionTimingFunction: 'cubic-bezier(0.45, 1, 0.46, 0.95)',//(0.35, 0.7, 0.45, 0.8)
+		width: radius * 2 + 45, height: radius * 2 + 45
 	};
 
 	let comparePoints: number[][] = []
@@ -977,7 +1228,7 @@ function SpinWidget() {
 		const randomAngle = Math.random() * 360;
 
 		// Add multiple full rotations for a better spinning effect
-		const fullRotations = Math.floor(Math.random() * 3) + 3; // 4 to 7 full spins
+		const fullRotations = 4; // 4 to 7 full spins
 		const newRotation = rotation + (fullRotations * 360) + randomAngle;
 
 		setRotation(newRotation);
@@ -1000,6 +1251,7 @@ function SpinWidget() {
 			}
 		}, spinDuration * 1000); // Match the CSS transition duration
 	};
+	const currentSize = (angleToValue(angleEnd) < angleToValue(angleStart) ? angleToValue(angleEnd) + 100 : angleToValue(angleEnd)) - angleToValue(angleStart)
 
 	return (
 		<div className="flex flex-col items-center">
@@ -1020,17 +1272,18 @@ function SpinWidget() {
 					<div className="absolute top-0 bottom-0 left-0 right-0 my-auto h-fit text-center select-none">
 
 						{isSpinning && (
-							<span className="text-4xl font-bold text-gray-400 animate-pulse">Spinning...</span>
+							<span className="text-4xl text-gray-400 animate-pulse">Spinning...</span>
 						)}
 						{!isSpinning && result && (
 							<>
-								<span className={`text-6xl font-bold uppercase ${result === 'WIN' ? 'text-green-400' : 'text-red-500'}`}>{result}!</span>
+								<p className="text-4xl  ">{currentSize}.00% </p>
+								{/* <span className={`text-6xl font-bold uppercase ${result === 'WIN' ? 'text-green-400' : 'text-red-500'}`}>{result}!</span> */}
 								<p className="text-gray-500 text-sm mt-1">Click Spin to play again</p>
 							</>
 						)}
 						{!isSpinning && !result && (
 							<>
-								<p className="text-4xl  ">70,00% </p>
+								<p className="text-4xl  ">{currentSize}.00% </p>
 								<span className="text-xl text-[color:#747474]">Winning Chance</span>
 							</>
 						)}
@@ -1068,7 +1321,7 @@ export function DraggableDotOnCircle({ children, radius, angleEnd, angleStart, s
 }) {
 	const circleRef = useRef(null);
 
-	const width = 25
+	const width = 22
 
 	return (
 		<div className="flex flex-col">
@@ -1106,11 +1359,25 @@ export function DraggableDotOnCircle({ children, radius, angleEnd, angleStart, s
 
 					<DotMovable circleRef={circleRef} width={width} radius={radius} angle={angleStart} setAngle={(num) => {
 						console.log("🚀 ~ DraggableDotOnCircle ~ num:", num)
-						setAngleStart(num)
+
+						const size = ((angleToValue(angleEnd) < angleToValue(num) ? angleToValue(angleEnd) + 100 : angleToValue(angleEnd)) - angleToValue(num))
+
+						const max = angleToValue(angleEnd) - 80
+
+						const maxSanitized = valueToAngle(max < 0 ? max + 100 : max)
+
+						setAngleStart(size > 80 ? maxSanitized : num)
 					}} type={{ "t": 'dot', offset: 0.1 }} />
 					<DotMovable circleRef={circleRef} width={width} radius={radius} angle={angleEnd} setAngle={(num) => {
 						console.log("🚀 ~ DraggableDotOnCircle ~ num:", num)
-						setAngleEnd(num)
+
+						const size = ((angleToValue(num) < angleToValue(angleStart) ? angleToValue(num) + 100 : angleToValue(num)) - angleToValue(angleStart))
+
+						const max = angleToValue(angleStart) + 80
+
+						const maxSanitized = valueToAngle(max > 100 ? max - 100 : max)
+
+						setAngleEnd(size > 80 ? maxSanitized : num)
 					}} type={{ t: 'dot', offset: -0.1 }} />
 
 				</div>
@@ -1123,21 +1390,6 @@ export function DraggableDotOnCircle({ children, radius, angleEnd, angleStart, s
 }
 
 
-// Helper to convert a 0-100 value to the internal angle format
-const valueToAngle = (v: number) => {
-	const angleRad = (v / 100) * 2 * Math.PI - Math.PI / 2;
-	// Normalize to the -PI to PI range used by atan2
-	return angleRad <= -Math.PI ? angleRad + 2 * Math.PI : angleRad;
-};
-
-// Helper to convert an internal angle to a 0-100 value
-const angleToValue = (a: number) => {
-	// Shift angle so 0 is at the top, and normalize to [0, 2PI]
-	const normalizedAngle = (a + Math.PI / 2 + 2 * Math.PI) % (2 * Math.PI);
-	// Convert radians to a 0-100 scale and round it
-	const value = Math.round((normalizedAngle / (2 * Math.PI)) * 100);
-	return value === 100 ? 0 : value; // Handle wraparound from 100 back to 0
-};
 
 function DotMovable({ circleRef, radius, angle, setAngle, type, width }: { width: number, radius: number, circleRef: any, angle: number, setAngle: (num: number) => void, type: { t: "dot", offset?: number } | { t: "line", size: number } }) {
 
@@ -1249,7 +1501,6 @@ function DotMovable({ circleRef, radius, angle, setAngle, type, width }: { width
 			}}
 			onMouseDown={handleDragStart}
 			onTouchStart={handleDragStart}
-		><div className="w-2 h-2 bg-white rounded-full m-auto mt-3"></div></div>
+		><div className="w-1.5 h-1.5 bg-white rounded-full m-auto mt-3"></div></div>
 	}
 
-}

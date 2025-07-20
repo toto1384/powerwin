@@ -37,5 +37,5 @@ const gilroy = localFont({
 
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <main className={gilroy.className}><Component {...pageProps} /></main>
+  return <main id="main-content-element" className={gilroy.className}><Component {...pageProps} /></main>
 }
