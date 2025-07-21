@@ -889,7 +889,7 @@ function HeroSection() {
 			<div className="relative w-full md:mt-50 h-[40vw] md:h-[412px]">
 				<Image className="absolute left-0 right-0 mr-10 bottom-0 md:bottom-[5vw] lg:bottom-[1vw] scale-105" src={'/elipse.svg'} width={844} height={453} alt=""></Image>
 				<Image className="absolute left-0 right-0 bottom-[-5vw] md:bottom-[0vw] opacity-100 lg:bottom-[-4vw] scale-110" src={'/lambo.png'} width={974} height={522} alt=""></Image>
-				<div className="absolute bottom-[-5vw] md:bottom-0 lg:bottom-[-3vh] left-[50%] text-[26px] md:text-4xl lg:text-6xl rounded-full p-0.5  " style={{
+				<div className="absolute bottom-[-5vw] md:bottom-0 lg:bottom-[-4vh] left-[50%] text-[26px] md:text-4xl lg:text-6xl rounded-full p-0.5  " style={{
 					transform: "translateX(-50%)",
 				}}>
 					<div className="bg-opacity-30 backdrop-blur-[5px] border-b-[0.3px] font-light border-white backdrop-brightness-[1.3] px-16 py-[24px] rounded-full ">$8.50</div>
