@@ -52,9 +52,10 @@ const angleToValue = (a: number) => {
 	// Shift angle so 0 is at the top, and normalize to [0, 2PI]
 	const normalizedAngle = (a + Math.PI / 2 + 2 * Math.PI) % (2 * Math.PI);
 	// Convert radians to a 0-100 scale and round it
-	const value = Math.round((normalizedAngle / (2 * Math.PI)) * 100);
+	const value = Math.round((normalizedAngle / (2 * Math.PI)) * 10000) / 100;
 	return value === 100 ? 0 : value; // Handle wraparound from 100 back to 0
 };
+
 
 
 
@@ -150,11 +151,19 @@ export default function Home() {
 			return { start: valueToAngle(angleToValue(prev.start) - difference), end: valueToAngle(angleToValue(prev.end) + difference) }
 		})
 	}
+	const cars = [
+		{ name: 'Porche' },
+		{ name: 'Audi' },
+		{ name: 'BMW' }
+	] as const
+
+	const [selectedCar, setSelectedCar] = useState<typeof cars[number]['name']>('Porche')
+
 
 	return <div className="flex flex-col items-center">
 		{/* NAVBAR */}
-		<div className="hidden md:flex flex-row relative max-w-[1800px] w-full">
-			<div className="border-t border-l border-r border-white w-[25%] h-14 px-10 py-6 rounded-t-[3rem] bg-[color:#303030]">
+		<div className="hidden md:flex flex-row relative max-w-[1800px] w-full mt-2">
+			<div className="border-t border-l border-r border-white w-[25%] h-14 px-10 py-6 rounded-t-[3rem] bg-gradient-to-r from-[#303030] to-[#2c2c2c]">
 				<Image alt="logo" width={400} height={200} src={'/logo.png'} />
 
 			</div>
@@ -169,7 +178,9 @@ export default function Home() {
 				<div
 					onClick={() => setActiveTab('Competitions')}
 					className={tabBarClassName('Competitions')}
-				>Competitions <Image src={'/icons/carretDown.svg'} alt="" className={"ml-2 " + (activeTab == 'Competitions' ? '' : 'dark:invert')} width={8} height={8} /></div>
+				>Competitions
+					{/* <Image src={'/icons/carretDown.svg'} alt="" className={"ml-2 " + (activeTab == 'Competitions' ? '' : 'dark:invert')} width={8} height={8} /> */}
+				</div>
 				<div
 					onClick={() => setActiveTab('Winners')}
 					className={tabBarClassName('Winners')}
@@ -186,7 +197,7 @@ export default function Home() {
 
 			<div className="w-[50.12%] absolute m-auto left-0 right-0 border-b border-white border-l border-r z-10 h-10 mt-[52px] px-10 py-2 rounded-b-[3rem] bg-[color:#303030]"></div>
 
-			<div className="border-t border-l border-r border-white w-[25%] h-14 px-6 py-4 rounded-t-[3rem] bg-[color:#303030] flex">
+			<div className="border-t border-l border-r border-white w-[25%] h-14 px-6 py-4 rounded-t-[3rem] bg-gradient-to-r to-[#202020] from-[#242424] flex">
 
 				<div className="overflow-visible w-full flex flex-row justify-between h-fit">
 
@@ -316,7 +327,7 @@ export default function Home() {
 						</div>
 					}>
 						<div className="bg-gradient-to-b from-white to-[color:#414141] w-[39%] p-[0.8px] rounded-3xl">
-							<div className="bg-[color:#414141] h-full px-5 py-1 rounded-3xl flex flex-col items-center text-center">
+							<div className="bg-gradient-to-b from-[#3b3b3b] to-[#323232] h-full px-5 py-1 rounded-3xl flex flex-col items-center text-center">
 
 								<div className="flex mb-1 items-center justify-self-center">
 									<Image alt="" width={40} height={40} src={'/icons/wallet.svg'} className={`${navBarIconSize} mr-2 text-white`} />
@@ -339,7 +350,7 @@ export default function Home() {
 
 					{/* User Info Section */}
 					<div className="bg-gradient-to-b from-white to-[color:#414141] w-[39%] p-[0.8px] rounded-3xl">
-						<div className="bg-[color:#414141] px-5 h-full py-2 rounded-3xl flex flex-col items-center text-center">
+						<div className="bg-gradient-to-b from-[#3b3b3b] to-[#323232] px-5 h-full py-2 rounded-3xl flex flex-col items-center text-center">
 							<div className="flex flex-col items-center gap-2">
 								<Image alt="" width={40} height={40} src={'/icons/person.svg'} className={`${navBarIconSize} text-white`} />
 								<div>
@@ -353,16 +364,16 @@ export default function Home() {
 					<div className="w-[17%]">
 						<div className=" h-full flex flex-col justify-between">
 							{/* Language Button */}
-							<div className="bg-gradient-to-b from-white to-[color:#252525] h-[46%] p-[0.8px] rounded-xl">
-								<div className="bg-[color:#252525]  rounded-xl h-full flex items-center justify-center">
+							<div className="bg-gradient-to-b from-white to-[color:#3e3e3e] h-[46%] p-[0.8px] rounded-xl">
+								<div className="bg-gradient-to-b from-[#3b3b3b] to-[#323232]  rounded-xl h-full flex items-center justify-center">
 									<span className="text-white font-medium ">{data.language}</span>
 								</div>
 
 							</div>
 
 							{/* Control Button */}
-							<div className="bg-gradient-to-b from-white to-[color:#252525] h-[46%] p-[0.8px] rounded-xl">
-								<div className="bg-[color:#252525] rounded-xl h-full flex items-center justify-center">
+							<div className="bg-gradient-to-b from-white to-[color:#3e3e3e] h-[46%] p-[0.8px] rounded-xl">
+								<div className="bg-gradient-to-b from-[#3b3b3b] to-[#323232] rounded-xl h-full flex items-center justify-center">
 									<Image alt="" width={40} height={40} src={'/icons/coin.svg'} className={`${navBarIconSize} text-white`} />
 								</div>
 
@@ -378,7 +389,7 @@ export default function Home() {
 		</div>
 
 		{/* MAIN CONTENT */}
-		<div className="border-l border-r border-white w-full p-2 md:p-9 md:pt-24 bg-gradient-to-b from-[color:#303030] to-[color:#111111] max-w-[1800px]">
+		<div className="border-l border-r border-white w-full p-2 md:p-9 md:pt-24 bg-gradient-to-br from-[color:#303030] to-[color:#111111] max-w-[1800px]">
 
 
 			{/* NAVBAR MOBILE */}
@@ -405,11 +416,16 @@ export default function Home() {
 			<HeroSection />
 
 
-			<div className="flex flex-row mt-32 justify-between">
+			<div className=" mt-32 grid grid-cols-7 gap-4" style={{}}>
 
-				<Container borderClassName="w-full md:w-[49%]">
-					<h3 className="text-3xl mb-8">Buy Tickets</h3>
-					<div className="flex flex-row justify-around w-full space-x-2">
+				<Container borderClassName="col-span-3">
+					<div className="flex flex-row items-center justify-between">
+						<h3 className="text-3xl mb-8">Ce Brand Este Aceasta Masina?</h3>
+						<p className="mb-8 aspect-square text-2xl font-light px-4 pt-2 bg-white/20 border-white border-[1px] rounded">?</p>
+					</div>
+
+
+					{/* <div className="flex flex-row justify-around w-full space-x-2">
 
 						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center cursor-pointer" onClick={() => setPercentage(5 / 0.8)}>
 							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">Min</div>
@@ -430,9 +446,25 @@ export default function Home() {
 						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center cursor-pointer" onClick={() => setPercentage(100)}>
 							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">Max</div>
 						</div>
+					</div> */}
+					<div className="grid grid-cols-3 gap-2">
+						{cars.map(i => <div className="bg-gradient-to-b text-[22px] cursor-pointer from-white rounded-lg to-white/20 p-[0.5px]" onClick={() => setSelectedCar(i.name)} style={{
+
+						}}>
+							<div className={`px-6 py-5 rounded-lg text-center ${i.name === selectedCar ? 'bg-gradient-to-b from-[#0f0f0f] to-[#1d1d1d]' : 'bg-gradient-to-b from-[#2d2d2d] to-[#2f2f2f]'}`}>{i.name}</div>
+						</div>
+						)}
+
 					</div>
 
-					<div className="py-20 flex flex-row items-end w-full">
+					{/* <div className="grid grid-cols-3 gap-2">
+						<p>-</p>
+
+						<p>+</p>
+					</div> */}
+
+
+					<div className="pt-20 mb-5 flex flex-row items-end w-full">
 
 						<div className="aspect-square p-4 text-3xl">-</div>
 						<DraggableProgressBar
@@ -448,7 +480,7 @@ export default function Home() {
 				</Container>
 
 
-				<Container borderClassName={'w-[49%] max-h-[55vh] hidden md:block'} className={`overflow-y-scroll ${scrollBar}`} >
+				<Container borderClassName={'col-span-4 hidden md:block contain-size'} className={`overflow-y-scroll ${scrollBar}`} >
 					<h3 className="text-4xl">Description</h3>
 
 					<p className="py-6 text-xl">Model: Lamborghini Aventador LP 770-4 SVJ Cabrio</p>
@@ -786,19 +818,19 @@ function HeroSection() {
 				{/* Information Cards */}
 				<div className="space-y-4 mb-6">
 					<div className="flex items-start gap-4">
-						<Image src={'/icons/video.svg'} alt="" width={20} height={20} />
+						<Image src={'/icons/video.svg'} className="mt-2" alt="" width={20} height={20} />
 						<p className="text-lg">
 							The winner will be selected using Chainlink VRF (Verifiable Random Function),
 							ensuring a provably fair and tamper-proof draw.
 						</p>
 					</div>
 
-					<div className="flex items-start gap-4">
+					<div className="flex items-center gap-4">
 						<Image src={'/icons/trophy.svg'} alt="" width={20} height={20} />
 						<p className="text-lg">This competition has only 1 winner</p>
 					</div>
 
-					<div className="flex items-start gap-4">
+					<div className="flex items-center gap-4">
 						<Image src={'/icons/ticket.svg'} alt="" width={20} height={20} />
 						<p className="text-lg">{totalTickets.toLocaleString()} Tickets</p>
 					</div>
@@ -806,7 +838,7 @@ function HeroSection() {
 
 				{/* Raffle Rules Button */}
 				<div className="">
-					<button className="bg-gradient-to-b border-[0.8px] border-[color:#6e6e6e] from-[#787878] to[#1c1c1c] px-8 py-2 rounded-lg text-sm transition-colors flex flex-row">
+					<button className="bg-gradient-to-b border-[0.3px] border-[color:#a6a6a6] from-[#787878] to[#1c1c1c] px-8 py-2 rounded-lg text-sm transition-colors flex flex-row">
 						Raffle Rules
 						<Image src={'/icons/arrowLink.svg'} className="ml-2" alt="" width={12} height={12} />
 					</button>
@@ -823,7 +855,7 @@ function HeroSection() {
 					<div className="relative top-16 mb-4 md:mr-10">
 						<div className="relative mb-4">
 							{/* Tick marks */}
-							<div className="absolute top-0 left-5 right-0 h-6 w-[95%] flex">
+							<div className="absolute top-0 left-2 right-0 h-6 w-[95%] flex">
 								{Array.from({ length: size.lmd ? 80 : 170 }, (_, i) => (
 									<div
 										key={i}
@@ -832,9 +864,9 @@ function HeroSection() {
 									></div>
 								))}
 							</div>
-							<div className="absolute inset-0 w-full rounded-full h-6 overflow-hidden z-10">
+							<div className="absolute inset-0 w-full rounded-full h-[26px] overflow-hidden z-10">
 								<div
-									className="h-full bg-gradient-to-r rounded-full border-[1px] border-[color:#8a8a8a] from-[#464646] to-[#94100f] transition-all duration-500 ease-out"
+									className="h-full bg-gradient-to-r rounded-full border-[0.7px] backdrop-blur-[2.5px] border-white from-white/10 to-[#94100f] transition-all duration-500 ease-out"
 									style={{ width: `${progressPercentage}%` }}
 								></div>
 							</div>
@@ -857,10 +889,10 @@ function HeroSection() {
 			<div className="relative w-full md:mt-50 h-[40vw] md:h-[412px]">
 				<Image className="absolute left-0 right-0 mr-10 bottom-0 md:bottom-[5vw] lg:bottom-[1vw] scale-105" src={'/elipse.svg'} width={844} height={453} alt=""></Image>
 				<Image className="absolute left-0 right-0 bottom-[-5vw] md:bottom-[0vw] opacity-100 lg:bottom-[-4vw] scale-110" src={'/lambo.png'} width={974} height={522} alt=""></Image>
-				<div className="absolute bottom-[-5vw] md:bottom-0 lg:bottom-[-5vh] left-[50%] text-3xl md:text-4xl lg:text-6xl rounded-full p-0.5  " style={{
+				<div className="absolute bottom-[-5vw] md:bottom-0 lg:bottom-[-3vh] left-[50%] text-[26px] md:text-4xl lg:text-6xl rounded-full p-0.5  " style={{
 					transform: "translateX(-50%)",
 				}}>
-					<div className="bg-opacity-30 backdrop-blur-xs border-b-[0.5px] font-light border-white backdrop-brightness-[1.2] px-10 py-5 rounded-full ">$8.50</div>
+					<div className="bg-opacity-30 backdrop-blur-[5px] border-b-[0.3px] font-light border-white backdrop-brightness-[1.3] px-16 py-[24px] rounded-full ">$8.50</div>
 
 				</div>
 			</div>
@@ -1204,7 +1236,7 @@ function SpinWidget({ angleEnd, angleStart, setAngleEnd, setAngleStart }: { angl
 	const pointerContainerStyle = {
 		transform: `rotate(${rotation}deg)`,
 		transition: `transform ${spinDuration}s`,
-		transitionTimingFunction: 'cubic-bezier(0.45, 1, 0.46, 0.95)',//(0.35, 0.7, 0.45, 0.8)
+		transitionTimingFunction: 'cubic-bezier(0.32, 1, 0.58, 0.99)',//(0.35, 0.7, 0.45, 0.8)
 		width: radius * 2 + 45, height: radius * 2 + 45
 	};
 
@@ -1276,14 +1308,14 @@ function SpinWidget({ angleEnd, angleStart, setAngleEnd, setAngleStart }: { angl
 						)}
 						{!isSpinning && result && (
 							<>
-								<p className="text-4xl  ">{currentSize}.00% </p>
+								<p className="text-4xl  ">{Math.round(currentSize * 100) / 100}% </p>
 								{/* <span className={`text-6xl font-bold uppercase ${result === 'WIN' ? 'text-green-400' : 'text-red-500'}`}>{result}!</span> */}
 								<p className="text-gray-500 text-sm mt-1">Click Spin to play again</p>
 							</>
 						)}
 						{!isSpinning && !result && (
 							<>
-								<p className="text-4xl  ">{currentSize}.00% </p>
+								<p className="text-4xl  ">{Math.round(currentSize * 100) / 100}% </p>
 								<span className="text-xl text-[color:#747474]">Winning Chance</span>
 							</>
 						)}
@@ -1296,7 +1328,7 @@ function SpinWidget({ angleEnd, angleStart, setAngleEnd, setAngleStart }: { angl
 			</div>
 
 			{/* --- Spin Button --- */}
-			<div className="p-[0.8px] w-fit bg-gradient-to-b from-white to-[#3d3d3d] rounded-xl">
+			<div className="p-[0.5px] w-fit bg-gradient-to-b from-white to-[#3d3d3d] rounded-xl">
 				<button
 					onClick={handleSpin}
 					disabled={isSpinning}
@@ -1304,7 +1336,7 @@ function SpinWidget({ angleEnd, angleStart, setAngleEnd, setAngleStart }: { angl
 				>
 					<Image src={'/icons/spin.svg'} className="mx-7" alt="" width={20} height={20} />
 					<span>{isSpinning ? '...' : 'Demo Spin'}</span>
-					<div className="bg-gradient-to-r from-[#353535] to-[#232323] h-full rounded-xl w-fit ml-5 pt-4 pb-4 px-6 border-l-[0.1px] border-b-[0.1px] border-white">1</div>
+					<div className="bg-gradient-to-r aspect-square from-[#353535] to-[#232323] h-full rounded-xl w-fit ml-5 pt-2 pb-2 px-[18px] border-l-[0.1px] border-b-[0.1px] border-white">1</div>
 				</button>
 
 			</div>
