@@ -16,28 +16,26 @@ interface TimeLeft {
 	seconds: number;
 }
 
-
-const scrollBar = `[&::-webkit-scrollbar]:w-6
-					
-					[&::-webkit-scrollbar-track]:border-r-[12px] [&::-webkit-scrollbar-thumb]:border-r-[12px]
-					[&::-webkit-scrollbar-track]:border-l-[8px] [&::-webkit-scrollbar-thumb]:border-l-[8px]
-					[&::-webkit-scrollbar-track]:border-t-[12px] [&::-webkit-scrollbar-track]:border-b-[12px]
-					[&::-webkit-scrollbar-thumb]:border-[#202020] [&::-webkit-scrollbar-track]:border-[#202020]
-
-					
-					[&::-webkit-scrollbar-track]:rounded-full  [&::-webkit-scrollbar-thumb]:rounded-full
-
-					[&::-webkit-scrollbar-track]:bg-[color:#2a2a2a] [&::-webkit-scrollbar-thumb]:bg-gradient-to-b
-					[&::-webkit-scrollbar-thumb]:from-transparent [&::-webkit-scrollbar-thumb]:via-[#838383] [&::-webkit-scrollbar-thumb]:to-transparent`
-
 const scrollBarNoBorder = ` 
-					[&::-webkit-scrollbar]:w-1
+					[&::-webkit-scrollbar]:w-3.5
+
+					[&::-webkit-scrollbar-track]:m-3
+
+					[&::-webkit-scrollbar-track]:p-2
+					[&::-webkit-scrollbar-track]:bg-clip-padding
+					[&::-webkit-scrollbar-track]:border-5
+					[&::-webkit-scrollbar-track]:border-transparent
+
+					[&::-webkit-scrollbar-thumb]:p-2
+					[&::-webkit-scrollbar-thumb]:bg-clip-padding
+					[&::-webkit-scrollbar-thumb]:border-5
+					[&::-webkit-scrollbar-thumb]:border-transparent
 					
 					
 					[&::-webkit-scrollbar-track]:rounded-full  [&::-webkit-scrollbar-thumb]:rounded-full
 
 					[&::-webkit-scrollbar-track]:bg-[color:#2a2a2a] [&::-webkit-scrollbar-thumb]:bg-gradient-to-b
-					[&::-webkit-scrollbar-thumb]:from-transparent [&::-webkit-scrollbar-thumb]:via-[#838383] [&::-webkit-scrollbar-thumb]:to-transparent`
+					[&::-webkit-scrollbar-thumb]:from-transparent [&::-webkit-scrollbar-thumb]:via-[#A4A4A4] [&::-webkit-scrollbar-thumb]:to-transparent`
 
 
 // Helper to convert a 0-100 value to the internal angle format
@@ -101,44 +99,6 @@ export default function Home() {
 
 	const tabBarClassName = (tab: typeof activeTab) => `rounded-full cursor-pointer text-lg flex items-center font-light justify-center border h-full border-white w-[23%] text-center ${activeTab == tab ? 'bg-[color:#787878] text-black' : 'bg-[color:#353535] text-white'}`
 
-	const size = useSize(true)
-
-	const [selectedPrize, setSelectedPrize] = useState(0)
-	const prizes = [
-		{ img: '/prize1.png', name: 'Cartier Love Bracelet', className: 'rotate-90 lg:scale-125' },
-		{ img: '/prize2.png', name: 'Hermes Birkin', className: '' },
-		{ img: '/prize3.png', name: 'iPhone 16 Pro Max', className: 'scale-150' },
-		{ img: '/prize4.png', name: 'Bag', className: '' },
-	]
-
-
-	const prizesGrid = <div className="grid grid-cols-2 md:grid-cols-1 gap-2 justify-stretch">
-		{prizes.map((i, index) => <div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b  from-white to-[#2b2b2b]" onClick={() => setSelectedPrize(index)}>
-			<div className={`bg-gradient-to-b rounded-xl h-full px-3 ${selectedPrize == index ? 'from-[#070707] to-[#0a0a0a]' : 'from-[#161616] to-[#141414]'}`}>
-				<Image
-					onClick={() => setSelectedPrize(index)}
-					src={i.img}
-					className={`aspect-square h-full object-contain ${i.className}`} alt="" width={150} height={150}
-				/>
-			</div>
-		</div>)}
-
-	</div>
-
-
-	const selectedPrizeComponent = <div className="rounded-xl h-full p-[0.6px] bg-gradient-to-b from-white to-[#2b2b2b] min-w-[35%] mb-5 ml-5">
-		<div className="bg-gradient-to-b from-[#101010] to-[#1f1f1f] rounded-xl h-full flex flex-col">
-			<h3 className="text-lg text-center pt-10">{prizes[selectedPrize].name}</h3>
-			<p className="text-xs text-center ">Cash alternative: $5000</p>
-			<Image
-				src={prizes[selectedPrize].img}
-				className={`aspect-square object-contain mt-[10%] md:mt-[25%] ${prizes[selectedPrize].className} `} alt="" width={300} height={150}
-			/>
-		</div>
-	</div>
-
-	// const [angleStart, setAngleStart] = useState(0);
-	// const [angleEnd, setAngleEnd] = useState(valueToAngle(50));
 
 	const [angle, setAngle] = useState<{ start: number, end: number }>({ start: 0, end: valueToAngle(50) })
 
@@ -152,8 +112,8 @@ export default function Home() {
 		})
 	}
 	const cars = [
-		{ name: 'Porche' },
 		{ name: 'Audi' },
+		{ name: 'Porche' },
 		{ name: 'BMW' }
 	] as const
 
@@ -163,7 +123,7 @@ export default function Home() {
 	return <div className="flex flex-col items-center">
 		{/* NAVBAR */}
 		<div className="hidden md:flex flex-row relative max-w-[1800px] w-full mt-2">
-			<div className="border-t border-l border-r border-white w-[25%] h-14 px-10 py-6 rounded-t-[3rem] bg-gradient-to-r from-[#303030] to-[#2c2c2c]">
+			<div className="border-t border-l border-r border-white w-[25%] h-14 px-10 py-6 rounded-t-[3rem] bg-gradient-to-r from-[#323232] to-[#303030]">
 				<Image alt="logo" width={400} height={200} src={'/logo.png'} />
 
 			</div>
@@ -197,7 +157,7 @@ export default function Home() {
 
 			<div className="w-[50.12%] absolute m-auto left-0 right-0 border-b border-white border-l border-r z-10 h-10 mt-[52px] px-10 py-2 rounded-b-[3rem] bg-[color:#303030]"></div>
 
-			<div className="border-t border-l border-r border-white w-[25%] h-14 px-6 py-4 rounded-t-[3rem] bg-gradient-to-r to-[#202020] from-[#242424] flex">
+			<div className="border-t border-l border-r border-white w-[25%] h-14 px-6 py-4 rounded-t-[3rem] bg-gradient-to-r to-[#2a2a2a] from-[#2c2c2c] flex">
 
 				<div className="overflow-visible w-full flex flex-row justify-between h-fit">
 
@@ -326,7 +286,7 @@ export default function Home() {
 							</div>
 						</div>
 					}>
-						<div className="bg-gradient-to-b from-white to-[color:#414141] w-[39%] p-[0.8px] rounded-3xl">
+						<div className="bg-gradient-to-b cursor-pointer from-white to-[color:#414141] w-[39%] p-[0.8px] rounded-3xl">
 							<div className="bg-gradient-to-b from-[#3b3b3b] to-[#323232] h-full px-5 py-1 rounded-3xl flex flex-col items-center text-center">
 
 								<div className="flex mb-1 items-center justify-self-center">
@@ -349,7 +309,7 @@ export default function Home() {
 					</PWPopover>
 
 					{/* User Info Section */}
-					<div className="bg-gradient-to-b from-white to-[color:#414141] w-[39%] p-[0.8px] rounded-3xl">
+					<div className="bg-gradient-to-b from-white cursor-pointer to-[color:#414141] w-[39%] p-[0.8px] rounded-3xl">
 						<div className="bg-gradient-to-b from-[#3b3b3b] to-[#323232] px-5 h-full py-2 rounded-3xl flex flex-col items-center text-center">
 							<div className="flex flex-col items-center gap-2">
 								<Image alt="" width={40} height={40} src={'/icons/person.svg'} className={`${navBarIconSize} text-white`} />
@@ -389,7 +349,10 @@ export default function Home() {
 		</div>
 
 		{/* MAIN CONTENT */}
-		<div className="border-l border-r border-white w-full p-2 md:p-9 md:pt-24 bg-gradient-to-br from-[color:#303030] to-[color:#111111] max-w-[1800px]">
+		<div className="border-l border-r border-white w-full p-2 md:p-9 md:pt-24 max-w-[1800px]" style={{
+			background: "linear-gradient(162.58deg, #323232 0%, #000000 100%)"
+
+		}}>
 
 
 			{/* NAVBAR MOBILE */}
@@ -416,9 +379,9 @@ export default function Home() {
 			<HeroSection />
 
 
-			<div className=" mt-32 grid grid-cols-7 gap-4" style={{}}>
+			<div className=" mt-32 grid grid-cols-7 gap-8 h-fit" style={{}}>
 
-				<Container borderClassName="col-span-3">
+				<Container borderClassName="col-span-7 md:col-span-3">
 					<div className="flex flex-row items-center justify-between">
 						<h3 className="text-3xl mb-8">Ce Brand Este Aceasta Masina?</h3>
 						<p className="mb-8 aspect-square text-2xl font-light px-4 pt-2 bg-white/20 border-white border-[1px] rounded">?</p>
@@ -457,11 +420,14 @@ export default function Home() {
 
 					</div>
 
-					{/* <div className="grid grid-cols-3 gap-2">
-						<p>-</p>
+					<div className="grid grid-cols-3 gap-2 mt-7">
 
-						<p>+</p>
-					</div> */}
+						<p className="justify-self-end aspect-square px-4 pt-2 rounded-xl select-none cursor-pointer pb-1.5 text-4xl font-extralight bg-[color:#0f0f0f]">-</p>
+						<Container disablePadding disableBgBr rounded="rounded-xl" className="  bg-[color:#3a3a3a] rounded-xl">
+							<input type="text" className=" text-center w-full text-sm h-full focus:outline-none" placeholder="Introdu numarul de bilete" />
+						</Container>
+						<p className="justify-self-start aspect-square pl-[18px] pr-3 pt-2.5 rounded-xl select-none cursor-pointer pb-1 text-4xl font-extralight bg-[color:#0f0f0f]">+</p>
+					</div>
 
 
 					<div className="pt-20 mb-5 flex flex-row items-end w-full">
@@ -480,65 +446,23 @@ export default function Home() {
 				</Container>
 
 
-				<Container borderClassName={'col-span-4 hidden md:block contain-size'} className={`overflow-y-scroll ${scrollBar}`} >
-					<h3 className="text-4xl">Description</h3>
+				<Container borderClassName={'col-span-4 hidden md:block contain-size'} disablePadding className={`py-3 pl-7 pr-5`} >
+					<div className={`overflow-y-scroll max-h-full ${scrollBarNoBorder} `}>
+						<h3 className="text-4xl mt-7">Description</h3>
 
-					<p className="py-6 text-xl">Model: Lamborghini Aventador LP 770-4 SVJ Cabrio</p>
+						<p className="py-6 text-xl">Model: Lamborghini Aventador LP 770-4 SVJ Cabrio</p>
 
-					<p className="text-xl">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
+						<p className="text-xl">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
 
-					<p className="text-xl pt-5">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
+						<p className="text-xl pt-5">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
+
+					</div>
 
 				</Container>
 
 			</div>
 
-			<Container disablePadding borderClassName="mt-10" className="w-full flex flex-col md:flex-row" disableContainer={size.lmd}>
-				<div className="w-full md:w-[49%] flex flex-row overflow-x-clip">
-					<div className="w-full py-7">
-
-						<h4 className="text-2xl text-center md:text-start mb-20 md:mb-0 md:ml-7">Spin to Win</h4>
-						<SpinWidget
-							angleEnd={angle.end} angleStart={angle.start}
-							setAngleEnd={(e) => setAngle((prev) => ({ start: prev.start, end: e }))}
-							setAngleStart={(s) => setAngle((prev) => ({ end: prev.end, start: s }))} />
-					</div>
-					{size.gsm && prizesGrid}
-				</div>
-
-				<div className="w-full md:w-[49%] md:flex flex-row hidden">
-					{size.gmd && selectedPrizeComponent}
-
-					<div className={`whitespace-pre-wrap ${scrollBar} pl-8 py-8 max-h-[600px] overflow-y-scroll`}>
-						<h4 className="text-2xl">Instant Win</h4>
-						<p>At PowerWin, you don't have to wait for the final draw to win! With our Instant</p>
-						<p>Win system, you have the chance to walk away RIGHT NOW with a top-tier prize.</p>
-						<p>How does it work?</p>
-						<p>1. Choose one of the 4 available prizes:</p>
-						<p>- Cartier Love Bracelet</p>
-						<p>- Hublot Classic Fusion Titanium 38mm</p>
-						<p>- iPhone 16 Pro Max 256GB</p>
-						<p>- Hermes Birkin Bag</p>
-						<p>2. Select the number of tickets (maximum 500) - the more you buy, the higher</p>
-						<p>your win chance (up to 80%).</p>
-						<p>3. Pay for your tickets and return to this page.</p>
-						<p>4. You'll get one single Spin for the selected prize. If luck is on your side, you win it</p>
-						<p>instantly!</p>
-						<p>Important Rules:</p>
-						<p>• You only get one Spin per purchase.</p>
-						<p>• You can select only one prize from the 4 for each attempt.</p>
-						<p>• Your win chance is clearly displayed before payment.</p>
-						<p>Total prizes available in this round: $10,000</p>
-						<p>(4x iPhone 16 Pro Max, 1x Cartier Love Bracelet, 1x Hublot Classic Fusion Titanium</p>
-						<p>38mm, 1x Hermes Birkin Bag)</p>
-					</div>
-				</div>
-
-				<div className="grid grid-cols-2 md:hidden">
-					{prizesGrid}
-					{selectedPrizeComponent}
-				</div>
-			</Container>
+			<PrizesComponent angle={angle} setAngle={setAngle} />
 
 
 
@@ -657,6 +581,102 @@ export default function Home() {
 	</div >
 
 
+}
+
+
+function PrizesComponent({ angle, setAngle }: { angle: { start: number, end: number }, setAngle: React.Dispatch<React.SetStateAction<{ start: number, end: number }>> }) {
+
+	const [currentIndex, setCurrentIndex] = useState(0);
+	const size = useSize(true)
+
+	const prizes = [
+		{ img: '/prize1.png', name: 'Cartier Love Bracelet', className: 'scale-125 rotate-90', selectedClassName: 'rotate-90 md:scale-150 scale-75 md:pl-10' },
+		{ img: '/prize2.png', name: 'Hermes Birkin', className: 'scale-175 md:scale-150', selectedClassName: 'scale-[1.4] md:scale-150' },
+		{ img: '/prize3.png', name: 'iPhone 16 Pro Max', className: 'scale-[2.5] md:scale-175', selectedClassName: 'scale-125 md:scale-200' },
+		{ img: '/prize4.png', name: 'Bag', className: 'scale-[1.5] md:scale-125', selectedClassName: 'scale-125' },
+	]
+
+
+	const prizesGrid = <div className="grid grid-cols-2 md:grid-cols-1 gap-2 justify-stretch">
+		{prizes.map((i, index) => <Container disablePadding disableBgBr rounded="rounded-xl" className={`rounded-xl py-6 px-6 md:px-8 h-full ${currentIndex == index ? 'bg-gradient-to-b from-[#070707] to-[#0a0a0a]' : 'bg-[color:#595959]/15'}`} onClick={() => setCurrentIndex(index)}>
+
+			<Image
+				onClick={() => setCurrentIndex(index)}
+				src={i.img}
+				className={`aspect-square pointer-events-none h-full object-contain ${i.className}`} alt="" width={size.gmd ? 150 : 250} height={size.gmd ? 150 : 250}
+			/>
+
+		</Container>)}
+
+	</div>
+
+
+
+
+	const selectedPrizeComponent = <Container disableBgBr disablePadding rounded="rounded-xl" className="rounded-xl bg-gradient-to-b relative from-black to-black/0" borderClassName="mb-5 ml-5 min-w-[35%]">
+
+		<h3 className="text-lg text-center pt-2 md:pt-10">{prizes[currentIndex].name}</h3>
+		<p className="text-xs text-center ">Cash alternative: $5000</p>
+		{/* Current image */}
+
+		{prizes.map((i, ind) => <img
+			src={i.img}
+			className={`aspect-square pointer-events-none absolute object-contain bottom-[5%] w-[270px] h-[130px] md:w-fit md:h-fit md:bottom-[25%] center object-center transition-opacity duration-200  ${ind == currentIndex ? "opacity-100" : "opacity-0"} ${i.selectedClassName} `}
+			alt=""
+		// width={300} height={150}
+		/>)}
+
+
+	</Container>
+
+
+
+	return <Container disablePadding borderClassName="mt-10" className="w-full overflow-x-clip flex flex-col md:flex-row md:justify-center" disableContainer={size.lmd}>
+		<div className="w-full md:w-[49%] flex flex-row overflow-x-clip">
+			<div className="w-full py-7">
+
+				<h4 className="text-2xl text-center md:text-start mb-20 md:mb-0 md:ml-7">Spin to Win</h4>
+				<SpinWidget
+					angleEnd={angle.end} angleStart={angle.start}
+					setAngleEnd={(e) => setAngle((prev) => ({ start: prev.start, end: e }))}
+					setAngleStart={(s) => setAngle((prev) => ({ end: prev.end, start: s }))} />
+			</div>
+			{size.gsm && prizesGrid}
+		</div>
+
+		<div className="w-full md:w-[49%] md:flex flex-row hidden">
+			{size.gmd && selectedPrizeComponent}
+
+			<div className={`whitespace-pre-wrap ${scrollBarNoBorder} pl-8 py-8 max-h-[600px] overflow-y-scroll`}>
+				<h4 className="text-2xl">Instant Win</h4>
+				<p>At PowerWin, you don't have to wait for the final draw to win! With our Instant</p>
+				<p>Win system, you have the chance to walk away RIGHT NOW with a top-tier prize.</p>
+				<p>How does it work?</p>
+				<p>1. Choose one of the 4 available prizes:</p>
+				<p>- Cartier Love Bracelet</p>
+				<p>- Hublot Classic Fusion Titanium 38mm</p>
+				<p>- iPhone 16 Pro Max 256GB</p>
+				<p>- Hermes Birkin Bag</p>
+				<p>2. Select the number of tickets (maximum 500) - the more you buy, the higher</p>
+				<p>your win chance (up to 80%).</p>
+				<p>3. Pay for your tickets and return to this page.</p>
+				<p>4. You'll get one single Spin for the selected prize. If luck is on your side, you win it</p>
+				<p>instantly!</p>
+				<p>Important Rules:</p>
+				<p>• You only get one Spin per purchase.</p>
+				<p>• You can select only one prize from the 4 for each attempt.</p>
+				<p>• Your win chance is clearly displayed before payment.</p>
+				<p>Total prizes available in this round: $10,000</p>
+				<p>(4x iPhone 16 Pro Max, 1x Cartier Love Bracelet, 1x Hublot Classic Fusion Titanium</p>
+				<p>38mm, 1x Hermes Birkin Bag)</p>
+			</div>
+		</div>
+
+		<div className="grid grid-cols-2 md:hidden overflow-x-clip">
+			{prizesGrid}
+			{selectedPrizeComponent}
+		</div>
+	</Container>
 }
 
 
@@ -838,7 +858,7 @@ function HeroSection() {
 
 				{/* Raffle Rules Button */}
 				<div className="">
-					<button className="bg-gradient-to-b border-[0.3px] border-[color:#a6a6a6] from-[#787878] to[#1c1c1c] px-8 py-2 rounded-lg text-sm transition-colors flex flex-row">
+					<button className="bg-gradient-to-b border-[0.3px] border-[color:#a6a6a6] from-[#6b6b6b] to-transparent px-8 py-2 rounded-lg text-sm transition-colors flex flex-row">
 						Raffle Rules
 						<Image src={'/icons/arrowLink.svg'} className="ml-2" alt="" width={12} height={12} />
 					</button>
@@ -884,7 +904,7 @@ function HeroSection() {
 			</div>
 		</div>
 
-		<div className="max-w-[93vw] md:w-[50%] flex flex-col md:justify-end">
+		<div className="max-w-[93vw] md:w-[50%] flex flex-col mx-auto md:justify-end">
 			{size.lmd && headerTextSection}
 			<div className="relative w-full md:mt-50 h-[40vw] md:h-[412px]">
 				<Image className="absolute left-0 right-0 mr-10 bottom-0 md:bottom-[5vw] lg:bottom-[1vw] scale-105" src={'/elipse.svg'} width={844} height={453} alt=""></Image>
@@ -892,7 +912,7 @@ function HeroSection() {
 				<div className="absolute bottom-[-5vw] md:bottom-0 lg:bottom-[-4vh] left-[50%] text-[26px] md:text-4xl lg:text-6xl rounded-full p-0.5  " style={{
 					transform: "translateX(-50%)",
 				}}>
-					<div className="bg-opacity-30 backdrop-blur-[5px] border-b-[0.3px] font-light border-white backdrop-brightness-[1.3] px-16 py-[24px] rounded-full ">$8.50</div>
+					<div className="bg-opacity-30 backdrop-blur-[5px] border-b-[0.3px] font-light border-white backdrop-brightness-[1.3] px-10 py-[10px] md:px-16 md:py-[24px] rounded-full ">$8.50</div>
 
 				</div>
 			</div>
@@ -1013,12 +1033,22 @@ function Footer() {
 	</footer>
 }
 
-function Container({ children, className, borderClassName, disablePadding, disableContainer }: { className?: string, children: React.ReactNode, borderClassName?: string, disablePadding?: boolean, disableContainer?: boolean }) {
+function Container({ children, className, borderClassName, disablePadding, disableContainer, disableBgBr, rounded, onClick }: { className?: string, children: React.ReactNode, borderClassName?: string, disablePadding?: boolean, disableContainer?: boolean, disableBgBr?: boolean, rounded?: string, onClick?: () => void }) {
 
 	if (disableContainer) return children
 
-	return <div className={`p-[1px] bg-gradient-to-b from-[#fefefe] to-[#535353] rounded-xl ${borderClassName}`}>
-		<div className={`${!disablePadding && "py-4 md:py-10 px-3 md:px-6"} rounded-xl bg-gradient-to-b from-[#202020] w-full h-full to-[#222222] ${className}`}>{children}</div>
+	return <div className={`relative h-full ${borderClassName}`} onClick={onClick}>
+
+		<div className={`${!disablePadding && "py-4 md:py-10 px-3 md:px-6"} inset-0 ${disableBgBr ? '' : 'rounded-xl bg-gradient-to-b from-black/30 to-black/10'} h-full w-full ${className}`}>{children}</div>
+
+		<div className={`absolute inset-0 z-10 border border-transparent ${disableBgBr ? rounded : 'rounded-xl'} `} style={{
+			background: "linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(255,255,255,0.2)) border-box",
+			mask: "linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0)",
+			maskComposite: 'exclude',
+			pointerEvents: 'none'
+		}}>
+
+		</div>
 	</div>
 }
 
@@ -1328,15 +1358,15 @@ function SpinWidget({ angleEnd, angleStart, setAngleEnd, setAngleStart }: { angl
 			</div>
 
 			{/* --- Spin Button --- */}
-			<div className="p-[0.5px] w-fit bg-gradient-to-b from-white to-[#3d3d3d] rounded-xl">
+			<div className="p-[0.8px] w-fit bg-gradient-to-b from-white to-[#3d3d3d] rounded-xl">
 				<button
 					onClick={handleSpin}
 					disabled={isSpinning}
-					className=" w-fit bg-[color:#3d3d3d] cursor-pointer transform transition-all duration-200 disabled:bg-gray-600 disabled:text-gray-400 disabled:cursor-not-allowed disabled:scale-100 rounded-xl flex flex-row items-center"
+					className=" w-fit bg-[color:#3d3d3d] group cursor-pointer transform transition-all duration-200 disabled:bg-[color:#940f0d] disabled:cursor-not-allowed disabled:scale-100 rounded-xl flex flex-row items-center"
 				>
-					<Image src={'/icons/spin.svg'} className="mx-7" alt="" width={20} height={20} />
-					<span>{isSpinning ? '...' : 'Demo Spin'}</span>
-					<div className="bg-gradient-to-r aspect-square from-[#353535] to-[#232323] h-full rounded-xl w-fit ml-5 pt-2 pb-2 px-[18px] border-l-[0.1px] border-b-[0.1px] border-white">1</div>
+					<Image src={'/icons/spin.svg'} className="ml-7 mr-5" alt="" width={20} height={20} />
+					<span>{isSpinning ? 'Spinning...' : 'Demo Spin'}</span>
+					<div className="group-enabled:bg-gradient-to-r aspect-square group-disabled:bg-[color:#940f0d]   from-[#353535] to-[#232323] h-full rounded-xl w-fit ml-4 pt-2 pb-2 px-[18px] border-l-[0.5px] border-b-[0.5px] border-white">1</div>
 				</button>
 
 			</div>
