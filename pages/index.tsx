@@ -26,16 +26,13 @@ const scrollBarNoBorder = `
 					[&::-webkit-scrollbar-track]:border-5
 					[&::-webkit-scrollbar-track]:border-transparent
 
-					[&::-webkit-scrollbar-thumb]:p-2
-					[&::-webkit-scrollbar-thumb]:bg-clip-padding
-					[&::-webkit-scrollbar-thumb]:border-5
-					[&::-webkit-scrollbar-thumb]:border-transparent
+				
 					
 					
 					[&::-webkit-scrollbar-track]:rounded-full  [&::-webkit-scrollbar-thumb]:rounded-full
 
-					[&::-webkit-scrollbar-track]:bg-[color:#2a2a2a] [&::-webkit-scrollbar-thumb]:bg-gradient-to-b
-					[&::-webkit-scrollbar-thumb]:from-transparent [&::-webkit-scrollbar-thumb]:via-[#A4A4A4] [&::-webkit-scrollbar-thumb]:to-transparent`
+					[&::-webkit-scrollbar-track]:bg-[color:#2a2a2a] scrollbar-gradient`
+
 
 
 // Helper to convert a 0-100 value to the internal angle format
@@ -381,36 +378,37 @@ export default function Home() {
 
 			<div className=" mt-32 grid grid-cols-7 gap-8 h-fit" style={{}}>
 
-				<Container borderClassName="col-span-7 md:col-span-3">
-					<div className="flex flex-row items-center justify-between">
+				<Container disablePadding borderClassName="col-span-7 md:col-span-3" className="px-8 py-8">
+					{/* <div className="flex flex-row items-center justify-between">
 						<h3 className="text-3xl mb-8">Ce Brand Este Aceasta Masina?</h3>
 						<p className="mb-8 aspect-square text-2xl font-light px-4 pt-2 bg-white/20 border-white border-[1px] rounded">?</p>
-					</div>
+					</div> */}
 
+					<h3 className="text-3xl mb-8">Buy Tickets</h3>
 
-					{/* <div className="flex flex-row justify-around w-full space-x-2">
+					<div className="flex flex-row justify-around w-full space-x-2">
 
 						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center cursor-pointer" onClick={() => setPercentage(5 / 0.8)}>
-							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">Min</div>
+							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-2.5 text-lg">Min</div>
 						</div>
 
 						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center cursor-pointer" onClick={() => setPercentage(10 / 0.8)}>
-							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">10%</div>
+							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-2.5 text-lg">10%</div>
 						</div>
 
 						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center cursor-pointer" onClick={() => setPercentage(25 / 0.8)}>
-							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">25%</div>
+							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-2.5 text-lg">25%</div>
 						</div>
 
 						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center cursor-pointer" onClick={() => setPercentage(50 / 0.8)}>
-							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">50%</div>
+							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-2.5 text-lg">50%</div>
 						</div>
 
 						<div className="p-[1px] bg-gradient-to-b w-[23%] from-[color:#9C9C9C] to-[color:#3a3a3a] rounded-xl flex flex-row items-center justify-center cursor-pointer" onClick={() => setPercentage(100)}>
-							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-5 text-lg">Max</div>
+							<div className="bg-[color:#3a3a3a] rounded-xl w-full h-full text-center py-2.5 text-lg">Max</div>
 						</div>
-					</div> */}
-					<div className="grid grid-cols-3 gap-2">
+					</div>
+					{/* <div className="grid grid-cols-3 gap-2">
 						{cars.map(i => <div className="bg-gradient-to-b text-[22px] cursor-pointer from-white rounded-lg to-white/20 p-[0.5px]" onClick={() => setSelectedCar(i.name)} style={{
 
 						}}>
@@ -418,15 +416,25 @@ export default function Home() {
 						</div>
 						)}
 
-					</div>
+					</div> */}
 
-					<div className="grid grid-cols-3 gap-2 mt-7">
+					<div className="grid grid-cols-11 gap-2 mt-5">
 
-						<p className="justify-self-end aspect-square px-4 pt-2 rounded-xl select-none cursor-pointer pb-1.5 text-4xl font-extralight bg-[color:#0f0f0f]">-</p>
-						<Container disablePadding disableBgBr rounded="rounded-xl" className="  bg-[color:#3a3a3a] rounded-xl">
-							<input type="text" className=" text-center w-full text-sm h-full focus:outline-none" placeholder="Introdu numarul de bilete" />
+						<p className="justify-self-end aspect-square pl-3 pr-1 pt-0.5 col-span-3 rounded-xl select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f]">-</p>
+						<Container disablePadding borderClassName="col-span-5" disableBgBr rounded="rounded-xl" className="  bg-[color:#3a3a3a] rounded-xl">
+							<input
+								type="text"
+								className=" text-center w-full text-sm h-full focus:outline-none"
+								placeholder="Introdu numarul de bilete"
+								value={Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)}
+								onChange={(e) => {
+									setPercentage(100 / 125 * Number(e.target.value))
+
+
+								}}
+							/>
 						</Container>
-						<p className="justify-self-start aspect-square pl-[18px] pr-3 pt-2.5 rounded-xl select-none cursor-pointer pb-1 text-4xl font-extralight bg-[color:#0f0f0f]">+</p>
+						<p className="justify-self-start aspect-square pl-[12px] col-span-3 pt-1 rounded-xl select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f]">+</p>
 					</div>
 
 
@@ -437,7 +445,7 @@ export default function Home() {
 							totalTickets={90000}
 							percentage={((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8}
 							setPercentage={setPercentage}
-							className="mb-8 w-full"
+							className="mb-8 w-full" tooltipText={`${Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)} Tickets`}
 						/>
 						<div className="aspect-square p-4 text-3xl">+</div>
 					</div>
@@ -448,13 +456,13 @@ export default function Home() {
 
 				<Container borderClassName={'col-span-4 hidden md:block contain-size'} disablePadding className={`py-3 pl-7 pr-5`} >
 					<div className={`overflow-y-scroll max-h-full ${scrollBarNoBorder} `}>
-						<h3 className="text-4xl mt-7">Description</h3>
+						<h3 className="text-3xl mt-5">Description</h3>
 
-						<p className="py-6 text-xl">Model: Lamborghini Aventador LP 770-4 SVJ Cabrio</p>
+						<p className="py-6 text-lg">Model: Lamborghini Aventador LP 770-4 SVJ Cabrio</p>
 
-						<p className="text-xl">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
+						<p className="text-lg">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
 
-						<p className="text-xl pt-5">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
+						<p className="text-lg pt-5">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
 
 					</div>
 
@@ -912,7 +920,7 @@ function HeroSection() {
 				<div className="absolute bottom-[-5vw] md:bottom-0 lg:bottom-[-4vh] left-[50%] text-[26px] md:text-4xl lg:text-6xl rounded-full p-0.5  " style={{
 					transform: "translateX(-50%)",
 				}}>
-					<div className="bg-opacity-30 backdrop-blur-[5px] border-b-[0.3px] font-light border-white backdrop-brightness-[1.3] px-10 py-[10px] md:px-16 md:py-[24px] rounded-full ">$8.50</div>
+					<div className="bg-opacity-30 backdrop-blur-[5px] border-b-[0.7px] font-light border-white backdrop-brightness-[1.3] px-6 py-[6px] md:px-16 md:py-[24px] rounded-full ">$8.50</div>
 
 				</div>
 			</div>
@@ -1055,8 +1063,8 @@ function Container({ children, className, borderClassName, disablePadding, disab
 
 function DraggableProgressBar({
 	percentage, setPercentage,
-	className = ""
-}: { className?: string, percentage: number, setPercentage: (n: number) => void, totalTickets: number }) {
+	className = "", tooltipText
+}: { className?: string, percentage: number, setPercentage: (n: number) => void, totalTickets: number, tooltipText?: string }) {
 	const [isDragging, setIsDragging] = useState(false);
 	const progressBarRef = useRef<HTMLDivElement>(null);
 
@@ -1156,7 +1164,7 @@ function DraggableProgressBar({
 					<div className="relative flex flex-row">
 						{/* <div className=" absolute w-[50%] bg-[color:#323232] left-0 inverted-border-radius-l rounded-tl-lg h3 text-transparent"></div> */}
 						{/* <div className="absolute top-0 right-0 left-0">dljfsjldjlsdfls</div> */}
-						<Tooltip width={150} height={70}> <div className="text-center mt-2">{Math.round(125 / 100 * percentage)} Tickets</div></Tooltip>
+						<Tooltip width={150} height={70}> <div className="text-center mt-2">{tooltipText}</div></Tooltip>
 					</div>
 
 					<div className="bg-white h-8 w-5 rounded-full flex flex-row items-center justify-center">
@@ -1338,14 +1346,14 @@ function SpinWidget({ angleEnd, angleStart, setAngleEnd, setAngleStart }: { angl
 						)}
 						{!isSpinning && result && (
 							<>
-								<p className="text-4xl  ">{Math.round(currentSize * 100) / 100}% </p>
+								<p className="text-4xl  ">{currentSize.toFixed(2)}% </p>
 								{/* <span className={`text-6xl font-bold uppercase ${result === 'WIN' ? 'text-green-400' : 'text-red-500'}`}>{result}!</span> */}
 								<p className="text-gray-500 text-sm mt-1">Click Spin to play again</p>
 							</>
 						)}
 						{!isSpinning && !result && (
 							<>
-								<p className="text-4xl  ">{Math.round(currentSize * 100) / 100}% </p>
+								<p className="text-4xl  ">{currentSize.toFixed(2)}% </p>
 								<span className="text-xl text-[color:#747474]">Winning Chance</span>
 							</>
 						)}
@@ -1386,7 +1394,7 @@ export function DraggableDotOnCircle({ children, radius, angleEnd, angleStart, s
 	const width = 22
 
 	return (
-		<div className="flex flex-col">
+		<div className="flex flex-col select-none">
 			<div className="flex items-center justify-center">
 				<div
 					ref={circleRef}
@@ -1428,7 +1436,12 @@ export function DraggableDotOnCircle({ children, radius, angleEnd, angleStart, s
 
 						const maxSanitized = valueToAngle(max < 0 ? max + 100 : max)
 
-						setAngleStart(size > 80 ? maxSanitized : num)
+
+						const min = angleToValue(angleEnd) - 5
+
+						const minSanitized = valueToAngle(min < 0 ? min + 100 : min)
+
+						setAngleStart(size > 80 ? maxSanitized : size < 5 ? minSanitized : num)
 					}} type={{ "t": 'dot', offset: 0.1 }} />
 					<DotMovable circleRef={circleRef} width={width} radius={radius} angle={angleEnd} setAngle={(num) => {
 						console.log("🚀 ~ DraggableDotOnCircle ~ num:", num)
@@ -1439,7 +1452,11 @@ export function DraggableDotOnCircle({ children, radius, angleEnd, angleStart, s
 
 						const maxSanitized = valueToAngle(max > 100 ? max - 100 : max)
 
-						setAngleEnd(size > 80 ? maxSanitized : num)
+						const min = angleToValue(angleStart) + 5
+
+						const minSanitized = valueToAngle(min < 0 ? min + 100 : min)
+
+						setAngleEnd(size > 80 ? maxSanitized : size < 5 ? minSanitized : num)
 					}} type={{ t: 'dot', offset: -0.1 }} />
 
 				</div>
@@ -1454,6 +1471,8 @@ export function DraggableDotOnCircle({ children, radius, angleEnd, angleStart, s
 
 
 function DotMovable({ circleRef, radius, angle, setAngle, type, width }: { width: number, radius: number, circleRef: any, angle: number, setAngle: (num: number) => void, type: { t: "dot", offset?: number } | { t: "line", size: number } }) {
+
+	const dragOffsetRef = useRef(0);
 
 	const handleDragMove = (e: MouseEvent | TouchEvent) => {
 		if (!circleRef.current) return;
@@ -1472,19 +1491,45 @@ function DotMovable({ circleRef, radius, angle, setAngle, type, width }: { width
 		const cy = rect.top + rect.height / 2;
 		const dx = clientX - cx;
 		const dy = clientY - cy;
+		const mouseAngle = Math.atan2(dy, dx);
 
-		const newAngle = Math.atan2(dy, dx);
+		// Apply the offset to maintain the relative position
+		const newAngle = mouseAngle - dragOffsetRef.current;
+		// const newAngle = Math.atan2(dy, dx);
 		setAngle(newAngle);
+
+		console.log("🚀 ~ DotMovable ~ dragOffset:", dragOffsetRef.current)
+
 	} // Empty dependency array because it doesn't depend on component state
 
 	const handleDragEnd = () => {
+
 		window.removeEventListener("mousemove", handleDragMove);
 		window.removeEventListener("mouseup", handleDragEnd);
 		window.removeEventListener("touchmove", handleDragMove);
 		window.removeEventListener("touchend", handleDragEnd);
+
+		dragOffsetRef.current = 0; // Clear the offset
 	}
 
 	const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+		if (!circleRef.current) return;
+
+		// Get coordinates from either mouse or touch event
+		const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+		const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+
+		const rect = (circleRef.current as any).getBoundingClientRect();
+		const cx = rect.left + rect.width / 2;
+		const cy = rect.top + rect.height / 2;
+		const dx = clientX - cx;
+		const dy = clientY - cy;
+		const clickAngle = Math.atan2(dy, dx);
+
+		// Store the offset between where they clicked and the current semicircle angle
+		dragOffsetRef.current = clickAngle - angle;
+
+
 		window.addEventListener("mousemove", handleDragMove);
 		window.addEventListener("mouseup", handleDragEnd);
 		window.addEventListener("touchmove", handleDragMove, { passive: false });
@@ -1534,13 +1579,14 @@ function DotMovable({ circleRef, radius, angle, setAngle, type, width }: { width
 		const arcPath = getArcPath(type.size)
 		const rotationDegrees = angle * (180 / Math.PI);
 		return <div
-			className="absolute top-0 left-0 w-full h-full rounded-full cursor-pointer"
+			className="absolute touch-none select-none top-0 left-0 w-full h-full rounded-full cursor-pointer"
 			style={{
 				transform: `rotate(${rotationDegrees}deg)`,
 				overflow: "hidden", // This clips the inner div into a semicircle
 			}}
 
 		>
+
 
 			<svg
 				viewBox={`0 0 ${radius * 2} ${radius * 2}`}
@@ -1556,13 +1602,13 @@ function DotMovable({ circleRef, radius, angle, setAngle, type, width }: { width
 		const y = radius + (radius - width / 2) * Math.sin(angle + (type.offset ?? 0));
 
 		return <div
-			className="absolute w-8 h-8 cursor-pointer "
+			className="absolute touch-none select-none w-10 h-10 cursor-pointer "
 			style={{
-				left: `${x - 16}px`,
-				top: `${y - 16}px`,
+				left: `${x - 20}px`,
+				top: `${y - 20}px`,
 			}}
 			onMouseDown={handleDragStart}
 			onTouchStart={handleDragStart}
-		><div className="w-1.5 h-1.5 bg-white rounded-full m-auto mt-3"></div></div>
+		><div className="w-1.5 h-1.5 bg-white rounded-full m-auto mt-4"></div></div>
 	}
 }
