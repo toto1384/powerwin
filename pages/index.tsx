@@ -420,7 +420,11 @@ export default function Home() {
 
 					<div className="grid grid-cols-11 gap-2 mt-5">
 
-						<p className="justify-self-end aspect-square pl-3 pr-1 pt-0.5 col-span-3 rounded-xl select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f]">-</p>
+						<p className="justify-self-end aspect-square flex flex-col items-center justify-center col-span-3 rounded-xl linehe select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f] text-center"><span className="translate-y-[1.5px]" onClick={() => {
+							const percentage = Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)
+
+							setPercentage((100 / 125 * percentage) - 1)
+						}}>-</span></p>
 						<Container disablePadding borderClassName="col-span-5" disableBgBr rounded="rounded-xl" className="  bg-[color:#3a3a3a] rounded-xl">
 							<input
 								type="text"
@@ -429,25 +433,37 @@ export default function Home() {
 								value={Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)}
 								onChange={(e) => {
 									setPercentage(100 / 125 * Number(e.target.value))
-
-
 								}}
 							/>
 						</Container>
-						<p className="justify-self-start aspect-square pl-[12px] col-span-3 pt-1 rounded-xl select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f]">+</p>
+						<p className="justify-self-start aspect-square flex flex-col items-center justify-center col-span-3 rounded-xl linehe select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f] text-center"><span className="translate-y-[2.5px]" onClick={() => {
+							const percentage = Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)
+
+							setPercentage((100 / 125 * percentage) + 1)
+						}}>+</span></p>
 					</div>
 
 
 					<div className="pt-20 mb-5 flex flex-row items-end w-full">
 
-						<div className="aspect-square p-4 text-3xl">-</div>
+						<p className="aspect-square flex flex-col items-center justify-center col-span-3 px-3 rounded-xl select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f] text-center mb-3 mr-4"><span className="translate-y-[1.5px]" onClick={() => {
+							const percentage = Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)
+
+							setPercentage((100 / 125 * percentage) - 1)
+						}}>-</span></p>
+
 						<DraggableProgressBar
 							totalTickets={90000}
 							percentage={((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8}
 							setPercentage={setPercentage}
 							className="mb-8 w-full" tooltipText={`${Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)} Tickets`}
 						/>
-						<div className="aspect-square p-4 text-3xl">+</div>
+
+						<p className="aspect-square flex flex-col items-center justify-center col-span-3 px-3 rounded-xl select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f] text-center mb-3 ml-4"><span className="translate-y-[2.5px]" onClick={() => {
+							const percentage = Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)
+
+							setPercentage((100 / 125 * percentage) + 1)
+						}}>+</span></p>
 					</div>
 
 					<button className="bg-gradient-to-b from-[#bf1213] to-[#300e0e] w-full rounded-xl text-2xl py-3">Participate Now - $312,5</button>
