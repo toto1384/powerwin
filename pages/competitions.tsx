@@ -1,6 +1,7 @@
 import Container from "@/components/container";
 import Footer from "@/components/footer";
-import NavBar from "@/components/navbar";
+import NavBar, { NavBarMobile } from "@/components/navbar";
+import { useSize } from "@/utils/useSize";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -50,11 +51,13 @@ export default function CompetitionsComponent() {
         },
         {
             id: 6,
-            username: "MichaelJackson1234567890",
+            username: "MichaelJackson1234",
             tickets: "12323123",
             prize: "$10 - Credit",
         }
     ];
+
+    const size = useSize(true)
 
     return <div className="flex flex-col items-center">
 
@@ -63,39 +66,41 @@ export default function CompetitionsComponent() {
             background: "linear-gradient(162.58deg, #323232 0%, #000000 100%)"
         }}>
 
-            <h1 className="text-3xl text-center md:text-5xl mt-7 mb-20 font-medium">Competitions</h1>
+            <NavBarMobile />
+            <h1 className="text-4xl md:text-center md:text-5xl mt-7 mb-4 md:mb-20 font-medium">Competitions</h1>
             <div className="grid grid-cols-2 gap-2">
-                <Container disablePadding disableBgBr className="text-center text-2xl font-medium bg-gradient-to-b from-[#f3f3f3]/25 to-transparent py-5" rounded="rounded-lg" reverseBorder>
+                <Container disablePadding disableBgBr className="text-center md:text-2xl font-medium bg-gradient-to-b from-[#f3f3f3]/25 to-transparent py-2 md:py-5" rounded="rounded-lg" reverseBorder>
                     All raffles
                 </Container>
 
-                <Container disablePadding disableBgBr className="text-center text-2xl font-medium bg-gradient-to-b to-[#161616] from-transparent py-5" rounded="rounded-lg" reverseBorder>
+                <Container disablePadding disableBgBr className="text-center md:text-2xl font-medium bg-gradient-to-b to-[#161616] from-transparent py-2 md:py-5" rounded="rounded-lg" reverseBorder>
                     Instant Win
                 </Container>
             </div>
+
             <SpinAnimationComponent />
 
-            <div className="w-full bg-gradient-to-l from-transparent via-white to-transparent h-0.5 my-12"></div>
+            <div className="w-full bg-gradient-to-l from-transparent via-white to-transparent h-0.5 my-9 md:my-12"></div>
 
 
-            <div className="grid grid-cols-4 gap-5">
-                {ITEMS.slice(0, 4).map(i => <Container disablePadding reverseBorder disableBgBr rounded="rounded-xl" className="bg-gradient-to-b from-[#1e1e1e] via-[#2f2f2f] to-[#1e1e1e] px-12 py-6">
+            <div className="grid grid-cols-4 gap-1 md:gap-5">
+                {ITEMS.slice(0, 4).map(i => <Container disablePadding reverseBorder disableBgBr rounded="rounded-lg md:rounded-xl" className="bg-gradient-to-b from-[#1e1e1e] via-[#2f2f2f] to-[#1e1e1e] px-2 py-3 md:px-12 md:py-6 flex flex-col items-center w-fit">
                     <Image src={i.image} alt="" width={250} height={250} className="place-self-center" />
                 </Container>)}
             </div>
 
-            <div className="grid grid-cols-3 gap-5 mt-5">
-                {ITEMS.slice(4).map(i => <Container disablePadding reverseBorder disableBgBr rounded="rounded-xl" className="bg-gradient-to-b from-[#1e1e1e] via-[#2f2f2f] to-[#1e1e1e] px-12 py-6">
+            <div className="grid grid-cols-3 gap-1 md:gap-5 mt-1 md:mt-5">
+                {ITEMS.slice(4).map(i => <Container disablePadding reverseBorder disableBgBr rounded="rounded-lg md:rounded-xl" className="bg-gradient-to-b from-[#1e1e1e] via-[#2f2f2f] to-[#1e1e1e] px-2 py-2 md:px-12 md:py-6 flex flex-col items-center w-fit">
                     <Image src={i.image} alt="" width={250} height={250} className="place-self-center" />
                 </Container>)}
             </div>
 
 
 
-            <div className="flex items-center justify-between mb-12 mt-10">
+            <div className="flex items-center justify-between mb-5 md:mb-12 mt-10">
 
                 <Container
-                    disableDimensionFull borderClassName="w-fit h-fit" disablePadding disableBgBr
+                    disableDimensionFull borderClassName="w-fit h-fit md:block hidden" disablePadding disableBgBr
                     style={{ background: "linear-gradient(0deg, rgba(61, 61, 61, 0.2) 0%, rgba(0, 0, 0, 0.04) 100%)" }}
                     className="flex flex-row w-fit h-fit items-center px-9 py-2" rounded="rounded-lg" reverseBorder
                 >
@@ -108,47 +113,47 @@ export default function CompetitionsComponent() {
                 </Container>
 
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1 md:space-x-2 md:font-medium text-sm md:text-2xl justify-stretch">
                     <Container
-                        className="bg-gradient-to-b from-[#f3f3f3]/30 to-transparent rounded-lg px-7 mb-1 py-2 md:py-4 text-white placeholder-white focus:outline-none text-center  flex flex-row items-center font-medium text-2xl"
-                        borderClassName="" reverseBorder disableBgBr disablePadding rounded="rounded-lg"
+                        className="bg-gradient-to-b from-[#f3f3f3]/30 to-transparent rounded-lg px-7 mb-1 py-1 md:py-4 text-white placeholder-white focus:outline-none text-center  flex flex-row items-center "
+                        borderClassName="" reverseBorder disableBgBr disablePadding rounded="rounded-lg" miniBorder
                     >
-                        <span className="mt-1">Live Winners</span>
+                        <span className=" mt-1">Live Winners</span>
 
                     </Container>
                     <Container
-                        className="bg-gradient-to-b from-[#f3f3f3]/30 to-transparent rounded-lg px-6 mb-1 py-2 md:py-4 text-white placeholder-white focus:outline-none text-center  flex flex-row items-center font-medium text-2xl"
-                        borderClassName="" reverseBorder disableBgBr disablePadding rounded="rounded-lg"
+                        className="bg-gradient-to-b from-[#f3f3f3]/30 to-transparent rounded-lg px-6 mb-1 py-1 md:py-4 text-white placeholder-white focus:outline-none text-center  flex flex-row items-center "
+                        borderClassName="" reverseBorder disableBgBr disablePadding rounded="rounded-lg" miniBorder
                     >
-                        <Image src={'/icons/scale.svg'} alt="" className="mr-3" width={33} height={33} />
+                        <Image src={'/icons/scale.svg'} alt="" className="mr-3" width={size.gsm ? 33 : 17} height={size.gsm ? 33 : 17} />
                         <span className="mt-1">Provably Fair</span>
 
                     </Container>
                     <Container
-                        className="bg-gradient-to-b from-[#161616] to-transparent rounded-lg px-6 mb-1 py-2 md:py-4 text-white placeholder-white focus:outline-none text-center  flex flex-row items-center font-medium text-2xl"
-                        borderClassName="" reverseBorder disableBgBr disablePadding rounded="rounded-lg"
+                        className="bg-gradient-to-b from-[#161616] to-transparent rounded-lg px-3 md:px-6 mb-1 py-1 md:py-4 text-white placeholder-white focus:outline-none text-center  flex flex-row items-center "
+                        borderClassName="" reverseBorder disableBgBr disablePadding rounded="rounded-lg" miniBorder
                     >
-                        <span className="mt-1">Leaderboard</span>
+                        <span className=" mt-1">Leaderboard</span>
 
                     </Container>
                 </div>
             </div>
 
             {/* Main Content */}
-            <Container disableBgBr rounded="rounded-lg" disablePadding className="overflow-hidden bg-gradient-to-b from-black/77 to-black/28 px-8 py-10">
-                <h1 className="text-4xl font-medium mb-8">Live Winners</h1>
+            <Container disableBgBr rounded="rounded-lg" disablePadding className="overflow-hidden bg-gradient-to-b from-black/77 to-black/28 px-2 md:px-8 py-4 md:py-10">
+                <h1 className="text-4xl font-medium mb-8 hidden md:block">Live Winners</h1>
 
                 {/* Table Header */}
-                <div className="grid grid-cols-3 gap-6  text-sm font-medium">
-                    <div className="text-center text-3xl">Winner</div>
-                    <div className="text-center text-3xl">Tickets</div>
-                    <div className="text-center text-3xl">Prize Value</div>
+                <div className="grid grid-cols-3 gap-6 text- md:font-medium md:text-3xl mx-5 md:mx-0">
+                    <div className="text-start md:text-center ">Winner</div>
+                    <div className="text-center">Tickets</div>
+                    <div className="text-end md:text-center">Prize Value</div>
                 </div>
 
-                <div className="w-full bg-gradient-to-l from-transparent via-white to-transparent h-0.5 mb-8 mt-8"></div>
+                <div className="w-full bg-gradient-to-l from-transparent via-white to-transparent mx-5 md:mx-0 h-0.5 mb-4 md:mb-8 mt-4 md:mt-8"></div>
 
                 {/* Winners List */}
-                <div className="space-y-3">
+                <div className="space-y-3 md:mr-12 text-xs">
                     {winners.map((winner, index) => (
                         <Container
                             disableContainer={index > 2}
@@ -157,18 +162,18 @@ export default function CompetitionsComponent() {
                             key={winner.id}
                             disableBgBr rounded="rounded-lg"
                             style={{
-                                background: index == 0 ? "linear-gradient(180deg, #FFA100 -53.3%, #FFA100 8.02%, rgba(255, 161, 0, 0) 100%)" :
-                                    index == 1 ? "linear-gradient(180deg, #CDCDCD -53.3%, rgba(205, 205, 205, 0) 100%)" :
+                                background: index == 0 ? "linear-gradient(180deg, #FFA100 -53.3%, #FFA100 30.02%, rgba(255, 161, 0, 0) 100%)" :
+                                    index == 1 ? "linear-gradient(180deg, #CDCDCD -23.3%, rgba(205, 205, 205, 0) 100%)" :
                                         index == 2 ? 'linear-gradient(180deg, #DA663A -53.3%, rgba(218, 102, 58, 0) 100%)' : undefined
 
                             }}
-                            className={`rounded-lg px-6 py-5 my-6`}
+                            className={`rounded-lg px-2 py-2.5 md:px-6 md:py-5 md:my-6`}
                         >
-                            <div className={`grid grid-cols-3 gap-6 items-center text-xl ${index > 2 ? 'px-6 pb-5' : ''}`}>
+                            <div className={`grid grid-cols-3 gap-6 items-center md:text-xl ${index > 2 ? ' px-2 md:px-6 md:pb-5' : ''}`}>
                                 {/* Winner */}
-                                <div className="flex items-center space-x-3">
+                                <div className="flex items-center md:space-x-3">
 
-                                    <Image src={'/icons/personCircle.svg'} alt="" className="" width={33} height={33} />
+                                    <Image src={'/icons/personCircle.svg'} alt="" className="" width={size.gsm ? 33 : 18} height={size.gsm ? 33 : 18} />
                                     <span className="font-medium text-white ml-2">{winner.username}</span>
                                 </div>
 
@@ -178,7 +183,7 @@ export default function CompetitionsComponent() {
                                 </div>
 
                                 {/* Prize */}
-                                <div className="text-start place-self-center text-white w-[200px] font-medium">
+                                <div className="md:text-start place-self-center text-white w-[120px] md:w-[200px] font-medium">
                                     {winner.prize}
                                 </div>
                             </div>
@@ -199,7 +204,7 @@ export default function CompetitionsComponent() {
 // Animation settings from the video
 const REEL_LENGTH = 60; // How many items are in the reel
 const ANIMATION_DURATION_MS = 4200;
-const ITEM_WIDTH_PX = 320; // w-40 in Tailwind -> 10rem -> 160px
+
 const animationCurve = 'cubic-bezier(0.18, 0.8, 0.1, 0.995)'
 
 // --- Helper Functions ---
@@ -210,11 +215,17 @@ const getRandomItem = () => ITEMS[Math.floor(Math.random() * ITEMS.length)];
 
 // --- The Component ---
 export function SpinAnimationComponent() {
+
+    const size = useSize(true)
+
+    const ITEM_WIDTH_PX = 320;
+
     const [isSpinning, setIsSpinning] = useState(false);
     const [reelItems, setReelItems] = useState<any[]>([]);
     const [winningItem, setWinningItem] = useState<typeof ITEMS[number] | null>(null);
     const reelRef = useRef(null);
     const animationRef = useRef(null);
+    const endingAnimationRef = useRef(null);
     const observerRef = useRef(null);
 
     const [centeredIndex, setCenteredIndex] = useState(10);
@@ -260,7 +271,7 @@ export function SpinAnimationComponent() {
         } else if (closestDistance >= ITEM_WIDTH_PX / 2 && centeredIndex !== -1) {
             setCenteredIndex(-1);
         }
-    }, [centeredIndex]);
+    }, [centeredIndex,]);
 
     const handleSpin = useCallback(() => {
         if (isSpinning) return;
@@ -268,6 +279,10 @@ export function SpinAnimationComponent() {
         // Cancel any existing animation
         if (animationRef.current) {
             (animationRef.current as any).cancel();
+        }
+
+        if (endingAnimationRef.current) {
+            (endingAnimationRef.current as any).cancel();
         }
 
         // Cancel any existing observer
@@ -298,10 +313,13 @@ export function SpinAnimationComponent() {
             // Reset any existing transform
             (reelElement as any).style.transform = 'translateX(0px)';
 
+            const num = Math.random() * (6 - 3) + 3; // Random between 3-6
+            const result = Math.random() < 0.5 ? -num : num; // 50% chance negative
+
             // Use Web Animations API for better performance
             animationRef.current = (reelElement as any).animate([
                 { transform: 'translateX(0px)' },
-                { transform: `translateX(${finalPosition}px)` }
+                { transform: `translateX(${finalPosition + ITEM_WIDTH_PX / result}px)` }
             ], {
                 duration: ANIMATION_DURATION_MS,
                 easing: animationCurve,
@@ -309,10 +327,28 @@ export function SpinAnimationComponent() {
             });
 
             (animationRef.current as any).addEventListener('finish', () => {
-                setIsSpinning(false);
-                setWinningItem(winner);
-                // Update centered item one final time
-                setTimeout(() => updateCenteredItem(), 100);
+
+
+
+                // Use Web Animations API for better performance
+                endingAnimationRef.current = (reelElement as any).animate([
+                    { transform: `translateX(${finalPosition + ITEM_WIDTH_PX / result}px)` },
+                    { transform: `translateX(${finalPosition}px)` },
+                ], {
+                    duration: ANIMATION_DURATION_MS / 15,
+                    easing: 'ease',
+                    fill: 'forwards'
+                });
+
+                (endingAnimationRef.current as any).addEventListener('finish', () => {
+                    setIsSpinning(false);
+                    setWinningItem(winner);
+                    // Update centered item one final time
+                    setTimeout(() => updateCenteredItem(), 100);
+                }, { once: true });
+
+
+
             }, { once: true });
         }
 
@@ -324,6 +360,10 @@ export function SpinAnimationComponent() {
         return () => {
             if (animationRef.current) {
                 (animationRef.current as any).cancel();
+            }
+
+            if (endingAnimationRef.current) {
+                (endingAnimationRef.current as any).cancel();
             }
         };
     }, []);
@@ -357,30 +397,30 @@ export function SpinAnimationComponent() {
         };
     }, [isSpinning, updateCenteredItem]);
 
-    const triangleSize = 30
+    const triangleSize = size.gsm ? 30 : 12
 
     return (
         <>
 
             {/* The Reel Container */}
-            <Container className="relative w-full flex items-center justify-center overflow-hidden mb-8 mt-10 bg-gradient-to-b from-[black]/70 via-50% via-[#1e1e1e]/0 to-transparent" disableBgBr rounded="rounded-lg" reverseBorder borderStyle={{}}>
+            <Container className="relative w-full flex items-center justify-center overflow-hidden mb-8 mt-5 md:mt-10 bg-gradient-to-b from-[black]/70 via-50% via-[#1e1e1e]/0 to-transparent" disableBgBr disablePadding rounded="rounded-lg" reverseBorder borderStyle={{}}>
                 {/* The Center Marker */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-full z-20 flex flex-col items-center pt-5 pb-5">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-full z-20 flex flex-col items-center py-2 md:pt-5 md:pb-5">
                     <Image width={triangleSize} height={triangleSize} alt="" src={'/triangleDown.svg'} />
-                    <div className="w-1 h-full bg-gradient-to-b from-transparent via-[#ff0000]/80 to-transparent my-10"></div>
+                    <div className="w-1 h-full bg-gradient-to-b from-transparent via-[#ff0000]/80 to-transparent my-3 md:my-10"></div>
                     <Image width={triangleSize} height={triangleSize} alt="" src={'/triangleUp.svg'} />
                 </div>
 
                 {/* The Reel Itself */}
                 <div
                     ref={reelRef}
-                    className="flex items-center my-10"
+                    className="flex items-center -my-10 md:my-14 scale-[0.55] md:scale-100"
                     style={reelContainerStyle}
                 >
                     {reelItems.map((item, index) => (
                         <ReelItem
                             key={`${index}-${item.name}-${item.rarity}`}
-                            item={item}
+                            item={item} itemWidth={ITEM_WIDTH_PX}
                             index={index}
                             isSpinning={isSpinning}
                             className={index == centeredIndex ? "scale-[1.8]" : ''}
@@ -390,32 +430,32 @@ export function SpinAnimationComponent() {
             </Container>
 
             {/* The Open Button */}
-            <div className="grid grid-cols-3 mt-10">
+            <div className="grid grid-cols-7 mt-10">
 
-                <div></div>
+                <div className="col-span-2"></div>
 
                 {/* <div className="p-[1px] w-fit bg-gradient-to-b` from-white to-[#3d3d3d] rounded-xl place-self-center"> */}
                 <Container
                     onClick={handleSpin}
                     disabled={isSpinning}
                     disableBgBr rounded="rounded-lg" disablePadding
-                    borderClassName="w-fit h-fit place-self-center"
+                    borderClassName="w-fit h-fit place-self-center col-span-3"
                     style={{
                         background: "linear-gradient(180deg, rgba(255, 36, 36, 0.4) -25.2%, #891616 100%)"
                     }}
                     className=" group cursor-pointer transform transition-all duration-200 disabled:bg-[color:#940f0d] disabled:cursor-not-allowed disabled:scale-100 flex flex-row items-center w-fit h-fit font-medium"
                 >
-                    <Image src={'/icons/spin.svg'} className="ml-7 mr-5" alt="" width={25} height={25} />
-                    <span className="text-2xl">{isSpinning ? 'Spinning...' : 'Demo Spin'}</span>
-                    <Container disableDimensionFull disablePadding disableBgBr rounded="rounded-xl" borderClassName="ml-8" style={{ background: "linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #891616 100%)" }} className="aspect-square group-disabled:bg-[color:#940f0d] h-full rounded-xl w-fit pt-5 pb-5 px-[24px] text-2xl">27</Container>
+                    <Image src={'/icons/spin.svg'} className="md:ml-7 md:mr-5 ml-5 mr-2" alt="" width={size.gsm ? 25 : 15} height={size.gsm ? 25 : 15} />
+                    <span className="text-sm md:text-2xl">{isSpinning ? 'Spinning...' : 'Demo Spin'}</span>
+                    <Container disableDimensionFull disablePadding disableBgBr rounded="rounded-lg" borderClassName="ml-5 md:ml-8" style={{ background: "linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, #891616 100%)" }} className="aspect-square group-disabled:bg-[color:#940f0d] h-full w-fit py-1.5 px-[9px] md:py-5 md:px-[24px] md:text-2xl">27</Container>
                 </Container>
 
                 {/* </div> */}
 
-                <div className="place-self-end self-center">
-                    <button style={{ background: "linear-gradient(180deg, #6B6B6B -40.3%, rgba(107, 107, 107, 0) 90%)" }} className="font-medium border-[0.3px] border-[color:#a6a6a6] pl-8  pr-6 py-2 rounded-lg text-lg transition-colors flex flex-row">
+                <div className="place-self-end self-center col-span-2">
+                    <button style={{ background: "linear-gradient(180deg, #6B6B6B -40.3%, rgba(107, 107, 107, 0) 90%)" }} className="font-medium border-[0.3px] border-[color:#a6a6a6] md:pl-8 px-2 md:pr-6 md:py-2 py-1.5 rounded md:rounded-lg text-xs md:text-lg transition-colors flex flex-row">
                         How it Works
-                        <Image src={'/icons/arrowLink.svg'} className="ml-4" alt="" width={15} height={15} />
+                        <Image src={'/icons/arrowLink.svg'} className="ml-2 md:ml-4" alt="" width={size.gsm ? 15 : 10} height={size.gsm ? 15 : 10} />
                     </button>
                 </div>
             </div>
@@ -426,18 +466,20 @@ export function SpinAnimationComponent() {
 
 
 // Memoized item component to prevent unnecessary re-renders
-const ReelItem = ({ item, index, isSpinning, className }: { className?: string, isSpinning: boolean, index: number, item: typeof ITEMS[number] }) => {
-    const itemStyle = useMemo(() => ({
+const ReelItem = ({ item, index, isSpinning, className, itemWidth }: { className?: string, isSpinning: boolean, index: number, item: typeof ITEMS[number], itemWidth: number }) => {
+    const size = useSize(true)
+
+    const itemStyle = ({
         transform: 'translateZ(0)', // Force hardware acceleration
         backfaceVisibility: 'hidden',
         perspective: '1000px',
-        width: ITEM_WIDTH_PX,
-        height: ITEM_WIDTH_PX + 100
-    } as const), []);
+        width: itemWidth,
+        height: itemWidth + (size.gsm ? 100 : 0)
+    } as const);
 
     return (
         <div
-            className={`flex-shrink-0 flex flex-col items-center justify-center will-change-transform transition-all  duration-[60ms] ${className}`}
+            className={`flex-shrink-0 flex flex-col items-center justify-center will-change-transform transition-all  duration-[150ms] ${className}`}
             style={itemStyle}
         >
             <Image src={item.image} alt={item.name} width={190} height={190} />

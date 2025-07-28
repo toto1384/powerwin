@@ -22,7 +22,7 @@ interface TimeLeft {
 }
 
 const scrollBarNoBorder = ` 
-					[&::-webkit-scrollbar]:w-3.5
+					[&::-webkit-scrollbar]:w-3
 
 					[&::-webkit-scrollbar-track]:m-3
 
@@ -99,9 +99,9 @@ export default function Home() {
 			<HeroSection prize={bigPrize} setPrize={setBigPrize} />
 
 
-			<div className=" mt-32 grid gap-6 h-fit" style={{ gridTemplateColumns: "repeat(15, minmax(0, 1fr)" }}>
+			<div className=" mt-32 grid gap-6 h-fit" style={{ gridTemplateColumns: "repeat(19, minmax(0, 1fr)" }}>
 
-				<Container disablePadding borderClassName="col-span-[15] md:col-span-[7]" className="px-8 py-8">
+				<Container disablePadding borderClassName="col-span-[15] md:col-span-[9]" className="px-8 py-8">
 					{/* <div className="flex flex-row items-center justify-between">
 						<h3 className="text-3xl mb-8">Ce Brand Este Aceasta Masina?</h3>
 						<p className="mb-8 aspect-square text-2xl font-light px-4 pt-2 bg-white/20 border-white border-[1px] rounded">?</p>
@@ -193,15 +193,15 @@ export default function Home() {
 				</Container>
 
 
-				<Container borderClassName={'col-span-[8] hidden md:block contain-size'} disablePadding className={`py-3 pl-7 pr-5`} >
+				<Container borderClassName={'col-span-[10] hidden md:block contain-size'} disablePadding className={`py-3 pl-7 pr-5`} >
 					<div className={`overflow-y-scroll max-h-full ${scrollBarNoBorder} `}>
-						<h3 className="text-3xl mt-5">Description</h3>
+						<h3 className="text-3xl mt-5 max-w-[60ch]">Description</h3>
 
-						<p className="py-6 text-lg">Model: Lamborghini Aventador LP 770-4 SVJ Cabrio</p>
+						<p className="py-6 text-lg max-w-[60ch]">Model: Lamborghini Aventador LP 770-4 SVJ Cabrio</p>
 
-						<p className="text-lg">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
+						<p className="text-lg max-w-[60ch]">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
 
-						<p className="text-lg pt-5">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
+						<p className="text-lg pt-5 max-w-[60ch]">Lamborghini Aventador SVJ Roadster is a limited-edition open-top supercar that blends extreme performance with unmistakable Italian design. Powered by a naturally aspirated 6.5L V12 engine delivering 770 horsepower, it accelerates from 0 to 100 km/h in just 2.9 seconds. With advanced aerodynamics (ALA 2.0 system), carbon fiber construction, and all-wheel drive, the SVJ Roadster offers an exhilarating driving experience both on the road and track—while letting you enjoy the raw sound of the V12 with the roof down.</p>
 
 					</div>
 
@@ -217,24 +217,25 @@ export default function Home() {
 			<div className=" mx-auto py-8">
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 					{/* Spin to Win Winners */}
-					<Container className="">
+					<Container className="pl-5 md:pl-10 pr-2.5 pt-10" disablePadding>
 
 						<h2 className="text-2xl md:text-3xl text-center font-medium mb-6 md:text-start">Spin to Win Winners</h2>
 
 						{/* Search Input */}
-						<div className="flex flex-row items-center justify-between">
-							<div className="mb-6">
+						<div className="flex flex-row items-center justify-between mb-6 md:mr-10">
+							<div className="">
 								<input
 									type="text"
 									placeholder="Participant Name"
-									className=" bg-[color:#3a3a3a] rounded-lg px-4 md:px-14 border-[0.5px] border-white py-3 text-white placeholder-white text-sm md:text-lg focus:outline-none text-center"
+									className=" bg-[color:#3a3a3a] rounded-lg px-4 md:px-14 border-[0.5px] border-white py-2.5 text-white placeholder-white text-sm md:text-lg focus:outline-none text-center"
 								/>
 							</div>
-							<button className="bg-gradient-to-b from-[#4e4e4e] to-[#101010] rounded-lg md:px-8 border-[0.5px] border-white pt-1.5 pb-2.5 md:pb-3.5 md:pt-2.5 text-white placeholder-white text-lg focus:outline-none text-center mb-6 md:mr-5 flex flex-row items-center">
-								<Image src={'/icons/scale.svg'} alt="" width={20} height={20} />
-								<span className="mx-2 mt-1">Provably Fair</span>
+							<Container className="bg-gradient-to-b from-[#f3f3f3]/30 to-transparent rounded-lg md:px-10 pt-1.5 pb-2.5 md:pb-2.5 md:pt-2.5 text-white placeholder-white text-lg focus:outline-none text-center flex flex-row items-center"
+								disableBgBr rounded="rounded-lg" miniBorder reverseBorder>
+								<Image src={'/icons/scale.svg'} alt="" width={20} height={17} />
+								<span className="ml-2">Provably Fair</span>
 
-							</button>
+							</Container>
 						</div>
 						<div className={`space-y-1 max-h-[40vh] overflow-y-scroll ${scrollBarNoBorder}`}>
 							{/* Header */}
@@ -272,7 +273,7 @@ export default function Home() {
 					</Container>
 
 					{/* PowerWin Participants */}
-					<Container className="">
+					<Container className="pl-5 md:pl-10 pr-2.5 pt-10" disablePadding>
 
 						<h2 className="text-2xl md:text-3xl text-center font-medium mb-6 md:text-start">PowerWin Participants</h2>
 

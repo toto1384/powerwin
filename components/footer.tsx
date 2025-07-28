@@ -7,14 +7,14 @@ export default function Footer() {
 
     const size = useSize(true)
     const cryptoIcons = <div className="flex flex-row items-center space-x-7 md:space-x-3">
-        <Image alt="logo" width={size.lmd ? 30 : 20} height={size.lmd ? 30 : 20} src={'/icons/crypto/bitcoin.svg'} />
-        <Image alt="logo" width={size.lmd ? 30 : 20} height={size.lmd ? 30 : 20} src={'/icons/crypto/eth.svg'} />
-        <Image alt="logo" width={size.lmd ? 30 : 20} height={size.lmd ? 30 : 20} src={'/icons/crypto/x.svg'} />
-        <Image alt="logo" width={size.lmd ? 30 : 20} height={size.lmd ? 30 : 20} src={'/icons/crypto/solana.svg'} />
-        <Image alt="logo" width={size.lmd ? 30 : 20} height={size.lmd ? 30 : 20} src={'/icons/crypto/usdt.svg'} />
+        <Image alt="logo" width={size.lmd ? 30 : 30} height={size.lmd ? 30 : 30} src={'/icons/crypto/bitcoin.svg'} />
+        <Image alt="logo" width={size.lmd ? 18 : 18} height={size.lmd ? 18 : 18} src={'/icons/crypto/eth.svg'} />
+        <Image alt="logo" width={size.lmd ? 30 : 30} height={size.lmd ? 30 : 30} src={'/icons/crypto/x.svg'} />
+        <Image alt="logo" width={size.lmd ? 30 : 30} height={size.lmd ? 30 : 30} src={'/icons/crypto/solana.svg'} />
+        <Image alt="logo" width={size.lmd ? 30 : 30} height={size.lmd ? 30 : 30} src={'/icons/crypto/usdt.svg'} />
     </div>
 
-    const socialLinks = <div className="flex flex-row items-center space-x-2 justify-end">
+    const socialLinks = <div className="flex flex-row items-center md:space-x-2 justify-end">
         <div className="bg-gradient-to-b from-[#020202] aspect-square w-12 h-12 flex flex-row items-center justify-center to-[#191919] rounded-full">
             <Image alt="logo" width={20} height={20} src={'/icons/socials/instagram.svg'} />
         </div>
@@ -35,14 +35,17 @@ export default function Footer() {
 
     return <footer className="bg-gradient-to-b md:border-b md:border-r md:border-l px-2 md:px-8 pb-5 md:rounded-b-[3rem] from-[#0b0b0b] to-[#0a0a0a] max-w-[1800px]">
         <div className="mx-auto px-4 py-8">
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-1 md:gap-8">
+            <div className="grid grid-cols-2 lg:grid-cols-7 gap-1 md:gap-8">
                 {/* Logo and Description */}
-                <div className=" md:mr-10">
+                <div className=" md:mr-10 md:col-span-2">
                     <Image alt="logo" width={150} height={75} src={'/logo.png'} />
-                    <p className="text-white text-[9px] mt-5 leading-relaxed">
-                        PowerWin Crypto is the next-generation blockchain raffle platform.<br />
-                        Participate responsibly for exclusive rewards backed by our transparency powered by Chainlink VRF.<br />
-                        Win luxury prizes through secure, decentralized draws. Built on Web3.0 technology.
+                    <p className="text-white text-[11px]  mt-5 leading-relaxed">
+                        <span className="max-w-[25ch]">
+                            PowerWin Crypto is the next-generation blockchain raffle platform.<br />
+                            Participate responsibly for exclusive rewards backed by our transparency powered by Chainlink VRF.<br />
+                            Win luxury prizes through secure, decentralized draws. Built on Web3.0 technology.
+
+                        </span>
                     </p>
                     <div className="mt-4 hidden md:block">
                         <span className=" text-sm">18+</span>
@@ -66,13 +69,14 @@ export default function Footer() {
 
                 <div className=" mt-8 hidden md:flex flex-col">
                     <h3 className="text-lg">Support</h3>
-                    <a href="mailto:support@powerwin-crypto.com" className="text-[color:#144c76] underline text-sm transition-colors">
+                    <a href="mailto:support@powerwin-crypto.com" className="text-[color:#2177BC] underline text-sm transition-colors">
                         powerwin@crypto.com
                     </a>
                 </div>
-                <div className="flex flex-col items-center md:items-start md:pl-0">
 
-                    <button className="bg-[color:#2078bc] mb-10 md:mb-0 hover:bg-blue-700 text-white px-4 py-2 md:px-8 md:py-4 rounded-lg h-fit w-fit flex items-center gap-2 md:mt-6 transition-colors text-xl font-medium">
+                <div className="flex flex-col items-end md:items-start md:pl-0 md:col-span-2">
+
+                    <button className="bg-[color:#2078bc] md:place-self-end mb-10 md:mb-0 hover:bg-blue-700 text-white px-4 py-2 md:px-8 md:py-4 rounded-lg h-fit w-fit flex items-center gap-2 md:mt-6 transition-colors text-xl font-medium">
                         <Image alt="logo" className="mr-5" width={size.gsm ? 40 : 20} height={size.gsm ? 40 : 20} src={'/icons/socials/telegram.svg'} />
                         Join Telegram
                     </button>
