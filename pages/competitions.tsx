@@ -211,6 +211,7 @@ const animationCurve = 'cubic-bezier(0.18, 0.8, 0.1, 0.995)'
 const getRandomItem = () => ITEMS[Math.floor(Math.random() * ITEMS.length)];
 
 
+const interleave = (arr: any[], thing: any) => [].concat(...arr.map(n => [n, thing] as any)).slice(0, -1)
 
 
 // --- The Component ---
@@ -228,11 +229,32 @@ export function SpinAnimationComponent() {
     const endingAnimationRef = useRef(null);
     const observerRef = useRef(null);
 
+    const finalTickAudioRef = useRef<any>(null)
+    const tickAudioRef = useRef<any>(null)
+
+    useEffect(() => {
+        // Preload the audio
+        finalTickAudioRef.current = new Audio(`/sounds/final_tick.aac`)
+        finalTickAudioRef.current.preload = 'auto'
+
+        tickAudioRef.current = new Audio(`/sounds/ticks.aac`)
+        tickAudioRef.current.preload = 'auto'
+
+        return () => {
+            if (finalTickAudioRef.current) {
+                finalTickAudioRef.current.pause()
+            }
+            if (tickAudioRef.current) {
+                tickAudioRef.current.pause()
+            }
+        }
+    }, [])
+
     const [centeredIndex, setCenteredIndex] = useState(10);
 
     // Memoize initial reel items
     const initialReelItems = useMemo(() =>
-        Array.from({ length: REEL_LENGTH }, getRandomItem), []
+        interleave(Array.from({ length: (REEL_LENGTH) / 1.5 }, getRandomItem), ITEMS[0]).slice(0, REEL_LENGTH), []
     );
 
     useEffect(() => {
@@ -268,10 +290,17 @@ export function SpinAnimationComponent() {
         // Only update if the centered item changed and it's close enough to center
         if (closestDistance < ITEM_WIDTH_PX / 2 && closestIndex !== centeredIndex) {
             setCenteredIndex(closestIndex);
-            const audio = new Audio(`/sounds/ticks.aac`)
-            audio.play().catch(error => {
-                console.error('Error playing sound:', error)
-            })
+            if (tickAudioRef.current) {
+                tickAudioRef.current.play().then((i: any) => tickAudioRef.current = null).catch((error: any) => {
+                    console.error('Error playing sound:', error)
+                })
+            } else {
+                const audio = new Audio(`/sounds/ticks.aac`)
+                audio.preload = 'auto'
+                audio.play().catch((error: any) => {
+                    console.error('Error playing sound:', error)
+                })
+            }
         } else if (closestDistance >= ITEM_WIDTH_PX / 2 && centeredIndex !== -1) {
             setCenteredIndex(-1);
         }
@@ -299,7 +328,7 @@ export function SpinAnimationComponent() {
         setCenteredIndex(-1);
 
         // 1. Generate a new list of random items for the reel
-        const newReelItems = Array.from({ length: REEL_LENGTH }, getRandomItem);
+        const newReelItems = interleave(Array.from({ length: (REEL_LENGTH) / 1.5 }, getRandomItem), ITEMS[0]).slice(0, REEL_LENGTH);
 
         // 2. Determine a "winning" item near the end of the reel for a dramatic slowdown
         const winningIndex = REEL_LENGTH - Math.floor(Math.random() * 10) - 5; // e.g., lands on item 60-64
@@ -342,8 +371,7 @@ export function SpinAnimationComponent() {
                     fill: 'forwards'
                 });
 
-                const audio2 = new Audio(`/sounds/final_tick.aac`)
-                audio2.play().catch(error => {
+                finalTickAudioRef.current.play().catch((error: any) => {
                     console.error('Error playing sound:', error)
                 });
 

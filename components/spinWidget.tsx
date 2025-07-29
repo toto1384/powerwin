@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ConfettiExplosion from "react-confetti-explosion";
 
 // Helper to convert a 0-100 value to the internal angle format
@@ -53,6 +53,27 @@ export function SpinWidget({ angleEnd, angleStart, setAngleEnd, setAngleStart }:
     const [isSpinning, setIsSpinning] = useState(false);
     const [result, setResult] = useState<"WIN" | "LOSE" | null>(null);
 
+    const finalTickAudioRef = useRef<any>(null)
+    const tickAudioRef = useRef<any>(null)
+
+    useEffect(() => {
+        // Preload the audio
+        finalTickAudioRef.current = new Audio(`/sounds/win.aac`)
+        finalTickAudioRef.current.preload = 'auto'
+
+        tickAudioRef.current = new Audio(`/sounds/spin_start.aac`)
+        tickAudioRef.current.preload = 'auto'
+
+        return () => {
+            if (finalTickAudioRef.current) {
+                finalTickAudioRef.current.pause()
+            }
+            if (tickAudioRef.current) {
+                tickAudioRef.current.pause()
+            }
+        }
+    }, [])
+
 
     // Style for the rotating pointer container
     const pointerContainerStyle = {
@@ -73,8 +94,7 @@ export function SpinWidget({ angleEnd, angleStart, setAngleEnd, setAngleStart }:
 
     // --- Spin Logic ---
     const handleSpin = () => {
-        const audio = new Audio(`/sounds/spin_start.aac`)
-        audio.play().catch(error => {
+        tickAudioRef.current.play().catch((error: any) => {
             console.error('Error playing sound:', error)
         })
 
@@ -108,8 +128,7 @@ export function SpinWidget({ angleEnd, angleStart, setAngleEnd, setAngleStart }:
             // The win zone is from 0 to winThreshold degrees (at the top)
             if (comparePoints.map(i => finalAngle < i[0] && finalAngle > i[1]).includes(true)) {
                 setResult('WIN');
-                const audio = new Audio(`/sounds/win.aac`)
-                audio.play().catch(error => {
+                finalTickAudioRef.current.play().catch((error: any) => {
                     console.error('Error playing sound:', error)
                 })
             } else {
