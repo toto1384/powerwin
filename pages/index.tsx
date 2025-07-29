@@ -551,7 +551,7 @@ function HeroSection({ prize, setPrize }: { prize: number, setPrize: (f: (n: num
 
 				{/* Raffle Rules Button */}
 				<div className="">
-					<button className="bg-gradient-to-b border-[0.3px] border-[color:#a6a6a6] from-[#6b6b6b] to-transparent px-8 py-2 rounded-lg text-sm transition-colors flex flex-row">
+					<button className="bg-gradient-to-b border-[0.3px] border-[color:#a6a6a6] from-[#6b6b6b] to-transparent px-8 py-2 rounded-lg text-sm transition-colors flex flex-row items-center">
 						Raffle Rules
 						<Image src={'/icons/arrowLink.svg'} className="ml-2" alt="" width={12} height={12} />
 					</button>

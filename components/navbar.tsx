@@ -2,6 +2,8 @@ import Image from "next/image";
 import PWPopover from "./pwpover";
 import { Popover } from "radix-ui";
 import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 
 export default function NavBar() {
@@ -19,8 +21,10 @@ export default function NavBar() {
     }
 
 
+    const router = useRouter()
+    const pathname = router.pathname
 
-    const tabBarClassName = (tab: typeof activeTab) => `rounded-full cursor-pointer text-lg flex items-center font-light justify-center border h-full border-white w-[23%] text-center ${activeTab == tab ? 'bg-[color:#787878] text-black' : 'bg-[color:#353535] text-white'}`
+    const tabBarClassName = (tab: string) => `rounded-full cursor-pointer text-lg flex items-center font-light justify-center border h-full border-white w-[23%] text-center ${pathname == tab ? 'bg-[color:#787878] text-black' : 'bg-[color:#353535] text-white'}`
 
     return <div className="hidden md:flex flex-row relative max-w-[1800px] w-full mt-2">
         <div className="border-t border-l border-r border-white w-[25%] h-14 px-10 py-6 rounded-t-[3rem] bg-gradient-to-r from-[#323232] to-[#303030]">
@@ -30,21 +34,21 @@ export default function NavBar() {
 
         <div className=" w-[50%] absolute m-auto left-0 right-0 h-[88px] px-3 pb-3 z-20 bg-[#0a0a0a] rounded-[3rem] flex flex-row items-stretch justify-between">
 
-            <div
-                onClick={() => setActiveTab('Home')}
-                className={tabBarClassName('Home')}
-            >Home</div>
+            <Link
+                href={'/'}
+                className={tabBarClassName('/')}
+            >Home</Link>
 
-            <div
-                onClick={() => setActiveTab('Competitions')}
-                className={tabBarClassName('Competitions')}
+            <Link
+                href={'/competitions'}
+                className={tabBarClassName('/competitions')}
             >Competitions
                 {/* <Image src={'/icons/carretDown.svg'} alt="" className={"ml-2 " + (activeTab == 'Competitions' ? '' : 'dark:invert')} width={8} height={8} /> */}
-            </div>
-            <div
-                onClick={() => setActiveTab('Winners')}
-                className={tabBarClassName('Winners')}
-            >Winners</div>
+            </Link>
+            <Link
+                href={'/winners'}
+                className={tabBarClassName('/winners')}
+            >Winners</Link>
             <div
                 onClick={() => setActiveTab('Referral Win')}
                 className={tabBarClassName('Referral Win')}

@@ -73,10 +73,18 @@ export function SpinWidget({ angleEnd, angleStart, setAngleEnd, setAngleStart }:
 
     // --- Spin Logic ---
     const handleSpin = () => {
+        const audio = new Audio(`/sounds/spin_start.aac`)
+        audio.play().catch(error => {
+            console.error('Error playing sound:', error)
+        })
+
+
         if (isSpinning) return;
 
         setIsSpinning(true);
         setResult(null);
+
+
 
         // Calculate a random stop angle
         const randomAngle = Math.random() * 360;
@@ -100,6 +108,10 @@ export function SpinWidget({ angleEnd, angleStart, setAngleEnd, setAngleStart }:
             // The win zone is from 0 to winThreshold degrees (at the top)
             if (comparePoints.map(i => finalAngle < i[0] && finalAngle > i[1]).includes(true)) {
                 setResult('WIN');
+                const audio = new Audio(`/sounds/win.aac`)
+                audio.play().catch(error => {
+                    console.error('Error playing sound:', error)
+                })
             } else {
                 setResult('LOSE');
             }

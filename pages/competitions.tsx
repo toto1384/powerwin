@@ -167,7 +167,7 @@ export default function CompetitionsComponent() {
                                         index == 2 ? 'linear-gradient(180deg, #DA663A -53.3%, rgba(218, 102, 58, 0) 100%)' : undefined
 
                             }}
-                            className={`rounded-lg px-2 py-2.5 md:px-6 md:py-5 md:my-6`}
+                            className={`rounded-lg px-2 py-2.5 md:px-6 md:py-5`} borderClassName="md:my-8"
                         >
                             <div className={`grid grid-cols-3 gap-6 items-center md:text-xl ${index > 2 ? ' px-2 md:px-6 md:pb-5' : ''}`}>
                                 {/* Winner */}
@@ -268,6 +268,10 @@ export function SpinAnimationComponent() {
         // Only update if the centered item changed and it's close enough to center
         if (closestDistance < ITEM_WIDTH_PX / 2 && closestIndex !== centeredIndex) {
             setCenteredIndex(closestIndex);
+            const audio = new Audio(`/sounds/ticks.aac`)
+            audio.play().catch(error => {
+                console.error('Error playing sound:', error)
+            })
         } else if (closestDistance >= ITEM_WIDTH_PX / 2 && centeredIndex !== -1) {
             setCenteredIndex(-1);
         }
@@ -328,8 +332,6 @@ export function SpinAnimationComponent() {
 
             (animationRef.current as any).addEventListener('finish', () => {
 
-
-
                 // Use Web Animations API for better performance
                 endingAnimationRef.current = (reelElement as any).animate([
                     { transform: `translateX(${finalPosition + ITEM_WIDTH_PX / result}px)` },
@@ -340,11 +342,16 @@ export function SpinAnimationComponent() {
                     fill: 'forwards'
                 });
 
+                const audio2 = new Audio(`/sounds/final_tick.aac`)
+                audio2.play().catch(error => {
+                    console.error('Error playing sound:', error)
+                });
+
                 (endingAnimationRef.current as any).addEventListener('finish', () => {
                     setIsSpinning(false);
                     setWinningItem(winner);
                     // Update centered item one final time
-                    setTimeout(() => updateCenteredItem(), 100);
+                    // setTimeout(() => updateCenteredItem(), 100);
                 }, { once: true });
 
 
@@ -453,7 +460,7 @@ export function SpinAnimationComponent() {
                 {/* </div> */}
 
                 <div className="place-self-end self-center col-span-2">
-                    <button style={{ background: "linear-gradient(180deg, #6B6B6B -40.3%, rgba(107, 107, 107, 0) 90%)" }} className="font-medium border-[0.3px] border-[color:#a6a6a6] md:pl-8 px-2 md:pr-6 md:py-2 py-1.5 rounded md:rounded-lg text-xs md:text-lg transition-colors flex flex-row">
+                    <button style={{ background: "linear-gradient(180deg, #6B6B6B -40.3%, rgba(107, 107, 107, 0) 90%)" }} className="font-medium border-[0.3px] border-[color:#a6a6a6] md:pl-8 px-2 md:pr-6 md:py-2 py-1.5 rounded md:rounded-lg text-xs md:text-lg transition-colors flex flex-row items-center">
                         How it Works
                         <Image src={'/icons/arrowLink.svg'} className="ml-2 md:ml-4" alt="" width={size.gsm ? 15 : 10} height={size.gsm ? 15 : 10} />
                     </button>

@@ -33,20 +33,20 @@ export default function Footer() {
 
     </div>
 
-    return <footer className="bg-gradient-to-b md:border-b md:border-r md:border-l px-2 md:px-8 pb-5 md:rounded-b-[3rem] from-[#0b0b0b] to-[#0a0a0a] max-w-[1800px]">
+    return <footer className="bg-gradient-to-b w-full md:border-b md:border-r md:border-l px-2 md:px-8 pb-5 md:rounded-b-[3rem] from-[#0b0b0b] to-[#0a0a0a] max-w-[1800px]">
         <div className="mx-auto px-4 py-8">
             <div className="grid grid-cols-2 lg:grid-cols-7 gap-1 md:gap-8">
                 {/* Logo and Description */}
                 <div className=" md:mr-10 md:col-span-2">
-                    <Image alt="logo" width={150} height={75} src={'/logo.png'} />
-                    <p className="text-white text-[11px]  mt-5 leading-relaxed">
-                        <span className="max-w-[25ch]">
+                    <Image alt="logo" width={240} height={120} src={'/logo.png'} />
+                    <div className="text-white text-[11px] w-full mt-5 leading-relaxed ">
+                        <div className="max-w-[40ch]">
                             PowerWin Crypto is the next-generation blockchain raffle platform.<br />
                             Participate responsibly for exclusive rewards backed by our transparency powered by Chainlink VRF.<br />
                             Win luxury prizes through secure, decentralized draws. Built on Web3.0 technology.
 
-                        </span>
-                    </p>
+                        </div>
+                    </div>
                     <div className="mt-4 hidden md:block">
                         <span className=" text-sm">18+</span>
                     </div>
