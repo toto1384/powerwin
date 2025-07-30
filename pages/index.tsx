@@ -101,7 +101,7 @@ export default function Home() {
 
 			<div className=" mt-32 grid gap-6 h-fit" style={{ gridTemplateColumns: "repeat(19, minmax(0, 1fr)" }}>
 
-				<Container disablePadding borderClassName="col-span-[15] md:col-span-[9]" className="px-8 py-8">
+				<Container disablePadding borderClassName="col-span-[18] md:col-span-[9]" className="px-8 py-8">
 					{/* <div className="flex flex-row items-center justify-between">
 						<h3 className="text-3xl mb-8">Ce Brand Este Aceasta Masina?</h3>
 						<p className="mb-8 aspect-square text-2xl font-light px-4 pt-2 bg-white/20 border-white border-[1px] rounded">?</p>
@@ -142,12 +142,14 @@ export default function Home() {
 					</div> */}
 
 					<div className="grid grid-cols-11 gap-2 mt-5">
+						<div className="col-span-3 w-full">
+							<p className="justify-self-end aspect-square px-3 flex flex-col items-center justify-center rounded-xl linehe select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f] text-center"><span className="translate-y-[1.5px]" onClick={() => {
+								const percentage = Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)
 
-						<p className="justify-self-end aspect-square px-3 flex flex-col items-center justify-center col-span-3 rounded-xl linehe select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f] text-center"><span className="translate-y-[1.5px]" onClick={() => {
-							const percentage = Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)
+								setPercentage((100 / 125 * percentage) - 1)
+							}}>-</span></p>
 
-							setPercentage((100 / 125 * percentage) - 1)
-						}}>-</span></p>
+						</div>
 						<Container disablePadding borderClassName="col-span-5" disableBgBr rounded="rounded-xl" className="  bg-[color:#3a3a3a] rounded-xl">
 							<input
 								type="text"
@@ -159,11 +161,13 @@ export default function Home() {
 								}}
 							/>
 						</Container>
-						<p className="justify-self-start aspect-square px-3 flex flex-col items-center justify-center col-span-3 rounded-xl linehe select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f] text-center"><span className="translate-y-[2.5px]" onClick={() => {
-							const percentage = Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)
+						<div className="col-span-3 w-full">
+							<p className="justify-self-start aspect-square px-3 flex flex-col items-center justify-center rounded-xl linehe select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f] text-center"><span className="translate-y-[2.5px]" onClick={() => {
+								const percentage = Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)
 
-							setPercentage((100 / 125 * percentage) + 1)
-						}}>+</span></p>
+								setPercentage((100 / 125 * percentage) + 1)
+							}}>+</span></p>
+						</div>
 					</div>
 
 
