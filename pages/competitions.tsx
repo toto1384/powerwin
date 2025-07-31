@@ -213,6 +213,18 @@ const getRandomItem = () => ITEMS[Math.floor(Math.random() * ITEMS.length)];
 
 const interleave = (arr: any[], thing: any) => [].concat(...arr.map(n => [n, thing] as any)).slice(0, -1)
 
+function createThrottle(func: (...args: any) => any, delay = 50) {
+    let lastCall = 0;
+
+    return function (...args: any) {
+        const now = Date.now();
+        if (now - lastCall >= delay) {
+            lastCall = now;
+            // @ts-ignore
+            return func.apply(this, args);
+        }
+    };
+}
 
 // --- The Component ---
 export function SpinAnimationComponent() {
@@ -263,7 +275,7 @@ export function SpinAnimationComponent() {
 
 
     // Function to calculate which item is centered
-    const updateCenteredItem = useCallback(() => {
+    const updateCenteredItem = useCallback(createThrottle(() => {
         if (!reelRef.current) return;
 
         const reelContainer = (reelRef.current as any).parentElement;
@@ -304,7 +316,7 @@ export function SpinAnimationComponent() {
         } else if (closestDistance >= ITEM_WIDTH_PX / 2 && centeredIndex !== -1) {
             setCenteredIndex(-1);
         }
-    }, [centeredIndex,]);
+    }, 20), [centeredIndex,]);
 
     const handleSpin = useCallback(() => {
         if (isSpinning) return;

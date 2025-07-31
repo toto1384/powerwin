@@ -142,8 +142,8 @@ export default function Home() {
 					</div> */}
 
 					<div className="grid grid-cols-11 gap-2 mt-5">
-						<div className="col-span-3 w-full">
-							<p className="justify-self-end aspect-square px-3 flex flex-col items-center justify-center rounded-xl linehe select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f] text-center"><span className="translate-y-[1.5px]" onClick={() => {
+						<div className="col-span-3 w-full flex flex-row justify-end">
+							<p className="right-0 w-fit aspect-square px-3 flex flex-col items-center justify-center rounded-xl linehe select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f] text-center"><span className="translate-y-[1.5px]" onClick={() => {
 								const percentage = Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)
 
 								setPercentage((100 / 125 * percentage) - 1)
@@ -161,8 +161,8 @@ export default function Home() {
 								}}
 							/>
 						</Container>
-						<div className="col-span-3 w-full">
-							<p className="justify-self-start aspect-square px-3 flex flex-col items-center justify-center rounded-xl linehe select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f] text-center"><span className="translate-y-[2.5px]" onClick={() => {
+						<div className="col-span-3 w-full flex flex-row">
+							<p className="w-fit aspect-square px-3 flex flex-col items-center justify-center rounded-xl linehe select-none cursor-pointer text-4xl font-extralight bg-[color:#0f0f0f] text-center"><span className="translate-y-[2.5px]" onClick={() => {
 								const percentage = Math.round(125 / 100 * ((angleToValue(angle.end) < angleToValue(angle.start) ? angleToValue(angle.end) + 100 : angleToValue(angle.end)) - angleToValue(angle.start)) / 0.8)
 
 								setPercentage((100 / 125 * percentage) + 1)
