@@ -4,8 +4,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSize } from '@/utils/useSize'
 
 
-import { format } from "date-fns";
-
 
 import React from "react";
 import NavBar, { NavBarMobile } from "@/components/navbar";
@@ -197,7 +195,7 @@ export default function Home() {
 				</Container>
 
 
-				<Container borderClassName={'col-span-[10] hidden md:block contain-size'} disablePadding className={`py-3 pl-7 pr-5`} >
+				<Container borderClassName={`col-span-[10] hidden md:block contain-size`} disablePadding className={`py-3 pl-7 pr-5`} >
 					<div className={`overflow-y-scroll max-h-full ${scrollBarNoBorder} `}>
 						<h3 className="text-3xl mt-5 max-w-[60ch]">Description</h3>
 

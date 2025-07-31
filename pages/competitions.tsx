@@ -18,6 +18,41 @@ const ITEMS = [
 
 export default function CompetitionsComponent() {
 
+    const [tab, setTab] = useState<"all-raffles" | "instant-win">('all-raffles')
+
+    return <div className="flex flex-col items-center">
+
+        <NavBar />
+        <div className="border-l border-r border-white w-full p-2 md:p-9 md:pt-24 max-w-[1800px]" style={{
+            background: "linear-gradient(162.58deg, #323232 0%, #000000 100%)"
+        }}>
+
+            <NavBarMobile />
+            <h1 className="text-4xl md:text-center md:text-5xl mt-7 mb-4 md:mb-20 font-medium">Competitions</h1>
+            <div className="grid grid-cols-2 gap-2">
+                {([{ name: 'All raffles', value: 'all-raffles' }, { name: 'Instant Win', value: 'instant-win' }] as const).map(i =>
+                    <Container
+                        disablePadding disableBgBr
+                        className={`text-center md:text-2xl font-medium cursor-pointer bg-gradient-to-b ${i.value == tab ? 'to-[#161616] from-transparent' : 'from-[#f3f3f3]/25 to-transparent'} py-2 md:py-5`}
+                        rounded="rounded-lg" reverseBorder
+                        onClick={() => setTab(i.value)}
+                    > {i.name} </Container>
+                )}
+            </div>
+
+            {tab == 'instant-win' ? <InstantWinTab /> : <AllRafflesTab />}
+
+        </div>
+
+
+
+        <Footer />
+    </div>
+}
+
+
+function InstantWinTab() {
+
     const winners = [
         {
             id: 1,
@@ -59,147 +94,377 @@ export default function CompetitionsComponent() {
 
     const size = useSize(true)
 
-    return <div className="flex flex-col items-center">
+    return <>
+        <SpinAnimationComponent />
 
-        <NavBar />
-        <div className="border-l border-r border-white w-full p-2 md:p-9 md:pt-24 max-w-[1800px]" style={{
-            background: "linear-gradient(162.58deg, #323232 0%, #000000 100%)"
-        }}>
-
-            <NavBarMobile />
-            <h1 className="text-4xl md:text-center md:text-5xl mt-7 mb-4 md:mb-20 font-medium">Competitions</h1>
-            <div className="grid grid-cols-2 gap-2">
-                <Container disablePadding disableBgBr className="text-center md:text-2xl font-medium bg-gradient-to-b from-[#f3f3f3]/25 to-transparent py-2 md:py-5" rounded="rounded-lg" reverseBorder>
-                    All raffles
-                </Container>
-
-                <Container disablePadding disableBgBr className="text-center md:text-2xl font-medium bg-gradient-to-b to-[#161616] from-transparent py-2 md:py-5" rounded="rounded-lg" reverseBorder>
-                    Instant Win
-                </Container>
-            </div>
-
-            <SpinAnimationComponent />
-
-            <div className="w-full bg-gradient-to-l from-transparent via-white to-transparent h-0.5 my-9 md:my-12"></div>
+        <div className="w-full bg-gradient-to-l from-transparent via-white to-transparent h-0.5 my-9 md:my-12"></div>
 
 
-            <div className="grid grid-cols-4 gap-1 md:gap-5">
-                {ITEMS.slice(0, 4).map(i => <Container disablePadding reverseBorder disableBgBr rounded="rounded-lg md:rounded-xl" className="bg-gradient-to-b from-[#1e1e1e] via-[#2f2f2f] to-[#1e1e1e] px-2 py-3 md:px-12 md:py-6 flex flex-col items-center w-fit">
-                    <Image src={i.image} alt="" width={250} height={250} className="place-self-center" />
-                </Container>)}
-            </div>
+        <div className="grid grid-cols-4 gap-1 md:gap-5">
+            {ITEMS.slice(0, 4).map(i => <Container disablePadding reverseBorder disableBgBr rounded="rounded-lg md:rounded-xl" className="bg-gradient-to-b from-[#1e1e1e] via-[#2f2f2f] to-[#1e1e1e] px-2 py-3 md:px-12 md:py-6 flex flex-col items-center w-fit">
+                <Image src={i.image} alt="" width={250} height={250} className="place-self-center" />
+            </Container>)}
+        </div>
 
-            <div className="grid grid-cols-3 gap-1 md:gap-5 mt-1 md:mt-5">
-                {ITEMS.slice(4).map(i => <Container disablePadding reverseBorder disableBgBr rounded="rounded-lg md:rounded-xl" className="bg-gradient-to-b from-[#1e1e1e] via-[#2f2f2f] to-[#1e1e1e] px-2 py-2 md:px-12 md:py-6 flex flex-col items-center w-fit">
-                    <Image src={i.image} alt="" width={250} height={250} className="place-self-center" />
-                </Container>)}
-            </div>
-
-
-
-            <div className="flex items-center justify-between mb-5 md:mb-12 mt-10">
-
-                <Container
-                    disableDimensionFull borderClassName="w-fit h-fit md:block hidden" disablePadding disableBgBr
-                    style={{ background: "linear-gradient(0deg, rgba(61, 61, 61, 0.2) 0%, rgba(0, 0, 0, 0.04) 100%)" }}
-                    className="flex flex-row w-fit h-fit items-center px-9 py-2" rounded="rounded-lg" reverseBorder
-                >
-                    <Image src={'/icons/search.svg'} alt="" width={25} height={25} />
-                    <input
-                        type="text"
-                        placeholder="Search Winners"
-                        className="rounded-lg pr-12 pl-6 py-3 w-72 text-center font-medium text-2xl text-white placeholder-white focus:outline-none focus:border-gray-600"
-                    />
-                </Container>
-
-
-                <div className="flex items-center space-x-1 md:space-x-2 md:font-medium text-sm md:text-2xl justify-stretch">
-                    <Container
-                        className="bg-gradient-to-b from-[#f3f3f3]/30 to-transparent rounded-lg px-7 mb-1 py-1 md:py-4 text-white placeholder-white focus:outline-none text-center  flex flex-row items-center "
-                        borderClassName="" reverseBorder disableBgBr disablePadding rounded="rounded-lg" miniBorder
-                    >
-                        <span className=" mt-1">Live Winners</span>
-
-                    </Container>
-                    <Container
-                        className="bg-gradient-to-b from-[#f3f3f3]/30 to-transparent rounded-lg px-6 mb-1 py-1 md:py-4 text-white placeholder-white focus:outline-none text-center  flex flex-row items-center "
-                        borderClassName="" reverseBorder disableBgBr disablePadding rounded="rounded-lg" miniBorder
-                    >
-                        <Image src={'/icons/scale.svg'} alt="" className="mr-3" width={size.gsm ? 33 : 17} height={size.gsm ? 33 : 17} />
-                        <span className="mt-1">Provably Fair</span>
-
-                    </Container>
-                    <Container
-                        className="bg-gradient-to-b from-[#161616] to-transparent rounded-lg px-3 md:px-6 mb-1 py-1 md:py-4 text-white placeholder-white focus:outline-none text-center  flex flex-row items-center "
-                        borderClassName="" reverseBorder disableBgBr disablePadding rounded="rounded-lg" miniBorder
-                    >
-                        <span className=" mt-1">Leaderboard</span>
-
-                    </Container>
-                </div>
-            </div>
-
-            {/* Main Content */}
-            <Container disableBgBr rounded="rounded-lg" disablePadding className="overflow-hidden bg-gradient-to-b from-black/77 to-black/28 px-2 md:px-8 py-4 md:py-10">
-                <h1 className="text-4xl font-medium mb-8 hidden md:block">Live Winners</h1>
-
-                {/* Table Header */}
-                <div className="grid grid-cols-3 gap-6 text- md:font-medium md:text-3xl mx-5 md:mx-0">
-                    <div className="text-start md:text-center ">Winner</div>
-                    <div className="text-center">Tickets</div>
-                    <div className="text-end md:text-center">Prize Value</div>
-                </div>
-
-                <div className="w-full bg-gradient-to-l from-transparent via-white to-transparent mx-5 md:mx-0 h-0.5 mb-4 md:mb-8 mt-4 md:mt-8"></div>
-
-                {/* Winners List */}
-                <div className="space-y-3 md:mr-12 text-xs">
-                    {winners.map((winner, index) => (
-                        <Container
-                            disableContainer={index > 2}
-                            disablePadding
-                            miniBorder
-                            key={winner.id}
-                            disableBgBr rounded="rounded-lg"
-                            style={{
-                                background: index == 0 ? "linear-gradient(180deg, #FFA100 -53.3%, #FFA100 30.02%, rgba(255, 161, 0, 0) 100%)" :
-                                    index == 1 ? "linear-gradient(180deg, #CDCDCD -23.3%, rgba(205, 205, 205, 0) 100%)" :
-                                        index == 2 ? 'linear-gradient(180deg, #DA663A -53.3%, rgba(218, 102, 58, 0) 100%)' : undefined
-
-                            }}
-                            className={`rounded-lg px-2 py-2.5 md:px-6 md:py-5`} borderClassName="md:my-8"
-                        >
-                            <div className={`grid grid-cols-3 gap-6 items-center md:text-xl ${index > 2 ? ' px-2 md:px-6 md:pb-5' : ''}`}>
-                                {/* Winner */}
-                                <div className="flex items-center md:space-x-3">
-
-                                    <Image src={'/icons/personCircle.svg'} alt="" className="" width={size.gsm ? 33 : 18} height={size.gsm ? 33 : 18} />
-                                    <span className="font-medium text-white ml-2">{winner.username}</span>
-                                </div>
-
-                                {/* Tickets */}
-                                <div className="text-center text-white font-medium">
-                                    {winner.tickets}
-                                </div>
-
-                                {/* Prize */}
-                                <div className="md:text-start place-self-center text-white w-[120px] md:w-[200px] font-medium">
-                                    {winner.prize}
-                                </div>
-                            </div>
-                        </Container>
-                    ))}
-                </div>
-            </Container>
-
+        <div className="grid grid-cols-3 gap-1 md:gap-5 mt-1 md:mt-5">
+            {ITEMS.slice(4).map(i => <Container disablePadding reverseBorder disableBgBr rounded="rounded-lg md:rounded-xl" className="bg-gradient-to-b from-[#1e1e1e] via-[#2f2f2f] to-[#1e1e1e] px-2 py-2 md:px-12 md:py-6 flex flex-col items-center w-fit">
+                <Image src={i.image} alt="" width={250} height={250} className="place-self-center" />
+            </Container>)}
         </div>
 
 
 
-        <Footer />
-    </div>
+        <div className="flex items-center justify-between mb-5 md:mb-12 mt-10">
+
+            <Container
+                disableDimensionFull borderClassName="w-fit h-fit md:block hidden" disablePadding disableBgBr
+                style={{ background: "linear-gradient(0deg, rgba(61, 61, 61, 0.2) 0%, rgba(0, 0, 0, 0.04) 100%)" }}
+                className="flex flex-row w-fit h-fit items-center px-9 py-2" rounded="rounded-lg" reverseBorder
+            >
+                <Image src={'/icons/search.svg'} alt="" width={25} height={25} />
+                <input
+                    type="text"
+                    placeholder="Search Winners"
+                    className="rounded-lg pr-12 pl-6 py-3 w-72 text-center font-medium text-2xl text-white placeholder-white focus:outline-none focus:border-gray-600"
+                />
+            </Container>
+
+
+            <div className="flex items-center space-x-1 md:space-x-2 md:font-medium text-sm md:text-2xl justify-stretch">
+                <Container
+                    className="bg-gradient-to-b from-[#f3f3f3]/30 to-transparent rounded-lg px-7 mb-1 py-1 md:py-4 text-white placeholder-white focus:outline-none text-center  flex flex-row items-center "
+                    borderClassName="" reverseBorder disableBgBr disablePadding rounded="rounded-lg" miniBorder
+                >
+                    <span className=" mt-1">Live Winners</span>
+
+                </Container>
+                <Container
+                    className="bg-gradient-to-b from-[#f3f3f3]/30 to-transparent rounded-lg px-6 mb-1 py-1 md:py-4 text-white placeholder-white focus:outline-none text-center  flex flex-row items-center "
+                    borderClassName="" reverseBorder disableBgBr disablePadding rounded="rounded-lg" miniBorder
+                >
+                    <Image src={'/icons/scale.svg'} alt="" className="mr-3" width={size.gsm ? 33 : 17} height={size.gsm ? 33 : 17} />
+                    <span className="mt-1">Provably Fair</span>
+
+                </Container>
+                <Container
+                    className="bg-gradient-to-b from-[#161616] to-transparent rounded-lg px-3 md:px-6 mb-1 py-1 md:py-4 text-white placeholder-white focus:outline-none text-center  flex flex-row items-center "
+                    borderClassName="" reverseBorder disableBgBr disablePadding rounded="rounded-lg" miniBorder
+                >
+                    <span className=" mt-1">Leaderboard</span>
+
+                </Container>
+            </div>
+        </div>
+
+        {/* Main Content */}
+        <Container disableBgBr rounded="rounded-lg" disablePadding className="overflow-hidden bg-gradient-to-b from-black/77 to-black/28 px-2 md:px-8 py-4 md:py-10">
+            <h1 className="text-4xl font-medium mb-8 hidden md:block">Live Winners</h1>
+
+            {/* Table Header */}
+            <div className="grid grid-cols-3 gap-6 text- md:font-medium md:text-3xl mx-5 md:mx-0">
+                <div className="text-start md:text-center ">Winner</div>
+                <div className="text-center">Tickets</div>
+                <div className="text-end md:text-center">Prize Value</div>
+            </div>
+
+            <div className="w-full bg-gradient-to-l from-transparent via-white to-transparent mx-5 md:mx-0 h-0.5 mb-4 md:mb-8 mt-4 md:mt-8"></div>
+
+            {/* Winners List */}
+            <div className="space-y-3 md:mr-12 text-xs">
+                {winners.map((winner, index) => (
+                    <Container
+                        disableContainer={index > 2}
+                        disablePadding
+                        miniBorder
+                        key={winner.id}
+                        disableBgBr rounded="rounded-lg"
+                        style={{
+                            background: index == 0 ? "linear-gradient(180deg, #FFA100 -53.3%, #FFA100 30.02%, rgba(255, 161, 0, 0) 100%)" :
+                                index == 1 ? "linear-gradient(180deg, #CDCDCD -23.3%, rgba(205, 205, 205, 0) 100%)" :
+                                    index == 2 ? 'linear-gradient(180deg, #DA663A -53.3%, rgba(218, 102, 58, 0) 100%)' : undefined
+
+                        }}
+                        className={`rounded-lg px-2 py-2.5 md:px-6 md:py-5`} borderClassName="md:my-8"
+                    >
+                        <div className={`grid grid-cols-3 gap-6 items-center md:text-xl ${index > 2 ? ' px-2 md:px-6 md:pb-5' : ''}`}>
+                            {/* Winner */}
+                            <div className="flex items-center md:space-x-3">
+
+                                <Image src={'/icons/personCircle.svg'} alt="" className="" width={size.gsm ? 33 : 18} height={size.gsm ? 33 : 18} />
+                                <span className="font-medium text-white ml-2">{winner.username}</span>
+                            </div>
+
+                            {/* Tickets */}
+                            <div className="text-center text-white font-medium">
+                                {winner.tickets}
+                            </div>
+
+                            {/* Prize */}
+                            <div className="md:text-start place-self-center text-white w-[120px] md:w-[200px] font-medium">
+                                {winner.prize}
+                            </div>
+                        </div>
+                    </Container>
+                ))}
+            </div>
+        </Container>
+    </>
 }
 
+function AllRafflesTab() {
+
+    const size = useSize(true)
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const totalPages = 4;
+
+    const prizes = [
+        {
+            id: 1,
+            image: "/porche.png",
+            title: "Win this Porsche 911 Turbo S 2022",
+            subtitle: "or Alternative Cash - $80,000",
+            progress: 75.73,
+            entryPrice: "$2.50",
+            className: "scale-[1.2] aspect-[1.7] transform-[scaleX(-1)]",
+        },
+        {
+            id: 2,
+            image: "/mansion.png",
+            title: "Win this Binghatti Hillviews luxury apartment in Dubai",
+            subtitle: "or Alternative Cash - $150,000",
+            progress: 75.73,
+            className: "scale-[1] aspect-[1.7]",
+            entryPrice: "$2.50"
+        },
+        {
+            id: 3,
+            image: "/prize3.png",
+            title: "Win this iPhone 16 Pro Max 256GB",
+            subtitle: "or Alternative Cash - $1,000",
+            progress: 75.73,
+            entryPrice: "$2.50",
+            className: 'aspect-[1.7]',
+        },
+        {
+            id: 4,
+            image: "/hublot.png",
+            title: "Win this Hublot Big Bang Gold 44mm",
+            subtitle: "or Alternative Cash - $30,000",
+            progress: 75.73,
+            width: 160,
+            entryPrice: "$2.50"
+        },
+        {
+            id: 5,
+            image: "/lambo.png",
+            title: "Win this Lamborghini Aventador SVJ Cabrio",
+            subtitle: "or Alternative Cash - $500,000",
+            progress: 75.73,
+            entryPrice: "$2.50",
+            className: 'aspect-video'
+        },
+        {
+            id: 6,
+            image: "/audemars.png",
+            title: "Win this Audemars Piguet Royal Oak Chronograph Limited Edition",
+            subtitle: "or Alternative Cash - $125,000",
+            progress: 75.73,
+            entryPrice: "$2.50",
+            width: 230,
+            className: 'pt-2'
+        },
+        {
+            id: 7,
+            image: "/bitcoin.png",
+            title: "Win this Bitcoin",
+            subtitle: "",
+            progress: 75.73,
+            width: 210,
+            entryPrice: "$2.50",
+            className: "scale-[1.1]"
+        },
+        {
+            id: 8,
+            image: "/usdc.png",
+            title: "Win 25,000 USDC",
+            subtitle: "",
+            progress: 75.73,
+            width: 210,
+            entryPrice: "$2.50",
+            className: "scale-125"
+        },
+        {
+            id: 9,
+            image: "/ethereum.png",
+            title: "Win this Ethereum",
+            subtitle: "",
+            progress: 75.73,
+            entryPrice: "$2.50",
+            width: 300,
+            className: 'scale-[1.5]'
+        },
+
+
+
+    ];
+
+
+    const itemsPerPage = 9;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const currentPrizes = [...prizes].slice(startIndex, startIndex + itemsPerPage);
+
+    const nextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const prevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+
+    return <>
+        <div className="flex flex-row items-center justify-between mt-6">
+
+            <Container
+                disableDimensionFull borderClassName="w-fit h-fit col-span-2 md:col-span-1" disablePadding disableBgBr
+                style={{ background: "linear-gradient(0deg, rgba(61, 61, 61, 0.2) 0%, rgba(0, 0, 0, 0.04) 100%)" }}
+                className="flex flex-row w-fit h-full items-center px-4 md:px-9 md:py-3 col-span-3 md:col-span-1" rounded="rounded-lg" reverseBorder
+            >
+                <Image src={'/icons/search.svg'} alt="" width={size.gsm ? 25 : 17} height={size.gsm ? 25 : 17} className="mr-2" />
+                <input
+                    type="text"
+                    placeholder="Search"
+
+                    className="rounded-lg pr-12 md:py-3 box-border md:text-center font-medium text-sm md:text-2xl text-white placeholder-white focus:outline-none focus:border-gray-600"
+                />
+            </Container>
+
+            <div className="flex space-x-2 flex-row">
+
+                <Container
+                    disableBgBr
+                    className={`${true ? 'bg-gradient-to-b from-[#161616] to-transparent' : 'bg-gradient-to-b from-[#f3f3f3]/20 to-transparent'} text-center py-3 md:py-4 px-2 md:px-7 font-medium text-sm md:text-2xl cursor-pointer flex flex-row w-fit items-center justify-center`}
+                    disablePadding reverseBorder rounded="rounded-lg"
+                >
+                    <span>Max Price</span>
+                    <div className="bg-[color:#373737] px-5 rounded-lg py-2 ml-5">$500.000</div>
+
+                </Container>
+
+                <Container
+                    disableBgBr
+                    className={` text-center py-3 md:py-6 px-2 md:px-7 font-medium text-sm md:text-2xl cursor-pointer flex flex-row items-center justify-center`}
+                    style={{ background: "linear-gradient(0deg, rgba(61, 61, 61, 0.2) 0%, rgba(0, 0, 0, 0.04) 100%)" }}
+                    disablePadding reverseBorder rounded="rounded-lg"
+                >
+                    <span className="md:mx-5 md:ml-12">Sort By</span>
+                    <svg className="w-3 h-3 ml-1 md:ml-2" width="7" height="6" viewBox="0 0 7 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.73333 0.5L6.07608 0.5C6.47333 0.5 6.71194 0.940912 6.49466 1.27347L4.12458 4.90115C3.93457 5.19198 3.5132 5.20518 3.30536 4.92682L0.596695 1.29914C0.35048 0.969393 0.585803 0.5 0.997334 0.5L3.73333 0.5Z" fill="white" />
+                    </svg>
+
+                </Container>
+            </div>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 mt-7 gap-4">
+            {currentPrizes.map((prize, index) => (
+                <Container disablePadding disableBgBr key={prize.id} reverseBorder rounded="rounded-lg"
+                    className={` bg-gradient-to-b from-[#161616]/20 via-[#797979]/40 to-[#161616]/20 flex flex-col justify-between p-5 ${index % 3 && ''}`}
+                >
+                    {/* Prize Image */}
+                    <div className="rounded-lg w-full aspect-[2] flex items-center justify-center text-6xl" style={{}}>
+                        <Image className={`rounded object-cover  ${prize.className}`} width={prize.width ?? 600} height={1} src={prize.image} alt="" />
+                    </div>
+
+                    <div>
+                        {/* Progress Section */}
+                        <div className="px-3 h-16 relative">
+                            <div className="mb-4 absolute top-0 flex flex-col items-center " style={{ left: `${prize.progress}%`, transform: "translateX(-50%)" }}>
+                                <span className="">{prize.progress.toFixed(2)}%</span>
+                                <div className="w-[2px] h-4 bg-gradient-to-b from-transparent to-[#531615]"></div>
+                            </div>
+
+                            {/* Progress Bar */}
+                            <div className="relative top-10 mb-4">
+                                <div className="relative mb-4">
+                                    {/* Tick marks */}
+                                    <div className="absolute top-0 left-2 right-0 h-3.5 w-[95%] flex">
+                                        {Array.from({ length: size.lmd ? 80 : 100 }, (_, i) => (
+                                            <div
+                                                key={i}
+                                                className="flex-1 border-l my-auto border-[color:#6E6E6E] h-[60%]"
+                                                style={{ borderLeftWidth: '1.5px' }}
+                                            ></div>
+                                        ))}
+                                    </div>
+                                    <div className="absolute inset-0 w-full rounded-full h-[14px] overflow-hidden z-10">
+                                        <div
+                                            className="h-full bg-gradient-to-r rounded-full border-[0.7px] backdrop-blur-[2.5px] border-white from-white/10 to-[#94100f] transition-all duration-200 ease-out"
+                                            style={{ width: `${prize.progress}%` }}
+                                        ></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div className="px-3 mb-6 h-30 font-medium">
+                            <h3 className="text-2xl mb-2 leading-tight">
+                                {prize.title}
+                            </h3>
+                            {prize.subtitle && (
+                                <p className="text-gray-300 text-2xl">
+                                    {prize.subtitle}
+                                </p>
+                            )}
+                        </div>
+
+                        <div className="px-3 my-5 flex flex-col items-center text-xl">
+                            <button className=" bg-gradient-to-b from-[#C41313] to-[#B31313]/15 border-[0.5px] border-red-500 text-white font-semibold py-3 px-6 rounded-xl transition-colors">
+                                Enter - {prize.entryPrice}
+                            </button>
+
+                        </div>
+
+                    </div>
+                </Container>
+            ))}
+        </div>
+
+        <div className="flex items-center justify-center space-x-4 mt-12 mb-5">
+            <Container
+                onClick={prevPage}
+                disabled={currentPage === 1} disablePadding miniBorder reverseBorder
+                className="p-4 rounded-lg hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+                <svg width="45" height="45" viewBox="0 0 35 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M33 2L1.70711 33.2929C1.31658 33.6834 1.31658 34.3166 1.70711 34.7071L33 66" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+            </Container>
+
+            <span className=" text-3xl font-medium px-10">
+                Showing {currentPage} of {totalPages}
+            </span>
+
+            <Container
+                onClick={nextPage}
+                disabled={currentPage === totalPages} disablePadding miniBorder reverseBorder
+                className="p-4 rounded-lg hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+                <svg width="44" height="45" viewBox="0 0 34 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.49999 64L31.7929 33.7071C32.1834 33.3166 32.1834 32.6834 31.7929 32.2929L1.5 1.99998" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                </svg>
+
+            </Container>
+        </div>
+    </>
+}
 
 // Animation settings from the video
 const REEL_LENGTH = 60; // How many items are in the reel

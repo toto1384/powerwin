@@ -13,5 +13,6 @@ module.exports = {
   },
   plugins: [
     // require('@butterfail/tailwindcss-inverted-radius'),
+    require('@tailwindcss/line-clamp')
   ],
 }
