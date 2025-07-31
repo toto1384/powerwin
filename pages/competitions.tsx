@@ -316,7 +316,7 @@ export function SpinAnimationComponent() {
         } else if (closestDistance >= ITEM_WIDTH_PX / 2 && centeredIndex !== -1) {
             setCenteredIndex(-1);
         }
-    }, 20), [centeredIndex,]);
+    }, 25), [centeredIndex,]);
 
     const handleSpin = useCallback(() => {
         if (isSpinning) return;
