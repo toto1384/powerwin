@@ -384,9 +384,9 @@ function AllRafflesTab() {
                     <div>
                         {/* Progress Section */}
                         <div className="px-3 h-16 relative">
-                            <div className="mb-4 absolute top-0 flex flex-col items-center " style={{ left: `${prize.progress}%`, transform: "translateX(-50%)" }}>
+                            <div className="mb-4 absolute top-0 flex flex-col items-center " style={{ left: `${prize.progress - 1.2}%`, transform: "translateX(-50%)" }}>
                                 <span className="">{prize.progress.toFixed(2)}%</span>
-                                <div className="w-[2px] h-4 bg-gradient-to-b from-transparent to-[#531615]"></div>
+                                <div className="w-[2px] h-4 bg-gradient-to-b from-transparent to-[#842321]"></div>
                             </div>
 
                             {/* Progress Bar */}
@@ -414,7 +414,7 @@ function AllRafflesTab() {
                         </div>
 
 
-                        <div className="px-3 mb-6 h-30 font-medium">
+                        <div className="px-3 mb-6 mt-5 h-30 font-medium">
                             <h3 className="text-2xl mb-2 leading-tight">
                                 {prize.title}
                             </h3>
